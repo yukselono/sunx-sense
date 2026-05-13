@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SUNX Sense — Tier System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    font-family: 'Geist', Inter, -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #f5f6f8;
+    color: #0a1420;
+    transition: background 0.4s ease;
+  }
+  body.dark { background: #0a0f16; color: #e8edf2; }
+
+  @keyframes dotBreath {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50%      { transform: scale(1.4); opacity: 1; }
+  }
+  @keyframes haloBreath {
+    0%, 100% { transform: scale(0.85); opacity: 0.15; }
+    50%      { transform: scale(1.1);  opacity: 0.3;  }
+  }
+  @keyframes fadeSlide {
+    0%   { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes panelIn {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .stage {
+    min-height: 100vh; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    background:
+      radial-gradient(ellipse at 20% 10%, oklch(0.97 0.03 230 / 0.6) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, oklch(0.96 0.04 155 / 0.5) 0%, transparent 55%),
+      #f5f6f8;
+    transition: background 0.4s;
+  }
+  body.dark .stage {
+    background:
+      radial-gradient(ellipse at 20% 10%, oklch(0.30 0.06 230 / 0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, oklch(0.30 0.06 155 / 0.25) 0%, transparent 55%),
+      #0a0f16;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 390px);
+    gap: 28px 24px;
+    justify-content: center;
+    padding: 20px 0 80px;
+  }
+  @media (max-width: 1700px) { .grid { grid-template-columns: repeat(3, 390px); } }
+  @media (max-width: 1280px) { .grid { grid-template-columns: repeat(2, 390px); } }
+  @media (max-width: 860px)  { .grid { grid-template-columns: 390px; } }
+
+  .label {
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    color: rgba(20,30,50,0.55);
+  }
+  body.dark .label { color: rgba(255,255,255,0.5); }
+
+  .header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px 24px;
+    text-align: center;
+  }
+  .header .eyebrow {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 2px;
+    color: oklch(0.65 0.14 230);
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-family: 'Geist'; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;
+    margin: 6px 0 4px;
+  }
+  .header p {
+    margin: 0; font-size: 14px;
+    color: rgba(20,30,50,0.6);
+  }
+  body.dark .header p { color: rgba(255,255,255,0.55); }
+
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px; z-index: 200;
+    width: 240px; padding: 16px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.04);
+    animation: panelIn 0.3s ease-out;
+  }
+  body.dark .tweaks {
+    background: rgba(15,22,32,0.85);
+    border-color: rgba(255,255,255,0.08);
+    color: #e8edf2;
+  }
+  .tweaks h3 {
+    margin: 0 0 12px; font-size: 11px; font-weight: 500;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: oklch(0.65 0.14 230);
+  }
+  .tweak-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0; font-size: 13px;
+  }
+  .tweak-row + .tweak-row { border-top: 1px solid rgba(0,0,0,0.06); }
+  body.dark .tweak-row + .tweak-row { border-top-color: rgba(255,255,255,0.06); }
+  .seg {
+    display: inline-flex; padding: 2px;
+    background: rgba(0,0,0,0.06); border-radius: 8px;
+  }
+  body.dark .seg { background: rgba(255,255,255,0.08); }
+  .seg button {
+    border: none; background: transparent;
+    padding: 5px 10px; border-radius: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: inherit; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .seg button.active {
+    background: #fff; color: #0a1420;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  body.dark .seg button.active { background: rgba(255,255,255,0.92); color: #0a1420; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div style="width:100%">
+    <div class="header">
+      <div class="eyebrow" id="hdr-eyebrow">SUNX SENSE · TIER SYSTEM</div>
+      <h1 id="hdr-title">A free that feels alive. A Pro that sees everything.</h1>
+      <p id="hdr-sub">Tiers, SP economy, fog of data, envlab.ai, exposure reports, hardware unlocks.</p>
+    </div>
+    <div id="root"></div>
+  </div>
+</div>
+
+<script>
+  const TWEAK_DEFAULS = /*EDITMODE-BEGIN*/{
+    "dark": true,
+    "lang": "en",
+    "device": "ios"
+  }/*EDITMODE-END*/;
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="android-frame.jsx"></script>
+<script type="text/babel" src="tiers.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function App() {
+  const [state, setState] = useState(() => ({ ...TWEAK_DEFAULS }));
+  const set = (k, v) => {
+    setState(s => ({ ...s, [k]: v }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*');
+  };
+
+  useEffect(() => {
+    document.body.classList.toggle('dark', state.dark);
+    const copy = window.TIER_COPY[state.lang];
+    document.getElementById('hdr-eyebrow').textContent = copy.headerEyebrow;
+    document.getElementById('hdr-title').textContent = copy.headerTitle;
+    document.getElementById('hdr-sub').textContent = copy.headerSub;
+  }, [state.dark, state.lang]);
+
+  const screens = window.TIER_COPY[state.lang].screens;
+
+  return (
+    <>
+      <div className="grid">
+        {screens.map((s, i) => {
+          const content = (
+            <window.TierScreen
+              dark={state.dark} lang={state.lang} device={state.device} idx={i}
+            />
+          );
+          const phone = state.device === 'ios'
+            ? <window.IOSDevice dark={state.dark} width={390} height={844}>{content}</window.IOSDevice>
+            : <window.AndroidDevice dark={state.dark} width={390} height={844}>{content}</window.AndroidDevice>;
+
+          return (
+            <div key={i} data-screen-label={`${String(i+1).padStart(2,'0')} ${s.id}`}>
+              {phone}
+              <div className="label">{s.eyebrow}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="tweaks">
+        <h3>Tweaks</h3>
+        <div className="tweak-row">
+          <span>Theme</span>
+          <div className="seg">
+            <button className={!state.dark ? 'active' : ''} onClick={() => set('dark', false)}>LIGHT</button>
+            <button className={state.dark ? 'active' : ''} onClick={() => set('dark', true)}>DARK</button>
+          </div>
+        </div>
+        <div className="tweak-row">
+          <span>Language</span>
+          <div className="seg">
+            <button className={state.lang === 'en' ? 'active' : ''} onClick={() => set('lang', 'en')}>EN</button>
+            <button className={state.lang === 'tr' ? 'active' : ''} onClick={() => set('lang', 'tr')}>TR</button>
+          </div>
+        </div>
+        <div className="tweak-row">
+          <span>Device</span>
+          <div className="seg">
+            <button className={state.device === 'ios' ? 'active' : ''} onClick={() => set('device', 'ios')}>iOS</button>
+            <button className={state.device === 'android' ? 'active' : ''} onClick={() => set('device', 'android')}>AND</button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+setTimeout(() => {
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+}, 100);
+</script>
+</body>
+</html>

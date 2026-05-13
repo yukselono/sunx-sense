@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SUNX Sense — Sign up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary: oklch(0.65 0.14 230);
+    --primary-strong: oklch(0.58 0.16 220);
+    --accent: oklch(0.72 0.14 155);
+    --amber: oklch(0.78 0.14 75);
+    --red: oklch(0.62 0.18 25);
+    --violet: oklch(0.62 0.18 295);
+    --gold: oklch(0.80 0.13 80);
+
+    --bg: #f5f6f8;
+    --fg: #0a1420;
+    --fg-soft: rgba(20,30,50,0.62);
+    --fg-faint: rgba(20,30,50,0.42);
+    --card: rgba(255,255,255,0.7);
+    --card-strong: #ffffff;
+    --border: rgba(20,30,50,0.08);
+    --border-strong: rgba(20,30,50,0.14);
+    --check: var(--accent);
+    --cross: rgba(20,30,50,0.25);
+  }
+  body.dark {
+    --bg: #0a0f16;
+    --fg: #e8edf2;
+    --fg-soft: rgba(255,255,255,0.62);
+    --fg-faint: rgba(255,255,255,0.42);
+    --card: rgba(255,255,255,0.04);
+    --card-strong: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --cross: rgba(255,255,255,0.28);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Geist', Inter, -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: var(--bg); color: var(--fg);
+    transition: background 0.4s, color 0.4s;
+  }
+  a { color: inherit; }
+
+  .page {
+    background:
+      radial-gradient(ellipse at 12% 0%, oklch(0.97 0.03 230 / 0.6) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 30%, oklch(0.96 0.04 155 / 0.55) 0%, transparent 55%),
+      var(--bg);
+  }
+  body.dark .page {
+    background:
+      radial-gradient(ellipse at 12% 0%, oklch(0.30 0.06 230 / 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 30%, oklch(0.30 0.06 155 / 0.25) 0%, transparent 55%),
+      var(--bg);
+  }
+
+  /* ============ Navigation ============ */
+  nav.top {
+    max-width: 1280px; margin: 0 auto;
+    padding: 24px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 3px;
+    color: var(--primary); font-weight: 600; text-transform: uppercase;
+  }
+  .brand .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); margin-right: 8px; vertical-align: middle;
+    animation: dotBreath 2.4s ease-in-out infinite;
+  }
+  @keyframes dotBreath { 0%,100% { opacity: 0.65; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
+  .nav-actions { display: flex; gap: 16px; align-items: center; }
+  .nav-actions a { font-size: 13px; color: var(--fg-soft); text-decoration: none; }
+  .nav-actions a:hover { color: var(--fg); }
+  .seg {
+    display: inline-flex; padding: 2px;
+    background: rgba(0,0,0,0.06); border-radius: 8px;
+  }
+  body.dark .seg { background: rgba(255,255,255,0.08); }
+  .seg button {
+    border: none; background: transparent;
+    padding: 5px 10px; border-radius: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: inherit; cursor: pointer; transition: all 0.2s;
+  }
+  .seg button.active { background: #fff; color: #0a1420; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  body.dark .seg button.active { background: rgba(255,255,255,0.92); color: #0a1420; }
+
+  /* ============ Hero ============ */
+  .hero {
+    max-width: 1280px; margin: 0 auto;
+    padding: 24px 32px 60px;
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px;
+    align-items: start;
+  }
+  @media (max-width: 980px) { .hero { grid-template-columns: 1fr; padding: 16px 24px 48px; } }
+
+  .hero-eyebrow {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 2.2px; color: var(--primary);
+    text-transform: uppercase; font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Geist'; font-weight: 600;
+    font-size: clamp(36px, 4.8vw, 56px); line-height: 1.05; letter-spacing: -1.4px;
+    margin: 12px 0 18px; text-wrap: balance;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(110deg, var(--primary), var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.lede {
+    font-size: 16px; line-height: 1.5; color: var(--fg-soft);
+    margin: 0 0 24px; text-wrap: pretty; max-width: 540px;
+  }
+  .hero-stats { display: flex; gap: 24px; margin-top: 28px; flex-wrap: wrap; }
+  .stat .n {
+    font-family: 'Geist'; font-weight: 600; font-size: 22px;
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .stat .l {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.6px; color: var(--fg-faint);
+    text-transform: uppercase; margin-top: 2px;
+  }
+
+  /* ============ Signup card ============ */
+  .signup {
+    background: var(--card-strong);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.03);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    position: relative;
+  }
+  .signup::before {
+    content: ''; position: absolute; inset: 0; border-radius: 22px; pointer-events: none;
+    background: linear-gradient(135deg, oklch(0.97 0.03 230 / 0.25) 0%, transparent 50%);
+  }
+  body.dark .signup { background: rgba(15,22,32,0.7); }
+  .signup h2 { font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.4px; }
+  .signup .sub { font-size: 13px; color: var(--fg-soft); margin: 0 0 22px; }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.6px; color: var(--fg-faint);
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%; height: 46px; padding: 0 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Geist'; font-size: 14px;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+  .field input:focus {
+    outline: none; border-color: var(--primary);
+    box-shadow: 0 0 0 4px oklch(0.65 0.14 230 / 0.15);
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .consent {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin: 4px 0 18px;
+    font-size: 12px; color: var(--fg-soft); line-height: 1.45;
+  }
+  .consent input { margin-top: 2px; accent-color: var(--primary); }
+  .consent a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+  .btn-primary {
+    width: 100%; height: 50px; border: none; border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    color: #fff; font-family: 'Geist'; font-size: 14px; font-weight: 600;
+    cursor: pointer; box-shadow: 0 8px 20px rgba(20,90,200,0.3);
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(20,90,200,0.36); }
+
+  .divider {
+    display: flex; align-items: center; gap: 12px; margin: 18px 0;
+    color: var(--fg-faint); font-size: 11px;
+    font-family: 'Geist Mono', ui-monospace, monospace; letter-spacing: 1.6px;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .oauth { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn-oauth {
+    height: 44px; border: 1px solid var(--border-strong); border-radius: 12px;
+    background: transparent; color: var(--fg);
+    font-family: 'Geist'; font-size: 13px; font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-oauth:hover { background: rgba(20,30,50,0.04); }
+  body.dark .btn-oauth:hover { background: rgba(255,255,255,0.05); }
+
+  .signup-foot {
+    margin-top: 16px; font-size: 12px; color: var(--fg-soft); text-align: center;
+  }
+  .signup-foot a { color: var(--primary); font-weight: 500; text-decoration: none; }
+
+  /* ============ Section base ============ */
+  section.block { max-width: 1280px; margin: 0 auto; padding: 60px 32px; }
+  @media (max-width: 980px) { section.block { padding: 40px 24px; } }
+  .block-eyebrow {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 2.2px; color: var(--primary);
+    text-transform: uppercase; font-weight: 500;
+  }
+  .block-title {
+    font-family: 'Geist'; font-weight: 600;
+    font-size: clamp(26px, 3vw, 36px); line-height: 1.1; letter-spacing: -0.8px;
+    margin: 8px 0 12px; text-wrap: balance;
+  }
+  .block-sub {
+    font-size: 15px; line-height: 1.5; color: var(--fg-soft);
+    max-width: 620px; margin: 0 0 32px;
+  }
+
+  /* ============ Tier philosophy ============ */
+  .tiers-phil {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 760px) { .tiers-phil { grid-template-columns: 1fr; } }
+  .tier-card {
+    padding: 28px;
+    border-radius: 22px;
+    border: 1px solid var(--border-strong);
+    background: var(--card);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    position: relative; overflow: hidden;
+  }
+  .tier-card.pro {
+    border-color: var(--primary);
+    background:
+      linear-gradient(135deg, oklch(0.65 0.14 230 / 0.08) 0%, transparent 60%),
+      var(--card);
+  }
+  .tier-card .badge {
+    display: inline-block;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 2px;
+    padding: 4px 10px; border-radius: 999px;
+    background: rgba(20,30,50,0.06); color: var(--fg-soft);
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  body.dark .tier-card .badge { background: rgba(255,255,255,0.08); }
+  .tier-card.pro .badge {
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    color: #fff;
+  }
+  .tier-card h3 { margin: 0 0 6px; font-size: 24px; font-weight: 600; letter-spacing: -0.6px; }
+  .tier-card .tag { font-size: 14px; color: var(--fg-soft); font-style: italic; margin: 0 0 18px; }
+  .tier-card ul {
+    list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;
+  }
+  .tier-card li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--fg-soft);
+  }
+  .tier-card li .ic {
+    width: 22px; height: 22px; border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(20,30,50,0.05); flex-shrink: 0;
+  }
+  .tier-card.pro li .ic { background: oklch(0.65 0.14 230 / 0.18); }
+  body.dark .tier-card li .ic { background: rgba(255,255,255,0.06); }
+
+  /* ============ Comparison table ============ */
+  .compare-wrap {
+    border: 1px solid var(--border-strong);
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--card-strong);
+  }
+  body.dark .compare-wrap { background: rgba(15,22,32,0.5); }
+  .compare-head {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr;
+    background: linear-gradient(135deg, oklch(0.97 0.03 230 / 0.5), transparent);
+    padding: 18px 24px;
+    position: sticky; top: 0; backdrop-filter: blur(20px);
+    z-index: 5;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  body.dark .compare-head { background: linear-gradient(135deg, oklch(0.30 0.06 230 / 0.35), transparent); }
+  .compare-head .col {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--fg-soft); font-weight: 500;
+  }
+  .compare-head .col.pro {
+    color: var(--primary); font-weight: 700;
+  }
+  .compare-head .col.pro::after {
+    content: 'POPULAR'; margin-left: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff; padding: 2px 8px; border-radius: 999px;
+    font-size: 9px; letter-spacing: 1.4px;
+  }
+  .compare-group {
+    padding: 14px 24px 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 2px; color: var(--primary);
+    text-transform: uppercase; font-weight: 600;
+    border-top: 1px solid var(--border);
+  }
+  .compare-row {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr;
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.15s;
+  }
+  .compare-row:hover { background: rgba(20,30,50,0.025); }
+  body.dark .compare-row:hover { background: rgba(255,255,255,0.025); }
+  .compare-row .feat {
+    font-size: 14px; color: var(--fg);
+  }
+  .compare-row .cell {
+    font-size: 13px; color: var(--fg-soft);
+    display: flex; align-items: center; gap: 6px;
+    line-height: 1.35;
+  }
+  .compare-row .cell.pro { color: var(--fg); font-weight: 500; }
+  .ic-check {
+    color: var(--check); font-weight: 700;
+    display: inline-flex; width: 18px; height: 18px;
+    align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .ic-cross { color: var(--cross); font-weight: 700;
+    display: inline-flex; width: 18px; height: 18px;
+    align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .ic-sp {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.2px; padding: 3px 7px;
+    background: oklch(0.78 0.14 75 / 0.18); color: var(--amber);
+    border-radius: 999px; font-weight: 600; text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .ic-limited {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.2px; padding: 3px 7px;
+    background: rgba(20,30,50,0.08); color: var(--fg-soft);
+    border-radius: 999px; font-weight: 600; text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  body.dark .ic-limited { background: rgba(255,255,255,0.08); }
+
+  /* ============ SP economy ============ */
+  .sp-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 760px) { .sp-grid { grid-template-columns: 1fr; } }
+  .sp-card {
+    border-radius: 22px;
+    padding: 26px;
+    background: var(--card);
+    border: 1px solid var(--border-strong);
+  }
+  .sp-card.earn { background:
+    linear-gradient(135deg, oklch(0.72 0.14 155 / 0.1) 0%, transparent 50%),
+    var(--card);
+    border-color: oklch(0.72 0.14 155 / 0.4);
+  }
+  .sp-card.spend { background:
+    linear-gradient(135deg, oklch(0.78 0.14 75 / 0.1) 0%, transparent 50%),
+    var(--card);
+    border-color: oklch(0.78 0.14 75 / 0.4);
+  }
+  .sp-card h3 {
+    margin: 0 0 4px; font-size: 20px; font-weight: 600; letter-spacing: -0.4px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sp-card h3 .pill {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.6px; padding: 3px 8px;
+    border-radius: 999px; font-weight: 600;
+  }
+  .sp-card.earn .pill { background: var(--accent); color: #fff; }
+  .sp-card.spend .pill { background: var(--amber); color: #0a1420; }
+  .sp-card .sub { font-size: 13px; color: var(--fg-soft); margin: 0 0 18px; }
+  .sp-card ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column;
+  }
+  .sp-card li {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .sp-card li:first-child { border-top: none; }
+  .sp-card li .v {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12px; letter-spacing: 1px; font-weight: 600;
+  }
+  .sp-card.earn li .v { color: var(--accent); }
+  .sp-card.spend li .v { color: var(--amber); }
+
+  /* ============ Pricing ============ */
+  .pricing {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 980px) { .pricing { grid-template-columns: 1fr; } }
+  .price-card {
+    padding: 28px; border-radius: 22px;
+    border: 1px solid var(--border-strong);
+    background: var(--card);
+    position: relative; display: flex; flex-direction: column;
+  }
+  .price-card.featured {
+    border: 1.5px solid var(--primary);
+    background:
+      linear-gradient(135deg, oklch(0.65 0.14 230 / 0.06) 0%, transparent 60%),
+      var(--card);
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px oklch(0.65 0.14 230 / 0.15);
+  }
+  .price-card .name {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 2.4px;
+    text-transform: uppercase; color: var(--fg-soft); font-weight: 500;
+  }
+  .price-card.featured .name { color: var(--primary); }
+  .price-card .tag { font-size: 13px; color: var(--fg-soft); margin: 8px 0 14px; font-style: italic; }
+  .price-card .amount {
+    font-family: 'Geist'; font-weight: 600;
+    font-size: 44px; letter-spacing: -1.4px; margin: 0;
+    display: flex; align-items: baseline; gap: 4px;
+  }
+  .price-card .amount .cur { font-size: 22px; color: var(--fg-soft); font-weight: 500; }
+  .price-card .amount .unit { font-size: 13px; color: var(--fg-soft); font-weight: 400; margin-left: 4px; }
+  .price-card .save {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.6px;
+    color: var(--accent); margin-top: 4px; font-weight: 600;
+  }
+  .price-card ul {
+    list-style: none; padding: 0; margin: 20px 0; display: flex; flex-direction: column; gap: 8px;
+    flex: 1;
+  }
+  .price-card li {
+    font-size: 13px; color: var(--fg-soft);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .price-card li::before {
+    content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: -1px;
+  }
+  .price-card .btn-pick {
+    height: 46px; border-radius: 12px; border: 1px solid var(--border-strong);
+    background: transparent; color: var(--fg);
+    font-family: 'Geist'; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .price-card.featured .btn-pick {
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    color: #fff; box-shadow: 0 8px 20px rgba(20,90,200,0.3);
+  }
+  .price-card .ribbon {
+    position: absolute; top: -10px; right: 20px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff; padding: 4px 10px; border-radius: 999px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.4px; font-weight: 700;
+    box-shadow: 0 4px 12px rgba(20,90,200,0.3);
+  }
+
+  .hardware-note {
+    margin-top: 24px;
+    padding: 18px 22px;
+    border-radius: 16px;
+    background:
+      linear-gradient(135deg, oklch(0.62 0.18 295 / 0.08) 0%, transparent 60%),
+      var(--card);
+    border: 1px solid oklch(0.62 0.18 295 / 0.35);
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .hardware-note .ic {
+    width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--violet), var(--primary));
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 18px;
+  }
+  .hardware-note h4 { margin: 0 0 4px; font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
+  .hardware-note p { margin: 0; font-size: 13px; color: var(--fg-soft); line-height: 1.45; }
+
+  /* ============ Jurisdiction selector ============ */
+  .juris {
+    margin: 4px 0 14px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+  }
+  .juris-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+  .juris-head .lbl {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.6px;
+    color: var(--fg-faint); text-transform: uppercase;
+  }
+  .juris-tabs { display: inline-flex; padding: 2px; background: rgba(20,30,50,0.06); border-radius: 8px; }
+  body.dark .juris-tabs { background: rgba(255,255,255,0.08); }
+  .juris-tabs button {
+    border: none; background: transparent;
+    padding: 5px 10px; border-radius: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: inherit; cursor: pointer; transition: all 0.2s;
+  }
+  .juris-tabs button.active { background: #fff; color: #0a1420; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  body.dark .juris-tabs button.active { background: rgba(255,255,255,0.92); color: #0a1420; }
+  .juris-flag {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.4px; color: var(--primary);
+    text-transform: uppercase; font-weight: 600;
+  }
+  .juris-consent { display: flex; flex-direction: column; gap: 10px; }
+  .juris-consent label {
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 12px; color: var(--fg-soft); line-height: 1.5;
+    cursor: pointer;
+  }
+  .juris-consent label input { margin-top: 3px; accent-color: var(--primary); flex-shrink: 0; }
+  .juris-consent label .req {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.2px; padding: 2px 6px;
+    border-radius: 999px; flex-shrink: 0; font-weight: 600;
+    background: oklch(0.62 0.18 25 / 0.18); color: var(--red);
+    text-transform: uppercase;
+  }
+  .juris-consent label .opt {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.2px; padding: 2px 6px;
+    border-radius: 999px; flex-shrink: 0; font-weight: 600;
+    background: rgba(20,30,50,0.08); color: var(--fg-soft);
+    text-transform: uppercase;
+  }
+  body.dark .juris-consent label .opt { background: rgba(255,255,255,0.1); }
+  .juris-foot {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11px; color: var(--fg-faint); line-height: 1.5;
+  }
+  .juris-foot a { color: var(--primary); text-decoration: none; }
+
+  /* ============ Competitor matrix ============ */
+  .comp-wrap {
+    border: 1px solid var(--border-strong);
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--card-strong);
+  }
+  body.dark .comp-wrap { background: rgba(15,22,32,0.5); }
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(4, 1fr);
+    min-width: 760px;
+  }
+  .comp-scroll { overflow-x: auto; }
+  .comp-head-cell {
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--border-strong);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 1.8px;
+    text-transform: uppercase; color: var(--fg-soft); font-weight: 500;
+    background: linear-gradient(135deg, oklch(0.97 0.03 230 / 0.4), transparent);
+  }
+  body.dark .comp-head-cell { background: linear-gradient(135deg, oklch(0.30 0.06 230 / 0.3), transparent); }
+  .comp-head-cell.sense {
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    color: #fff; font-weight: 700;
+    position: relative;
+  }
+  .comp-head-cell.sense::after {
+    content: 'YOU ARE HERE'; display: block;
+    font-size: 8px; letter-spacing: 1.2px;
+    margin-top: 4px; opacity: 0.85; font-weight: 600;
+  }
+  .comp-cell {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--fg-soft);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .comp-cell.feat { color: var(--fg); font-weight: 500; }
+  .comp-cell.sense { background: oklch(0.65 0.14 230 / 0.04); }
+  body.dark .comp-cell.sense { background: oklch(0.65 0.14 230 / 0.08); }
+  .comp-grid > div:nth-last-child(-n+5) { border-bottom: none; }
+  .comp-note {
+    padding: 14px 20px;
+    font-size: 11px; color: var(--fg-faint);
+    border-top: 1px solid var(--border);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    letter-spacing: 0.4px;
+  }
+
+  /* ============ Footer ============ */
+  footer.foot {
+    max-width: 1280px; margin: 0 auto;
+    padding: 40px 32px 60px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+    color: var(--fg-soft); font-size: 12px;
+  }
+  footer.foot a { color: var(--fg-soft); text-decoration: none; margin-right: 18px; }
+  footer.foot a:hover { color: var(--fg); }
+</style>
+</head>
+<body class="dark">
+
+<div class="page">
+
+  <nav class="top">
+    <div class="brand"><span class="dot"></span>SUNX · SENSE</div>
+    <div class="nav-actions">
+      <a href="/SUNX Sense Onboarding.html">Onboarding</a>
+      <a href="/SUNX Sense Tiers.html">Tiers</a>
+      <a href="/SUNX Sense Consent.html">Consent (EK J)</a>
+      <div class="seg" id="theme-toggle">
+        <button data-theme="light">LIGHT</button>
+        <button data-theme="dark" class="active">DARK</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HERO + SIGNUP ============ -->
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">Start sensing the planet</div>
+      <h1>Free <span class="accent">explores</span>.<br>Pro <span class="accent">understands</span>.</h1>
+      <p class="lede">
+        Sense maps the air around you in real time. Start free, earn Sense Points,
+        and unlock deeper environmental intelligence — or go Pro and see everything,
+        everywhere, all at once.
+      </p>
+      <div class="hero-stats">
+        <div class="stat"><div class="n">$4.99</div><div class="l">Pro / month</div></div>
+        <div class="stat"><div class="n">FREE</div><div class="l">During Beta</div></div>
+        <div class="stat"><div class="n">∞</div><div class="l">With Carbostar</div></div>
+      </div>
+    </div>
+
+    <form class="signup" onsubmit="event.preventDefault(); alert('Demo only — wire up to real backend');">
+      <h2>Create your account</h2>
+      <p class="sub">Start free. Upgrade anytime. Carbostar owners unlock Pro automatically.</p>
+
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" placeholder="Yiğit Carbostar" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="you@carbostar.io" autocomplete="email" />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Password</label>
+          <input type="password" placeholder="••••••••" autocomplete="new-password" />
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <input type="text" value="Türkiye" />
+        </div>
+      </div>
+
+      <div class="juris">
+        <div class="juris-head">
+          <span class="lbl">Consent based on your region</span>
+          <div class="juris-tabs" id="juris-tabs">
+            <button data-j="tr" class="active">🇹🇷 TR</button>
+            <button data-j="eu">🇪🇺 EU</button>
+            <button data-j="us">🇺🇸 US</button>
+          </div>
+        </div>
+        <div class="juris-flag" id="juris-flag">KVKK · Türkiye</div>
+        <div class="juris-consent" id="juris-consent"></div>
+        <div class="juris-foot" id="juris-foot"></div>
+      </div>
+
+      <button class="btn-primary" type="submit">
+        Create account
+        <svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7h10m-4-4l4 4-4 4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div class="divider">OR CONTINUE WITH</div>
+      <div class="oauth">
+        <button type="button" class="btn-oauth">
+          <svg width="16" height="16" viewBox="0 0 16 16"><path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.69 7.69 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08z" fill="currentColor"/></svg>
+          Google
+        </button>
+        <button type="button" class="btn-oauth">
+          <svg width="16" height="16" viewBox="0 0 16 16"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516.024.034 1.52.087 2.475-1.258.955-1.345.762-2.391.728-2.43Zm3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422.212-2.189 1.675-2.789 1.698-2.854.023-.065-.597-.79-1.254-1.157a3.692 3.692 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56.244.729.625 1.924 1.273 2.796.576.984 1.34 1.667 1.659 1.899.319.232 1.219.386 1.843.067.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758.347-.79.505-1.217.473-1.282Z" fill="currentColor"/></svg>
+          Apple
+        </button>
+      </div>
+
+      <div class="signup-foot">Already have an account? <a href="#">Sign in</a></div>
+    </form>
+  </section>
+
+  <!-- ============ TIER PHILOSOPHY ============ -->
+  <section class="block">
+    <div class="block-eyebrow">Tier philosophy</div>
+    <h2 class="block-title">Two ways to use Sense.</h2>
+    <p class="block-sub">Free is never a downgrade. It's a different posture — exploration over intelligence.</p>
+
+    <div class="tiers-phil">
+      <div class="tier-card">
+        <span class="badge">FREE</span>
+        <h3>Explore the planet.</h3>
+        <p class="tag">A free that feels alive.</p>
+        <ul>
+          <li><span class="ic">🌍</span> Discover environmental data globally</li>
+          <li><span class="ic">🤝</span> Contribute to the citizen-science network</li>
+          <li><span class="ic">⚡</span> Earn Sense Points through participation</li>
+          <li><span class="ic">🔓</span> Unlock deeper data selectively, when curious</li>
+        </ul>
+      </div>
+      <div class="tier-card pro">
+        <span class="badge">PRO</span>
+        <h3>Understand your environment.</h3>
+        <p class="tag">A pro that sees everything.</p>
+        <ul>
+          <li><span class="ic">🧠</span> Personal environmental intelligence</li>
+          <li><span class="ic">∞</span> Unlimited access to all layers</li>
+          <li><span class="ic">🤖</span> AI-powered lifestyle optimization</li>
+          <li><span class="ic">🛰</span> Full environmental awareness</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPARISON TABLE ============ -->
+  <section class="block">
+    <div class="block-eyebrow">Compare in full</div>
+    <h2 class="block-title">Free vs. Pro, feature by feature.</h2>
+    <p class="block-sub">Free users always have a path forward — Sense Points can temporarily unlock most Pro features.</p>
+
+    <div class="compare-wrap" id="compare"></div>
+  </section>
+
+  <!-- ============ COMPETITOR MATRIX ============ -->
+  <section class="block">
+    <div class="block-eyebrow">How Sense compares</div>
+    <h2 class="block-title">Most apps show you the air. Sense lets you understand it.</h2>
+    <p class="block-sub">A quick side-by-side with the most-used air-quality apps. Coverage and capabilities reflect publicly documented features as of 2026.</p>
+
+    <div class="comp-wrap">
+      <div class="comp-scroll">
+        <div class="comp-grid" id="competitors"></div>
+      </div>
+      <div class="comp-note">
+        Trademarks belong to their respective owners. SUNX Sense is not affiliated with, endorsed by, or sponsored by the products listed.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SP ECONOMY ============ -->
+  <section class="block">
+    <div class="block-eyebrow">SP economy</div>
+    <h2 class="block-title">Sense Points: behavioral currency.</h2>
+    <p class="block-sub">SP funds the curiosity loop. Earn it by participating. Spend it on temporary access.</p>
+
+    <div class="sp-grid">
+      <div class="sp-card earn">
+        <h3>How you earn <span class="pill">+EARN</span></h3>
+        <p class="sub">Every action that strengthens the network rewards you.</p>
+        <ul id="earn-list"></ul>
+      </div>
+      <div class="sp-card spend">
+        <h3>How you spend <span class="pill">SPEND</span></h3>
+        <p class="sub">Time-bound unlocks for districts, archives, AI queries, and even temporary Pro.</p>
+        <ul id="spend-list"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="block">
+    <div class="block-eyebrow">Pricing</div>
+    <h2 class="block-title">Pick a plan. Or earn one.</h2>
+    <p class="block-sub">Or pair a Carbostar / SX Miner and Pro is included automatically.</p>
+
+    <div class="pricing">
+      <div class="price-card">
+        <div class="name">FREE</div>
+        <div class="tag">Explore the planet.</div>
+        <div class="amount"><span class="cur">$</span>0<span class="unit">forever</span></div>
+        <ul>
+          <li>Global heatmap (last 24h)</li>
+          <li>City-level air quality</li>
+          <li>Earn SP through participation</li>
+          <li>SP-based unlocks on demand</li>
+          <li>Community contribution</li>
+        </ul>
+        <button class="btn-pick">Start free</button>
+      </div>
+
+      <div class="price-card featured">
+        <span class="ribbon">MOST POPULAR</span>
+        <div class="name">PRO MONTHLY</div>
+        <div class="tag">Understand your environment.</div>
+        <div class="amount"><span class="cur">$</span>4<span style="font-size:28px">.99</span><span class="unit">/ month</span></div>
+        <ul>
+          <li>Unlimited historical archive</li>
+          <li>Deep zoom — district, street, building</li>
+          <li>envlab.ai unlimited + priority</li>
+          <li>Daily / weekly / monthly exposure reports</li>
+          <li>Environmental replay & personal timeline</li>
+          <li>Indoor analytics (sleep, productivity, ventilation)</li>
+          <li>Multi-device, CSV export, AI patterns</li>
+          <li>Beta features, premium badge</li>
+        </ul>
+        <button class="btn-pick">Go Pro</button>
+      </div>
+
+      <div class="price-card">
+        <div class="name">PRO YEARLY</div>
+        <div class="tag">Best price.</div>
+        <div class="amount"><span class="cur">$</span>39<span class="unit">/ year</span></div>
+        <div class="save">SAVE 35% — $3.25/mo equivalent</div>
+        <ul>
+          <li>Everything in Pro Monthly</li>
+          <li>Two months free vs. monthly</li>
+          <li>Family Monitoring (future Pro+)</li>
+          <li>Early access to new sensor data layers</li>
+          <li>Lock in early-adopter price</li>
+        </ul>
+        <button class="btn-pick">Save 35%</button>
+      </div>
+    </div>
+
+    <div class="hardware-note">
+      <div class="ic">📡</div>
+      <div>
+        <h4>Carbostar &amp; SX Miner owners — Pro is on us.</h4>
+        <p>Pair a Carbostar and Pro is unlocked automatically while the device is active. SX Miner owners get Pro plus a bonus SP earning multiplier — your hardware earns its own ecosystem.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <div class="hardware-note" style="background: var(--card); border-color: var(--border-strong); margin-top: 0;">
+        <div class="ic" style="background: var(--amber); color: #0a1420;">⚡</div>
+        <div>
+          <h4>1-Day Pro</h4>
+          <p><strong style="color: var(--amber)">50 SP</strong> — try Pro for 24 hours, earned from participation.</p>
+        </div>
+      </div>
+      <div class="hardware-note" style="background: var(--card); border-color: var(--border-strong); margin-top: 0;">
+        <div class="ic" style="background: var(--gold); color: #0a1420;">📆</div>
+        <div>
+          <h4>1-Week Pro</h4>
+          <p><strong style="color: var(--gold)">250 SP</strong> — a week of full intelligence, no card needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div>
+      <a href="#">User Agreement</a>
+      <a href="#">Privacy Policy</a>
+      <a href="/SUNX Sense Consent.html">Annex J — Beta Consent</a>
+      <a href="#">KVKK</a>
+      <a href="#">GDPR</a>
+    </div>
+    <div>SUNX Sense Beta · © 2026 · sense.sunx.io</div>
+  </footer>
+
+</div>
+
+<script>
+// ============ Comparison data ============
+const groups = [
+  {
+    name: 'Maps & Data Access',
+    rows: [
+      ['Global Heatmap Access',                ['check', 'Last 24h only'],          ['check', 'Full historical archive']],
+      ['Historical Data',                      ['sp', 'SP required'],                ['check', 'Unlimited']],
+      ['City-Level Air Quality',               ['check', '50–100km radius'],         ['check', 'Unlimited']],
+      ['Deep Zoom (district/street/building)', ['sp', 'SP required'],                ['check', 'Unlimited']],
+      ['Venue & Building Insights',            ['cross', 'Locked'],                  ['check', 'Available']],
+      ['Live Environmental Events',            ['check', 'Available'],               ['check', 'Available']],
+      ['Air Quality Venue Rankings',           ['limited', 'Limited'],               ['check', 'Full access']],
+      ['Eco Routing',                          ['limited', 'Limited'],               ['check', 'Advanced']],
+    ],
+  },
+  {
+    name: 'AI & Intelligence',
+    rows: [
+      ['envlab.ai AI Queries',                 ['sp', 'SP required'],                ['check', 'Unlimited / priority']],
+      ['Personalized AI Insights',             ['cross', '—'],                       ['check', 'Yes']],
+      ['AI Pattern Detection',                 ['cross', '—'],                       ['check', 'Yes']],
+      ['Priority AI Processing',               ['cross', '—'],                       ['check', 'Yes']],
+      ['Timed Notifications',                  ['cross', '—'],                       ['check', 'Yes']],
+      ['Smart Exposure Alerts',                ['cross', '—'],                       ['check', 'Yes']],
+    ],
+  },
+  {
+    name: 'Exposure Reports',
+    rows: [
+      ['Daily Exposure Report',                ['limited', 'First month free'],      ['check', 'Unlimited']],
+      ['Weekly / Monthly Exposure Reports',    ['cross', '—'],                       ['check', 'Yes']],
+      ['Environmental Replay',                 ['cross', '—'],                       ['check', 'Yes']],
+      ['Personal Exposure Timeline',           ['cross', '—'],                       ['check', 'Yes']],
+      ['Sleep / Productivity Air Scores',      ['cross', '—'],                       ['check', 'Yes']],
+      ['Premium Environmental Scores',         ['cross', '—'],                       ['check', 'Yes']],
+      ['Export Data',                          ['cross', '—'],                       ['check', 'CSV / advanced']],
+    ],
+  },
+  {
+    name: 'Indoor & Hardware',
+    rows: [
+      ['Indoor Analytics',                     ['limited', 'Limited'],               ['check', 'Advanced']],
+      ['Multi-Device Support',                 ['limited', '1 device'],              ['check', 'Unlimited']],
+      ['CarboStar Integration',                ['check', 'Basic'],                   ['check', 'Full']],
+      ['SX Miner Benefits',                    ['cross', '—'],                       ['check', 'Included']],
+      ['Device-Based Auto Pro',                ['cross', '—'],                       ['check', 'CarboStar &amp; SX Miner']],
+    ],
+  },
+  {
+    name: 'SP Economy',
+    rows: [
+      ['Community Heatmap Contribution',       ['check', 'Yes'],                     ['check', 'Yes']],
+      ['SP Earning',                           ['check', 'Yes'],                     ['check', 'Bonus multiplier']],
+      ['SP Spending',                          ['sp', 'Required'],                   ['limited', 'Minimal / optional']],
+      ['Unlock Historical Maps',               ['sp', 'SP required'],                ['check', 'Included']],
+      ['Unlock Deep Zoom',                     ['sp', 'SP required'],                ['check', 'Included']],
+    ],
+  },
+  {
+    name: 'Identity & Future',
+    rows: [
+      ['Environmental Reputation Badge',       ['limited', 'Basic'],                 ['check', 'Premium verified']],
+      ['Family Monitoring',                    ['cross', '—'],                       ['limited', 'Future Pro+']],
+      ['Beta Features Access',                 ['cross', '—'],                       ['check', 'Yes']],
+    ],
+  },
+];
+
+const earn = [
+  ['Daily app usage',          '+SP / day'],
+  ['Quiz participation',       '+SP / quiz'],
+  ['Walking / route tracking', '+SP / route'],
+  ['Community reports',        '+SP / report'],
+  ['Sensor contribution',      '+SP / hour'],
+  ['Invite friends',           '+SP / signup'],
+  ['Event participation',      '+SP / check-in'],
+];
+const spend = [
+  ['7-day historical map',     '20 SP'],
+  ['30-day historical map',    '100 SP'],
+  ['District deep zoom',       '10 SP'],
+  ['Building insight',         '15 SP'],
+  ['envlab.ai query',          '5 SP'],
+  ['Exposure replay',          '20 SP'],
+  ['1-day Pro access',         '50 SP'],
+  ['1-week Pro access',        '250 SP'],
+];
+
+// ============ Render comparison ============
+function cellHTML([kind, text]) {
+  if (kind === 'check')   return `<div class="cell"><span class="ic-check">✓</span> ${text}</div>`;
+  if (kind === 'cross')   return `<div class="cell"><span class="ic-cross">✗</span> ${text}</div>`;
+  if (kind === 'sp')      return `<div class="cell"><span class="ic-sp">SP</span> ${text}</div>`;
+  if (kind === 'limited') return `<div class="cell"><span class="ic-limited">~</span> ${text}</div>`;
+  return `<div class="cell">${text}</div>`;
+}
+function proCellHTML([kind, text]) {
+  const cls = 'cell pro';
+  if (kind === 'check')   return `<div class="${cls}"><span class="ic-check">✓</span> ${text}</div>`;
+  if (kind === 'cross')   return `<div class="${cls}"><span class="ic-cross">✗</span> ${text}</div>`;
+  if (kind === 'sp')      return `<div class="${cls}"><span class="ic-sp">SP</span> ${text}</div>`;
+  if (kind === 'limited') return `<div class="${cls}"><span class="ic-limited">~</span> ${text}</div>`;
+  return `<div class="${cls}">${text}</div>`;
+}
+
+const compareEl = document.getElementById('compare');
+let html = `
+  <div class="compare-head">
+    <div class="col">FEATURE</div>
+    <div class="col">FREE</div>
+    <div class="col pro">PRO</div>
+  </div>
+`;
+for (const g of groups) {
+  html += `<div class="compare-group">${g.name}</div>`;
+  for (const r of g.rows) {
+    html += `<div class="compare-row">
+      <div class="feat">${r[0]}</div>
+      ${cellHTML(r[1])}
+      ${proCellHTML(r[2])}
+    </div>`;
+  }
+}
+compareEl.innerHTML = html;
+
+// ============ Render SP lists ============
+function listHTML(rows) {
+  return rows.map(([k, v]) => `<li><span>${k}</span><span class="v">${v}</span></li>`).join('');
+}
+document.getElementById('earn-list').innerHTML  = listHTML(earn);
+document.getElementById('spend-list').innerHTML = listHTML(spend);
+
+// ============ Jurisdiction-aware consent ============
+const JURIS = {
+  tr: {
+    flag: 'KVKK · Türkiye · Madde 5 & 9',
+    boxes: [
+      { req: true,  t: 'Kullanıcı Sözleşmesi ve Gizlilik Politikasını okudum ve kabul ediyorum.' },
+      { req: true,  t: '18 yaşından büyük olduğumu beyan ederim (TMK).' },
+      { req: true,  t: 'KVKK m.9 kapsamında verilerimin AB ve ABD bölgelerindeki bulut sunucularda işlenmesine açık rıza veriyorum.' },
+      { req: false, t: 'Pazarlama amaçlı e-posta ve push bildirim almayı kabul ediyorum (isteğe bağlı, sonradan değiştirilebilir).' },
+    ],
+    foot: 'Granüler rıza akışı <a href="/SUNX Sense Consent.html">EK J</a>\'ye uygundur. Her bir açık rıza Ayarlardan istenildiği zaman geri çekilebilir.',
+  },
+  eu: {
+    flag: 'GDPR · EU/EEA · Art. 6, 7, 13',
+    boxes: [
+      { req: true,  t: 'I have read and accept the User Agreement and Privacy Policy (GDPR Art. 13 notice received).' },
+      { req: true,  t: 'I confirm I am 16 years or older (or 13–15 with parental consent, depending on member state).' },
+      { req: false, t: 'I consent to the processing of my data for AI model training and product improvement (Art. 6(1)(a)). Optional.' },
+      { req: false, t: 'I consent to marketing emails and push notifications (ePrivacy Directive). Optional.' },
+    ],
+    foot: 'You can withdraw any consent at any time under Settings → Privacy. We rely on Art. 6(1)(b) (contract) for the service itself; explicit consent (Art. 6(1)(a)) only for optional categories. Data Subject Rights inquiries: <a href="mailto:dpo@sunx.io">dpo@sunx.io</a>.',
+  },
+  us: {
+    flag: 'CCPA / CPRA · California + US State Laws',
+    boxes: [
+      { req: true,  t: 'I have read and accept the Terms of Service and Privacy Policy (Cal. Civ. Code §1798.100).' },
+      { req: true,  t: 'I confirm I am 13 years or older (COPPA). Users 13–15 require parental verification.' },
+      { req: false, t: 'I authorize the sale or sharing of de-identified aggregate data with research and ESG partners. (You may opt out anytime — "Do Not Sell or Share My Personal Information".)' },
+      { req: false, t: 'Send me marketing emails. (CAN-SPAM compliant; unsubscribe anytime.)' },
+    ],
+    foot: 'California residents: exercise rights via <a href="#">Do Not Sell / Share</a> or <a href="#">Limit Use of Sensitive PI</a>. Right to know, delete, correct, and portability honored within 45 days.',
+  },
+};
+
+const consentEl = document.getElementById('juris-consent');
+const flagEl    = document.getElementById('juris-flag');
+const footEl    = document.getElementById('juris-foot');
+
+function renderJuris(key) {
+  const j = JURIS[key];
+  flagEl.textContent = j.flag;
+  consentEl.innerHTML = j.boxes.map(b => `
+    <label>
+      <input type="checkbox" ${b.req ? 'data-required="1"' : ''} />
+      <span class="${b.req ? 'req' : 'opt'}">${b.req ? 'REQUIRED' : 'OPTIONAL'}</span>
+      <span>${b.t}</span>
+    </label>
+  `).join('');
+  footEl.innerHTML = j.foot;
+}
+document.querySelectorAll('#juris-tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#juris-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+    renderJuris(btn.dataset.j);
+  });
+});
+renderJuris('tr');
+
+// ============ Competitor matrix ============
+const COMPETITORS = ['Sense', 'BreezoMeter', 'IQAir', 'Plume Flow'];
+// Order matches COMPETITORS: each row is [feature, sense, breezo, iqair, plume]
+const COMP_ROWS = [
+  ['Hyperlocal map (street-level)',     ['check', 'Beta'],          ['check', 'Yes'],          ['check', 'City+'],         ['check', 'Personal']],
+  ['Indoor air analytics',              ['check', 'Carbostar'],     ['cross', '—'],            ['check', 'AirVisual Pro'], ['check', 'Plume sensor']],
+  ['User-owned hardware integration',   ['check', 'Carbostar, SX'], ['cross', '—'],            ['check', 'IQAir devices'], ['check', 'Flow sensor']],
+  ['Citizen-science network (rewards)', ['check', 'SP economy'],    ['cross', '—'],            ['cross', '—'],             ['cross', '—']],
+  ['AI environmental Q&A',              ['check', 'envlab.ai'],     ['limited', 'Limited'],    ['cross', '—'],             ['cross', '—']],
+  ['Exposure replay / timeline',        ['check', 'Yes'],           ['cross', '—'],            ['limited', 'Limited'],     ['check', 'Yes']],
+  ['Personalized timed alerts',         ['check', 'Pro'],           ['check', 'Yes'],          ['check', 'Yes'],           ['check', 'Yes']],
+  ['Historical archive (>30 days)',     ['check', 'Pro / SP'],      ['limited', 'Premium'],    ['check', 'Premium'],       ['limited', 'Premium']],
+  ['On-device sensor / open hardware',  ['check', 'CO₂, PM, VOC'],  ['cross', '—'],            ['check', 'IQAir lineup'],  ['check', 'PM, VOC, NO₂']],
+  ['Free tier exists',                  ['check', 'Always'],        ['check', 'Limited'],      ['check', 'Limited'],       ['check', 'Limited']],
+  ['Auto-Pro for device owners',        ['check', 'Built-in'],      ['cross', '—'],            ['cross', '—'],             ['cross', '—']],
+  ['KVKK / GDPR granular consent',      ['check', 'Annex J flow'],  ['limited', 'Standard'],   ['limited', 'Standard'],    ['limited', 'Standard']],
+];
+
+function compCellHTML([kind, text], isSense) {
+  const cls = 'comp-cell' + (isSense ? ' sense' : '');
+  if (kind === 'check')   return `<div class="${cls}"><span class="ic-check">✓</span> ${text}</div>`;
+  if (kind === 'cross')   return `<div class="${cls}"><span class="ic-cross">✗</span> ${text}</div>`;
+  if (kind === 'limited') return `<div class="${cls}"><span class="ic-limited">~</span> ${text}</div>`;
+  return `<div class="${cls}">${text}</div>`;
+}
+
+const compEl = document.getElementById('competitors');
+let chtml = '<div class="comp-head-cell">FEATURE</div>';
+COMPETITORS.forEach((c, i) => {
+  chtml += `<div class="comp-head-cell${i === 0 ? ' sense' : ''}">${c}</div>`;
+});
+COMP_ROWS.forEach(row => {
+  chtml += `<div class="comp-cell feat">${row[0]}</div>`;
+  for (let i = 1; i < row.length; i++) {
+    chtml += compCellHTML(row[i], i === 1);
+  }
+});
+compEl.innerHTML = chtml;
+
+// ============ Theme toggle ============
+document.querySelectorAll('#theme-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theme = btn.dataset.theme;
+    document.body.classList.toggle('dark', theme === 'dark');
+    document.querySelectorAll('#theme-toggle button').forEach(b => b.classList.toggle('active', b === btn));
+  });
+});
+</script>
+
+</body>
+</html>

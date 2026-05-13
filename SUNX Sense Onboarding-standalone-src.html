@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SUNX Sense — Onboarding</title>
+<template id="__bundler_thumbnail" data-bg-color="#f5f6f8">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f5f6f8"/>
+    <g transform="translate(600 400)">
+      <polygon points="0,-120 104,-60 104,60 0,120 -104,60 -104,-60" fill="none" stroke="#3a7fd1" stroke-width="6"/>
+      <circle r="42" fill="#5fb89a"/>
+      <text x="0" y="180" text-anchor="middle" font-family="system-ui" font-size="28" font-weight="600" fill="#0a1420" letter-spacing="4">SUNX · SENSE</text>
+    </g>
+  </svg>
+</template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    font-family: 'Geist', Inter, -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #f5f6f8;
+    color: #0a1420;
+    transition: background 0.4s ease;
+  }
+  body.dark { background: #0a0f16; color: #e8edf2; }
+
+  /* ===== animations ===== */
+  @keyframes breathPulse {
+    0%, 100% { transform: scale(0.85); opacity: 0; }
+    50%      { transform: scale(1.05); opacity: 0.8; }
+  }
+  @keyframes dotBreath {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50%      { transform: scale(1.4); opacity: 1; }
+  }
+  @keyframes dotRing {
+    0%   { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+  @keyframes ripExpand {
+    0%   { transform: scale(0.3); opacity: 0.9; stroke-width: 2.5; }
+    100% { transform: scale(6.5); opacity: 0; stroke-width: 0.4; }
+  }
+  @keyframes chipFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+  }
+  @keyframes dashFlow {
+    0%   { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -24; }
+  }
+  @keyframes coreSpin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes corePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+  }
+  @keyframes particleRise {
+    0%   { transform: translateY(0); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translateY(-80px); opacity: 0; }
+  }
+  @keyframes dialDraw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes haloBreath {
+    0%, 100% { transform: scale(0.85); opacity: 0.15; }
+    50%      { transform: scale(1.1);  opacity: 0.3;  }
+  }
+  @keyframes fadeSlide {
+    0%   { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes progressFill {
+    0%   { width: 0%; }
+    100% { width: 100%; }
+  }
+  @keyframes panelIn {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== stage ===== */
+  .stage {
+    min-height: 100vh; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    background:
+      radial-gradient(ellipse at 20% 10%, oklch(0.97 0.03 230 / 0.6) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, oklch(0.96 0.04 155 / 0.5) 0%, transparent 55%),
+      #f5f6f8;
+    transition: background 0.4s;
+  }
+  body.dark .stage {
+    background:
+      radial-gradient(ellipse at 20% 10%, oklch(0.30 0.06 230 / 0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, oklch(0.30 0.06 155 / 0.25) 0%, transparent 55%),
+      #0a0f16;
+  }
+
+  /* ===== tweaks panel ===== */
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px; z-index: 200;
+    width: 260px; padding: 16px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.04);
+    font-family: 'Geist', Inter, system-ui;
+    animation: panelIn 0.3s ease-out;
+  }
+  body.dark .tweaks {
+    background: rgba(15,22,32,0.85);
+    border-color: rgba(255,255,255,0.08);
+    color: #e8edf2;
+  }
+  .tweaks h3 {
+    margin: 0 0 12px; font-size: 11px; font-weight: 500;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: oklch(0.65 0.14 230);
+  }
+  .tweak-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0; font-size: 13px;
+  }
+  .tweak-row + .tweak-row {
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  body.dark .tweak-row + .tweak-row { border-top-color: rgba(255,255,255,0.06); }
+  .seg {
+    display: inline-flex; padding: 2px;
+    background: rgba(0,0,0,0.06); border-radius: 8px;
+  }
+  body.dark .seg { background: rgba(255,255,255,0.08); }
+  .seg button {
+    border: none; background: transparent;
+    padding: 5px 10px; border-radius: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: inherit; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .seg button.active {
+    background: #fff; color: #0a1420;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  body.dark .seg button.active {
+    background: rgba(255,255,255,0.92);
+    color: #0a1420;
+  }
+
+  /* phone container lets us position the device */
+  .phone-wrap {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    gap: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div id="root"></div>
+</div>
+
+<script>
+  // Default tweak state (persisted)
+  const TWEAK_DEFAULS = /*EDITMODE-BEGIN*/{
+    "dark": false,
+    "lang": "en",
+    "device": "ios"
+  }/*EDITMODE-END*/;
+</script>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script>
+// Bilingual copy — aligned with SUNX Sense real product
+// Zone-based environmental intelligence, H3 hex cells, declarations, PX Carbostar, SUNX Earth
+window.ONBOARDING_COPY = {
+  en: {
+    skip: 'Skip',
+    next: 'Continue',
+    getStarted: 'Enter the network',
+    slides: [
+      {
+        eyebrow: '01 — Welcome',
+        title: 'The environment, mapped in real places.',
+        body: 'Sense is the mobile gateway to the SUNX ecosystem. It turns the world into interactive H3 zones — so you can explore environmental conditions where they actually happen.',
+        heroLabel: 'Global intelligence — live',
+        stat: { label: 'active zones', value: '128,540', suffix: '' },
+      },
+      {
+        eyebrow: '02 — Declarations',
+        title: 'Your signal strengthens the zone.',
+        body: 'A declaration is your on-the-ground reading of a zone. One tap adds a community-backed signal to the map and builds the trust layer for everyone nearby.',
+        heroLabel: 'Declaration → zone',
+        stat: { label: 'declarations today', value: '184,620', suffix: '' },
+      },
+      {
+        eyebrow: '03 — Device + Network',
+        title: 'Pair a PX Carbostar. Feed the earth.',
+        body: 'Plug in a portable PX Carbostar sensor and your zone broadcasts live CO₂ telemetry into the SUNX Earth network — visible to researchers, cities and neighbours worldwide.',
+        heroLabel: 'PX Carbostar · live telemetry',
+        stat: { label: 'CO₂ · this zone', value: '412', suffix: ' ppm' },
+      },
+      {
+        eyebrow: '04 — Rewards',
+        title: 'Data you contribute, value you keep.',
+        body: 'Every verified declaration and every telemetry hour earns you SUNX tokens on the Earth platform. Environmental action that compounds.',
+        heroLabel: 'SUNX · projected balance',
+        stat: { label: 'SUNX earned / week', value: '+86.4', suffix: '' },
+      },
+      {
+        eyebrow: '05 — Ready',
+        title: 'Pick a zone. Make your first declaration.',
+        body: 'Your zone is ready. One tap opens the map, the next sends your first signal into the network.',
+        heroLabel: 'Your zone · ready',
+        stat: { label: 'trust score · H3 cell', value: '0.87', suffix: '' },
+      },
+    ],
+  },
+  tr: {
+    skip: 'Geç',
+    next: 'Devam et',
+    getStarted: 'Ağa katıl',
+    slides: [
+      {
+        eyebrow: '01 — Merhaba',
+        title: 'Çevre, gerçek mekânlar üzerinde haritalandı.',
+        body: 'Sense, SUNX ekosisteminin mobil kapısıdır. Dünyayı etkileşimli H3 hücrelerine dönüştürür — böylece çevresel koşulları olduğu yerde keşfedersin.',
+        heroLabel: 'Küresel zekâ — canlı',
+        stat: { label: 'aktif bölge', value: '128.540', suffix: '' },
+      },
+      {
+        eyebrow: '02 — Deklarasyonlar',
+        title: 'Sinyalin bölgeni güçlendirir.',
+        body: 'Deklarasyon, bir bölgenin saha okumandır. Tek dokunuşla haritaya topluluk destekli bir sinyal ekler ve çevrendekiler için güven katmanını büyütürsün.',
+        heroLabel: 'Deklarasyon → bölge',
+        stat: { label: 'bugünkü deklarasyon', value: '184.620', suffix: '' },
+      },
+      {
+        eyebrow: '03 — Cihaz + Ağ',
+        title: 'PX Carbostar eşle. Dünyayı besle.',
+        body: 'Taşınabilir PX Carbostar sensörünü bağla; bölgen, SUNX Earth ağına canlı CO₂ telemetrisi yayınlamaya başlar — araştırmacılar, şehirler ve komşuların için görünür.',
+        heroLabel: 'PX Carbostar · canlı telemetri',
+        stat: { label: 'CO₂ · bu bölge', value: '412', suffix: ' ppm' },
+      },
+      {
+        eyebrow: '04 — Ödüller',
+        title: 'Kattığın veri, senin değerin.',
+        body: 'Doğrulanan her deklarasyon ve her telemetri saati, Earth platformunda SUNX token kazandırır. Büyüyen bir çevresel eylem.',
+        heroLabel: 'SUNX · tahmini bakiye',
+        stat: { label: 'haftalık SUNX', value: '+86,4', suffix: '' },
+      },
+      {
+        eyebrow: '05 — Hazırsın',
+        title: 'Bir bölge seç. İlk deklarasyonunu yap.',
+        body: 'Bölgen hazır. Bir dokunuş haritayı açar, bir sonraki dokunuş ilk sinyalini ağa gönderir.',
+        heroLabel: 'Bölgen · hazır',
+        stat: { label: 'güven skoru · H3', value: '0,87', suffix: '' },
+      },
+    ],
+  },
+};
+
+</script>
+<script type="text/babel">
+
+// iOS.jsx — Simplified iOS 26 (Liquid Glass) device frame
+// Based on the iOS 26 UI Kit + Figma status bar spec. No assets, no deps.
+// Exports: IOSDevice, IOSStatusBar, IOSNavBar, IOSGlassPill, IOSList, IOSListRow, IOSKeyboard
+
+// ─────────────────────────────────────────────────────────────
+// Status bar
+// ─────────────────────────────────────────────────────────────
+function IOSStatusBar({ dark = false, time = '9:41' }) {
+  const c = dark ? '#fff' : '#000';
+  return (
+    <div style={{
+      display: 'flex', gap: 154, alignItems: 'center', justifyContent: 'center',
+      padding: '21px 24px 19px', boxSizing: 'border-box',
+      position: 'relative', zIndex: 20, width: '100%',
+    }}>
+      <div style={{ flex: 1, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 1.5 }}>
+        <span style={{
+          fontFamily: '-apple-system, "SF Pro", system-ui', fontWeight: 590,
+          fontSize: 17, lineHeight: '22px', color: c,
+        }}>{time}</span>
+      </div>
+      <div style={{ flex: 1, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, paddingTop: 1, paddingRight: 1 }}>
+        <svg width="19" height="12" viewBox="0 0 19 12">
+          <rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill={c}/>
+          <rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill={c}/>
+          <rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill={c}/>
+          <rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill={c}/>
+        </svg>
+        <svg width="17" height="12" viewBox="0 0 17 12">
+          <path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill={c}/>
+          <path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill={c}/>
+          <circle cx="8.5" cy="10.5" r="1.5" fill={c}/>
+        </svg>
+        <svg width="27" height="13" viewBox="0 0 27 13">
+          <rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke={c} strokeOpacity="0.35" fill="none"/>
+          <rect x="2" y="2" width="20" height="9" rx="2" fill={c}/>
+          <path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill={c} fillOpacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Liquid glass pill — blur + tint + shine
+// ─────────────────────────────────────────────────────────────
+function IOSGlassPill({ children, dark = false, style = {} }) {
+  return (
+    <div style={{
+      height: 44, minWidth: 44, borderRadius: 9999,
+      position: 'relative', overflow: 'hidden',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      boxShadow: dark
+        ? '0 2px 6px rgba(0,0,0,0.35), 0 6px 16px rgba(0,0,0,0.2)'
+        : '0 1px 3px rgba(0,0,0,0.07), 0 3px 10px rgba(0,0,0,0.06)',
+      ...style,
+    }}>
+      {/* blur + tint */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 9999,
+        backdropFilter: 'blur(12px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+        background: dark ? 'rgba(120,120,128,0.28)' : 'rgba(255,255,255,0.5)',
+      }} />
+      {/* shine */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 9999,
+        boxShadow: dark
+          ? 'inset 1.5px 1.5px 1px rgba(255,255,255,0.15), inset -1px -1px 1px rgba(255,255,255,0.08)'
+          : 'inset 1.5px 1.5px 1px rgba(255,255,255,0.7), inset -1px -1px 1px rgba(255,255,255,0.4)',
+        border: dark ? '0.5px solid rgba(255,255,255,0.15)' : '0.5px solid rgba(0,0,0,0.06)',
+      }} />
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', padding: '0 4px' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Navigation bar — glass pills + large title
+// ─────────────────────────────────────────────────────────────
+function IOSNavBar({ title = 'Title', dark = false, trailingIcon = true }) {
+  const muted = dark ? 'rgba(255,255,255,0.6)' : '#404040';
+  const text = dark ? '#fff' : '#000';
+  const pillIcon = (content) => (
+    <IOSGlassPill dark={dark}>
+      <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {content}
+      </div>
+    </IOSGlassPill>
+  );
+  return (
+    <div style={{
+      display: 'flex', flexDirection: 'column', gap: 10,
+      paddingTop: 62, paddingBottom: 10, position: 'relative', zIndex: 5,
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 16px',
+      }}>
+        {/* back chevron */}
+        {pillIcon(
+          <svg width="12" height="20" viewBox="0 0 12 20" fill="none" style={{ marginLeft: -1 }}>
+            <path d="M10 2L2 10l8 8" stroke={muted} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+        {/* trailing ellipsis */}
+        {trailingIcon && pillIcon(
+          <svg width="22" height="6" viewBox="0 0 22 6">
+            <circle cx="3" cy="3" r="2.5" fill={muted}/>
+            <circle cx="11" cy="3" r="2.5" fill={muted}/>
+            <circle cx="19" cy="3" r="2.5" fill={muted}/>
+          </svg>
+        )}
+      </div>
+      {/* large title */}
+      <div style={{
+        padding: '0 16px',
+        fontFamily: '-apple-system, system-ui',
+        fontSize: 34, fontWeight: 700, lineHeight: '41px',
+        color: text, letterSpacing: 0.4,
+      }}>{title}</div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Grouped list (inset card, r:26) + row (52px)
+// ─────────────────────────────────────────────────────────────
+function IOSListRow({ title, detail, icon, chevron = true, isLast = false, dark = false }) {
+  const text = dark ? '#fff' : '#000';
+  const sec = dark ? 'rgba(235,235,245,0.6)' : 'rgba(60,60,67,0.6)';
+  const ter = dark ? 'rgba(235,235,245,0.3)' : 'rgba(60,60,67,0.3)';
+  const sep = dark ? 'rgba(84,84,88,0.65)' : 'rgba(60,60,67,0.12)';
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', minHeight: 52,
+      padding: '0 16px', position: 'relative',
+      fontFamily: '-apple-system, system-ui', fontSize: 17,
+      letterSpacing: -0.43,
+    }}>
+      {icon && (
+        <div style={{
+          width: 30, height: 30, borderRadius: 7, background: icon,
+          marginRight: 12, flexShrink: 0,
+        }} />
+      )}
+      <div style={{ flex: 1, color: text }}>{title}</div>
+      {detail && <span style={{ color: sec, marginRight: 6 }}>{detail}</span>}
+      {chevron && (
+        <svg width="8" height="14" viewBox="0 0 8 14" style={{ flexShrink: 0 }}>
+          <path d="M1 1l6 6-6 6" stroke={ter} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )}
+      {!isLast && (
+        <div style={{
+          position: 'absolute', bottom: 0, right: 0,
+          left: icon ? 58 : 16, height: 0.5, background: sep,
+        }} />
+      )}
+    </div>
+  );
+}
+
+function IOSList({ header, children, dark = false }) {
+  const hc = dark ? 'rgba(235,235,245,0.6)' : 'rgba(60,60,67,0.6)';
+  const bg = dark ? '#1C1C1E' : '#fff';
+  return (
+    <div>
+      {header && (
+        <div style={{
+          fontFamily: '-apple-system, system-ui', fontSize: 13,
+          color: hc, textTransform: 'uppercase',
+          padding: '8px 36px 6px', letterSpacing: -0.08,
+        }}>{header}</div>
+      )}
+      <div style={{
+        background: bg, borderRadius: 26,
+        margin: '0 16px', overflow: 'hidden',
+      }}>{children}</div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Device frame
+// ─────────────────────────────────────────────────────────────
+function IOSDevice({
+  children, width = 402, height = 874, dark = false,
+  title, keyboard = false,
+}) {
+  return (
+    <div style={{
+      width, height, borderRadius: 48, overflow: 'hidden',
+      position: 'relative', background: dark ? '#000' : '#F2F2F7',
+      boxShadow: '0 40px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.12)',
+      fontFamily: '-apple-system, system-ui, sans-serif',
+      WebkitFontSmoothing: 'antialiased',
+    }}>
+      {/* dynamic island */}
+      <div style={{
+        position: 'absolute', top: 11, left: '50%', transform: 'translateX(-50%)',
+        width: 126, height: 37, borderRadius: 24, background: '#000', zIndex: 50,
+      }} />
+      {/* status bar (absolute) */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
+        <IOSStatusBar dark={dark} />
+      </div>
+      {/* nav + content */}
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        {title !== undefined && <IOSNavBar title={title} dark={dark} />}
+        <div style={{ flex: 1, overflow: 'auto' }}>{children}</div>
+        {keyboard && <IOSKeyboard dark={dark} />}
+      </div>
+      {/* home indicator — always on top */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 60,
+        height: 34, display: 'flex', justifyContent: 'center', alignItems: 'flex-end',
+        paddingBottom: 8, pointerEvents: 'none',
+      }}>
+        <div style={{
+          width: 139, height: 5, borderRadius: 100,
+          background: dark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.25)',
+        }} />
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Keyboard — iOS 26 liquid glass
+// ─────────────────────────────────────────────────────────────
+function IOSKeyboard({ dark = false }) {
+  const glyph = dark ? 'rgba(255,255,255,0.7)' : '#595959';
+  const sugg = dark ? 'rgba(255,255,255,0.6)' : '#333';
+  const keyBg = dark ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.85)';
+
+  // special-key icons
+  const icons = {
+    shift: <svg width="19" height="17" viewBox="0 0 19 17"><path d="M9.5 1L1 9.5h4.5V16h8V9.5H18L9.5 1z" fill={glyph}/></svg>,
+    del: <svg width="23" height="17" viewBox="0 0 23 17"><path d="M7 1h13a2 2 0 012 2v11a2 2 0 01-2 2H7l-6-7.5L7 1z" fill="none" stroke={glyph} strokeWidth="1.6" strokeLinejoin="round"/><path d="M10 5l7 7M17 5l-7 7" stroke={glyph} strokeWidth="1.6" strokeLinecap="round"/></svg>,
+    ret: <svg width="20" height="14" viewBox="0 0 20 14"><path d="M18 1v6H4m0 0l4-4M4 7l4 4" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  };
+
+  const key = (content, { w, flex, ret, fs = 25, k } = {}) => (
+    <div key={k} style={{
+      height: 42, borderRadius: 8.5,
+      flex: flex ? 1 : undefined, width: w, minWidth: 0,
+      background: ret ? '#08f' : keyBg,
+      boxShadow: '0 1px 0 rgba(0,0,0,0.075)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: '-apple-system, "SF Compact", system-ui',
+      fontSize: fs, fontWeight: 458, color: ret ? '#fff' : glyph,
+    }}>{content}</div>
+  );
+
+  const row = (keys, pad = 0) => (
+    <div style={{ display: 'flex', gap: 6.5, justifyContent: 'center', padding: `0 ${pad}px` }}>
+      {keys.map(l => key(l, { flex: true, k: l }))}
+    </div>
+  );
+
+  return (
+    <div style={{
+      position: 'relative', zIndex: 15, borderRadius: 27, overflow: 'hidden',
+      padding: '11px 0 2px',
+      display: 'flex', flexDirection: 'column', alignItems: 'center',
+      boxShadow: dark
+        ? '0 -2px 20px rgba(0,0,0,0.09)'
+        : '0 -1px 6px rgba(0,0,0,0.018), 0 -3px 20px rgba(0,0,0,0.012)',
+    }}>
+      {/* liquid glass bg — same recipe as nav pills */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 27,
+        backdropFilter: 'blur(12px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+        background: dark ? 'rgba(120,120,128,0.14)' : 'rgba(255,255,255,0.25)',
+      }} />
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 27,
+        boxShadow: dark
+          ? 'inset 1.5px 1.5px 1px rgba(255,255,255,0.15)'
+          : 'inset 1.5px 1.5px 1px rgba(255,255,255,0.7), inset -1px -1px 1px rgba(255,255,255,0.4)',
+        border: dark ? '0.5px solid rgba(255,255,255,0.15)' : '0.5px solid rgba(0,0,0,0.06)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* autocorrect bar */}
+      <div style={{
+        display: 'flex', gap: 20, alignItems: 'center',
+        padding: '8px 22px 13px', width: '100%', boxSizing: 'border-box',
+        position: 'relative',
+      }}>
+        {['"The"', 'the', 'to'].map((w, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <div style={{ width: 1, height: 25, background: '#ccc', opacity: 0.3 }} />}
+            <div style={{
+              flex: 1, textAlign: 'center',
+              fontFamily: '-apple-system, system-ui', fontSize: 17,
+              color: sugg, letterSpacing: -0.43, lineHeight: '22px',
+            }}>{w}</div>
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* key layout */}
+      <div style={{
+        display: 'flex', flexDirection: 'column', gap: 13,
+        padding: '0 6.5px', width: '100%', boxSizing: 'border-box',
+        position: 'relative',
+      }}>
+        {row(['q','w','e','r','t','y','u','i','o','p'])}
+        {row(['a','s','d','f','g','h','j','k','l'], 20)}
+        <div style={{ display: 'flex', gap: 14.25, alignItems: 'center' }}>
+          {key(icons.shift, { w: 45, k: 'shift' })}
+          <div style={{ display: 'flex', gap: 6.5, flex: 1 }}>
+            {['z','x','c','v','b','n','m'].map(l => key(l, { flex: true, k: l }))}
+          </div>
+          {key(icons.del, { w: 45, k: 'del' })}
+        </div>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          {key('ABC', { w: 92.25, fs: 18, k: 'abc' })}
+          {key('', { flex: true, k: 'space' })}
+          {key(icons.ret, { w: 92.25, ret: true, k: 'ret' })}
+        </div>
+      </div>
+
+      {/* bottom spacer (emoji+mic area, icons omitted) */}
+      <div style={{ height: 56, width: '100%', position: 'relative' }} />
+    </div>
+  );
+}
+
+Object.assign(window, {
+  IOSDevice, IOSStatusBar, IOSNavBar, IOSGlassPill, IOSList, IOSListRow, IOSKeyboard,
+});
+
+</script>
+<script type="text/babel">
+
+// Android.jsx — Simplified Android (Material 3) device frame
+// Status bar + top app bar + content + gesture nav + keyboard.
+// Based on Figma M3 spec. No dependencies, no image assets.
+
+const MD_C = {
+  surface: '#f4fbf8',
+  surfaceVariant: '#dae5e1',
+  inverseOnSurface: '#ecf2ef',
+  secondaryContainer: '#cde8e1',
+  primaryFixedDim: '#83d5c6',
+  onSurface: '#171d1b',
+  onSurfaceVar: '#49454f',
+  onPrimaryContainer: '#00201c',
+  primary: '#006a60',
+  frameBorder: 'rgba(116,119,117,0.5)',
+};
+
+// ─────────────────────────────────────────────────────────────
+// Status bar (time left, wifi/cell/battery right)
+// ─────────────────────────────────────────────────────────────
+function AndroidStatusBar({ dark = false }) {
+  const c = dark ? '#fff' : MD_C.onSurface;
+  return (
+    <div style={{
+      height: 40, display: 'flex', alignItems: 'center',
+      justifyContent: 'space-between', padding: '0 16px',
+      position: 'relative',
+      fontFamily: 'Roboto, system-ui, sans-serif',
+    }}>
+      {/* time left */}
+      <div style={{ width: 128, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span style={{ fontSize: 14, fontWeight: 400, letterSpacing: 0.25, lineHeight: '20px', color: c }}>9:30</span>
+      </div>
+      {/* camera punch-hole (center) */}
+      <div style={{
+        position: 'absolute', left: '50%', top: 8, transform: 'translateX(-50%)',
+        width: 24, height: 24, borderRadius: 100, background: '#2e2e2e',
+      }} />
+      {/* status icons right */}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', paddingRight: 2 }}>
+          <svg width="16" height="16" viewBox="0 0 16 16" style={{ marginRight: -2 }}>
+            <path d="M8 13.3L.67 5.97a10.37 10.37 0 0114.66 0L8 13.3z" fill={c}/>
+          </svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" style={{ marginRight: -2 }}>
+            <path d="M14.67 14.67V1.33L1.33 14.67h13.34z" fill={c}/>
+          </svg>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <rect x="3.75" y="2" width="8.5" height="13" rx="1.5" fill={c}/>
+          <rect x="5.5" y="0.9" width="5" height="2" rx="0.5" fill={c}/>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Top app bar (Material 3 small/medium)
+// ─────────────────────────────────────────────────────────────
+function AndroidAppBar({ title = 'Title', large = false }) {
+  const iconDot = (
+    <div style={{
+      width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <div style={{ width: 22, height: 22, borderRadius: '50%', background: MD_C.onSurfaceVar, opacity: 0.3 }} />
+    </div>
+  );
+  return (
+    <div style={{ background: MD_C.surface, padding: '4px 4px 0' }}>
+      <div style={{ height: 56, display: 'flex', alignItems: 'center', gap: 4 }}>
+        {iconDot}
+        {!large && (
+          <span style={{
+            flex: 1, fontSize: 22, fontWeight: 400, color: MD_C.onSurface,
+            fontFamily: 'Roboto, system-ui, sans-serif',
+          }}>{title}</span>
+        )}
+        {large && <div style={{ flex: 1 }} />}
+        {iconDot}
+      </div>
+      {large && (
+        <div style={{
+          padding: '16px 16px 20px',
+          fontSize: 28, fontWeight: 400, color: MD_C.onSurface,
+          fontFamily: 'Roboto, system-ui, sans-serif',
+        }}>{title}</div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// List item (Material 3)
+// ─────────────────────────────────────────────────────────────
+function AndroidListItem({ headline, supporting, leading }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 16,
+      padding: '12px 16px', minHeight: 56, boxSizing: 'border-box',
+      fontFamily: 'Roboto, system-ui, sans-serif',
+    }}>
+      {leading && (
+        <div style={{
+          width: 40, height: 40, borderRadius: '50%',
+          background: MD_C.primary, color: '#fff',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 18, fontWeight: 500, flexShrink: 0,
+        }}>{leading}</div>
+      )}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 16, color: MD_C.onSurface, lineHeight: '24px' }}>{headline}</div>
+        {supporting && (
+          <div style={{ fontSize: 14, color: MD_C.onSurfaceVar, lineHeight: '20px' }}>{supporting}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Gesture nav bar (pill)
+// ─────────────────────────────────────────────────────────────
+function AndroidNavBar({ dark = false }) {
+  return (
+    <div style={{
+      height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <div style={{
+        width: 108, height: 4, borderRadius: 2,
+        background: dark ? '#fff' : MD_C.onSurface, opacity: 0.4,
+      }} />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Device frame — wraps everything
+// ─────────────────────────────────────────────────────────────
+function AndroidDevice({
+  children, width = 412, height = 892, dark = false,
+  title, large = false, keyboard = false,
+}) {
+  return (
+    <div style={{
+      width, height, borderRadius: 18, overflow: 'hidden',
+      background: dark ? '#1d1b20' : MD_C.surface,
+      border: `8px solid ${MD_C.frameBorder}`,
+      boxShadow: '0 30px 80px rgba(0,0,0,0.25)',
+      display: 'flex', flexDirection: 'column', boxSizing: 'border-box',
+    }}>
+      <AndroidStatusBar dark={dark} />
+      {title !== undefined && <AndroidAppBar title={title} large={large} />}
+      <div style={{ flex: 1, overflow: 'auto' }}>
+        {children}
+      </div>
+      {keyboard && <AndroidKeyboard />}
+      <AndroidNavBar dark={dark} />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Keyboard — Gboard (Material 3)
+// ─────────────────────────────────────────────────────────────
+function AndroidKeyboard() {
+  let _k = 0;
+  const key = (l, { flex = 1, bg = MD_C.surface, r = 6, minW, fs = 21 } = {}) => (
+    <div key={_k++} style={{
+      height: 46, borderRadius: r, flex, minWidth: minW,
+      background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: 'Roboto, system-ui', fontSize: fs,
+      color: MD_C.onPrimaryContainer,
+    }}>{l}</div>
+  );
+  const row = (keys, style = {}) => (
+    <div style={{ display: 'flex', gap: 6, justifyContent: 'center', ...style }}>
+      {keys.map(l => key(l))}
+    </div>
+  );
+  return (
+    <div style={{
+      background: MD_C.inverseOnSurface, padding: '0 8px 8px',
+      display: 'flex', flexDirection: 'column', gap: 4,
+    }}>
+      {/* navbar spacer (icons omitted) */}
+      <div style={{ height: 44 }} />
+      {/* key rows */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {row(['q','w','e','r','t','y','u','i','o','p'])}
+        {row(['a','s','d','f','g','h','j','k','l'], { padding: '0 20px' })}
+        <div style={{ display: 'flex', gap: 6 }}>
+          {key('', { bg: MD_C.surfaceVariant })}
+          <div style={{ display: 'flex', gap: 6, flex: 7, minWidth: 274 }}>
+            {['z','x','c','v','b','n','m'].map(l => key(l))}
+          </div>
+          {key('', { bg: MD_C.surfaceVariant })}
+        </div>
+        <div style={{ display: 'flex', gap: 6 }}>
+          {key('?123', { bg: MD_C.secondaryContainer, r: 100, minW: 58, fs: 14 })}
+          {key(',', { bg: MD_C.surfaceVariant })}
+          {key('', { flex: 3, minW: 154 })}
+          {key('.', { bg: MD_C.surfaceVariant })}
+          {key('', { bg: MD_C.primaryFixedDim, r: 100, minW: 58 })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, {
+  AndroidDevice, AndroidStatusBar, AndroidAppBar, AndroidListItem, AndroidNavBar, AndroidKeyboard,
+});
+
+</script>
+<script type="text/babel">
+// Mascot — the "Sense Orb": a friendly pulsing sphere with AQI ring
+// Consistent across all slides; changes expression subtly per slide
+function SenseOrb({ size = 56, dark = false, mood = 'calm' }) {
+  const primary = 'oklch(0.65 0.14 230)';
+  const accent = 'oklch(0.72 0.14 155)';
+  const eyeColor = dark ? '#0a1420' : '#0a1420';
+
+  const eyeY = mood === 'excited' ? 44 : mood === 'focused' ? 50 : 48;
+  const smileY = mood === 'excited' ? 68 : 64;
+  const smileCurve = mood === 'excited' ? 8 : mood === 'focused' ? 3 : 5;
+
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" style={{ flexShrink: 0 }}>
+      <defs>
+        <radialGradient id={`orbGrad-${mood}`} cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#fff" stopOpacity="0.9" />
+          <stop offset="40%" stopColor={primary} stopOpacity="0.5" />
+          <stop offset="100%" stopColor={primary} stopOpacity="0.9" />
+        </radialGradient>
+      </defs>
+
+      {/* outer AQI ring */}
+      <circle cx="50" cy="50" r="46" fill="none" stroke={accent} strokeWidth="1.5"
+        strokeDasharray="3 4" opacity="0.5"
+        style={{ animation: 'coreSpin 12s linear infinite', transformOrigin: '50px 50px' }} />
+
+      {/* breathing glow */}
+      <circle cx="50" cy="50" r="42" fill={primary} opacity="0.12"
+        style={{ animation: 'haloBreath 3s ease-in-out infinite', transformOrigin: '50px 50px' }} />
+
+      {/* body */}
+      <circle cx="50" cy="50" r="34" fill={`url(#orbGrad-${mood})`} />
+
+      {/* highlight */}
+      <ellipse cx="40" cy="36" rx="10" ry="6" fill="#fff" opacity="0.45" />
+
+      {/* eyes */}
+      <circle cx="40" cy={eyeY} r="2.5" fill={eyeColor} />
+      <circle cx="60" cy={eyeY} r="2.5" fill={eyeColor} />
+
+      {/* smile */}
+      <path d={`M 42 ${smileY} Q 50 ${smileY + smileCurve} 58 ${smileY}`}
+        stroke={eyeColor} strokeWidth="2" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+window.SenseOrb = SenseOrb;
+
+</script>
+<script type="text/babel">
+// Data-viz heroes — aligned with SUNX Sense product (H3 hex zones, declarations, PX Carbostar telemetry, SUNX tokens, zone trust)
+const HERO_W = 342;
+const HERO_H = 300;
+
+const AQI_RAMP = {
+  good: 'oklch(0.72 0.14 155)',
+  mod:  'oklch(0.78 0.14 95)',
+  poor: 'oklch(0.72 0.16 55)',
+  bad:  'oklch(0.62 0.18 25)',
+};
+const PRIMARY = 'oklch(0.65 0.14 230)';
+const ACCENT  = 'oklch(0.72 0.14 155)';
+
+// flat-top hex path generator — pointy hexes for H3-style map
+function hexPath(cx, cy, r) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const a = Math.PI / 3 * i - Math.PI / 2;
+    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+  }
+  return 'M ' + pts.map(p => p.join(' ')).join(' L ') + ' Z';
+}
+// offset hex grid layout
+function hexGrid(cols, rows, r, startX = 0, startY = 0) {
+  const dx = r * Math.sqrt(3);
+  const dy = r * 1.5;
+  const out = [];
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const x = startX + col * dx + (row % 2 ? dx / 2 : 0);
+      const y = startY + row * dy;
+      out.push({ x, y, row, col });
+    }
+  }
+  return out;
+}
+
+// ─────────────────────────────────────────────────────────────
+// HERO 1 — Global H3 intelligence: hex world pulse
+// ─────────────────────────────────────────────────────────────
+function Hero1Globe({ dark }) {
+  const bg    = dark ? 'oklch(0.17 0.015 225)' : 'oklch(0.98 0.008 225)';
+  const hexFill = dark ? 'oklch(0.24 0.015 225)' : 'oklch(0.94 0.01 225)';
+  const hexStroke = dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)';
+
+  // sphere-like: hex cells arranged in circle, fade at edges
+  const cells = hexGrid(12, 9, 17, -20, -10);
+  const cx = HERO_W / 2, cy = HERO_H / 2;
+
+  const active = [
+    { i: 30, c: AQI_RAMP.good },
+    { i: 41, c: AQI_RAMP.good },
+    { i: 55, c: AQI_RAMP.mod },
+    { i: 27, c: AQI_RAMP.poor },
+    { i: 52, c: AQI_RAMP.good },
+    { i: 39, c: AQI_RAMP.bad },
+    { i: 63, c: AQI_RAMP.good },
+    { i: 44, c: AQI_RAMP.mod },
+    { i: 70, c: AQI_RAMP.good },
+  ];
+  const activeMap = new Map(active.map(a => [a.i, a.c]));
+
+  return (
+    <div style={{ width: HERO_W, height: HERO_H, position: 'relative',
+      borderRadius: 20, overflow: 'hidden', background: bg,
+      border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+
+      {/* breathing rings */}
+      {[0,1,2].map(i => (
+        <div key={i} style={{
+          position: 'absolute', left: cx - 130, top: cy - 130,
+          width: 260, height: 260, borderRadius: '50%',
+          border: `1.5px solid ${PRIMARY}`, opacity: 0.15,
+          animation: `breathPulse 4s ease-in-out infinite`,
+          animationDelay: `${i * 1.3}s`,
+        }} />
+      ))}
+
+      <svg width={HERO_W} height={HERO_H}>
+        <defs>
+          <radialGradient id="h1mask" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#fff" stopOpacity="1"/>
+            <stop offset="75%" stopColor="#fff" stopOpacity="1"/>
+            <stop offset="100%" stopColor="#fff" stopOpacity="0"/>
+          </radialGradient>
+          <mask id="h1m">
+            <rect width={HERO_W} height={HERO_H} fill="url(#h1mask)"/>
+          </mask>
+        </defs>
+        <g mask="url(#h1m)">
+          {cells.map((c, i) => {
+            const d = Math.hypot(c.x - cx, c.y - cy);
+            if (d > 125) return null;
+            const isAct = activeMap.has(i);
+            return (
+              <path key={i} d={hexPath(c.x, c.y, 15)}
+                fill={isAct ? activeMap.get(i) : hexFill}
+                stroke={hexStroke} strokeWidth="1"
+                style={isAct ? {
+                  animation: 'dotBreath 3s ease-in-out infinite',
+                  animationDelay: `${(i * 97) % 2000}ms`,
+                  transformOrigin: `${c.x}px ${c.y}px`,
+                  opacity: 0.9,
+                } : { opacity: 1 - (d / 150) }}
+              />
+            );
+          })}
+        </g>
+      </svg>
+
+      {/* readout chip */}
+      <div style={{
+        position: 'absolute', left: 16, bottom: 14,
+        fontFamily: 'Geist Mono, ui-monospace, monospace',
+        fontSize: 9, letterSpacing: 1.5,
+        color: dark ? 'rgba(255,255,255,0.45)' : 'rgba(20,30,50,0.45)',
+        display: 'flex', alignItems: 'center', gap: 6,
+      }}>
+        <span style={{ width: 5, height: 5, background: ACCENT, borderRadius: '50%',
+          animation: 'dotBreath 1.6s ease-in-out infinite' }} />
+        H3 · RES 8 · GLOBAL
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// HERO 2 — Declaration lands into a zone
+// ─────────────────────────────────────────────────────────────
+function Hero2Ripple({ dark }) {
+  const bg = dark ? 'oklch(0.17 0.015 225)' : 'oklch(0.98 0.008 225)';
+  const hexFill = dark ? 'oklch(0.24 0.015 225)' : 'oklch(0.94 0.01 225)';
+  const hexStroke = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)';
+
+  // local hex neighborhood — user's zone center, neighbours around
+  const cells = hexGrid(8, 7, 22, -5, 10);
+  const cx = HERO_W / 2, cy = HERO_H / 2;
+  // find nearest hex to center as "your zone"
+  let nearest = 0, minD = Infinity;
+  cells.forEach((c, i) => {
+    const d = Math.hypot(c.x - cx, c.y - cy);
+    if (d < minD) { minD = d; nearest = i; }
+  });
+
+  const neighbors = [
+    { idx: nearest, c: ACCENT, isYou: true },
+    { idx: nearest - 8, c: AQI_RAMP.good, isYou: false },
+    { idx: nearest + 8, c: AQI_RAMP.mod, isYou: false },
+    { idx: nearest - 1, c: AQI_RAMP.good, isYou: false },
+    { idx: nearest + 1, c: AQI_RAMP.good, isYou: false },
+    { idx: nearest - 9, c: AQI_RAMP.poor, isYou: false },
+    { idx: nearest + 7, c: AQI_RAMP.good, isYou: false },
+  ];
+  const nMap = new Map(neighbors.map(n => [n.idx, n]));
+
+  return (
+    <div style={{ width: HERO_W, height: HERO_H, position: 'relative',
+      borderRadius: 20, overflow: 'hidden', background: bg,
+      border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+
+      <svg width={HERO_W} height={HERO_H}>
+        {/* all cells */}
+        {cells.map((c, i) => {
+          const hit = nMap.get(i);
+          if (hit) {
+            return (
+              <g key={i}>
+                <path d={hexPath(c.x, c.y, 20)}
+                  fill={hit.c} opacity={hit.isYou ? 0.9 : 0.5}
+                  stroke={hit.isYou ? ACCENT : hexStroke} strokeWidth={hit.isYou ? 2 : 1}
+                  style={hit.isYou ? {} : {
+                    animation: 'dotBreath 3.2s ease-in-out infinite',
+                    animationDelay: `${i * 180}ms`,
+                    transformOrigin: `${c.x}px ${c.y}px`,
+                  }}
+                />
+              </g>
+            );
+          }
+          return <path key={i} d={hexPath(c.x, c.y, 20)}
+            fill={hexFill} stroke={hexStroke} strokeWidth="1" />;
+        })}
+
+        {/* user's hex ripple */}
+        {[0, 1, 2].map(i => {
+          const c = cells[nearest];
+          return (
+            <path key={`r${i}`} d={hexPath(c.x, c.y, 20)}
+              fill="none" stroke={ACCENT} strokeWidth="2"
+              style={{
+                animation: 'ripExpand 2.4s ease-out infinite',
+                animationDelay: `${i * 0.8}s`,
+                transformOrigin: `${c.x}px ${c.y}px`,
+                transformBox: 'fill-box',
+              }} />
+          );
+        })}
+      </svg>
+
+      {/* Declaration chip */}
+      <div style={{
+        position: 'absolute', left: cx + 40, top: cy - 70,
+        padding: '8px 10px', borderRadius: 10,
+        background: dark ? 'rgba(15,25,35,0.92)' : 'rgba(255,255,255,0.95)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+        fontFamily: 'Geist Mono, ui-monospace, monospace',
+        fontSize: 10, letterSpacing: 0.2,
+        color: dark ? '#e8f0fa' : '#0a1420',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+        whiteSpace: 'nowrap',
+        animation: 'chipFloat 2.4s ease-in-out infinite',
+      }}>
+        <div style={{ color: ACCENT, fontSize: 8, letterSpacing: 1 }}>DECLARATION · +1</div>
+        <div style={{ marginTop: 2, fontSize: 11 }}>CLEAN AIR · 0.87</div>
+      </div>
+
+      {/* hex id */}
+      <div style={{
+        position: 'absolute', left: 16, bottom: 14,
+        fontFamily: 'Geist Mono, ui-monospace, monospace',
+        fontSize: 9, letterSpacing: 1.5,
+        color: dark ? 'rgba(255,255,255,0.45)' : 'rgba(20,30,50,0.45)',
+      }}>8828308281fffff · YOUR ZONE</div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// HERO 3 — PX Carbostar telemetry stream
+// ─────────────────────────────────────────────────────────────
+function Hero3Network({ dark }) {
+  const bg = dark ? 'oklch(0.17 0.015 225)' : 'oklch(0.98 0.008 225)';
+  const border = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+  const textMute = dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)';
+  const textMain = dark ? '#fff' : '#0a1420';
+
+  // Telemetry sparkline (CO₂ ppm over time)
+  const N = 32;
+  const pts = [];
+  for (let i = 0; i < N; i++) {
+    const x = (i / (N-1)) * (HERO_W - 40) + 20;
+    const t = i / (N-1);
+    const base = 410 + Math.sin(t * 5) * 8 + Math.sin(t * 13) * 4 + t * 6;
+    const y = 240 - (base - 400) * 4;
+    pts.push([x, y, base]);
+  }
+  const sparkD = pts.reduce((a, [x,y], i) => a + (i===0?`M ${x} ${y}`:` L ${x} ${y}`), '');
+  const sparkArea = sparkD + ` L ${pts[N-1][0]} 270 L ${pts[0][0]} 270 Z`;
+
+  return (
+    <div style={{ width: HERO_W, height: HERO_H, position: 'relative',
+      borderRadius: 20, overflow: 'hidden', background: bg, border: `1px solid ${border}`,
+      padding: 18, boxSizing: 'border-box' }}>
+
+      {/* device pill */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+        }}>
+          {/* device icon */}
+          <div style={{
+            width: 34, height: 34, borderRadius: 9,
+            background: 'linear-gradient(135deg, oklch(0.35 0.03 240), oklch(0.22 0.02 240))',
+            border: '1px solid rgba(255,255,255,0.08)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            position: 'relative',
+          }}>
+            <div style={{
+              width: 8, height: 8, borderRadius: '50%',
+              background: ACCENT, boxShadow: `0 0 10px ${ACCENT}`,
+              animation: 'dotBreath 1.3s ease-in-out infinite',
+            }} />
+            {/* grille */}
+            <div style={{
+              position: 'absolute', right: 5, top: 6, width: 6, height: 22,
+              background: `repeating-linear-gradient(to bottom, transparent 0 2px, rgba(255,255,255,0.15) 2px 3px)`,
+              borderRadius: 2,
+            }} />
+          </div>
+          <div>
+            <div style={{
+              fontFamily: 'Geist, Inter, system-ui', fontSize: 13, fontWeight: 500,
+              color: textMain,
+            }}>PX Carbostar</div>
+            <div style={{
+              fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+              color: textMute,
+            }}>PAIRED · BLE 5.0</div>
+          </div>
+        </div>
+        <div style={{
+          padding: '4px 8px', borderRadius: 100,
+          background: dark ? 'rgba(180,220,160,0.12)' : 'rgba(50,150,80,0.08)',
+          color: ACCENT,
+          fontFamily: 'Geist Mono, ui-monospace, monospace',
+          fontSize: 8, letterSpacing: 1,
+          display: 'flex', alignItems: 'center', gap: 4,
+        }}>
+          <span style={{ width: 4, height: 4, borderRadius: '50%', background: ACCENT,
+            animation: 'dotBreath 1.5s ease-in-out infinite' }} />
+          LIVE
+        </div>
+      </div>
+
+      {/* big readout */}
+      <div style={{ marginTop: 18, display: 'flex', alignItems: 'baseline', gap: 6 }}>
+        <div style={{
+          fontFamily: 'Geist, Inter, system-ui', fontWeight: 600,
+          fontSize: 52, letterSpacing: -1.8, lineHeight: 1,
+          color: textMain, fontVariantNumeric: 'tabular-nums',
+        }}>412</div>
+        <div style={{
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 13,
+          color: textMute,
+        }}>ppm CO₂</div>
+      </div>
+      <div style={{
+        fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9,
+        color: ACCENT, marginTop: 2, letterSpacing: 0.5,
+      }}>▲ STREAMING TO SUNX EARTH</div>
+
+      {/* telemetry sparkline */}
+      <svg width={HERO_W - 36} height={90} style={{ position: 'absolute', left: 0, bottom: 14 }}
+        viewBox={`0 150 ${HERO_W} 130`}>
+        <defs>
+          <linearGradient id="h3sparkFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={PRIMARY} stopOpacity="0.3"/>
+            <stop offset="100%" stopColor={PRIMARY} stopOpacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d={sparkArea} fill="url(#h3sparkFill)"/>
+        <path d={sparkD} stroke={PRIMARY} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx={pts[N-1][0]} cy={pts[N-1][1]} r="4" fill={PRIMARY}/>
+        <circle cx={pts[N-1][0]} cy={pts[N-1][1]} r="8" fill={PRIMARY} opacity="0.3"
+          style={{ animation: 'dotBreath 1.6s ease-in-out infinite',
+            transformOrigin: `${pts[N-1][0]}px ${pts[N-1][1]}px` }}/>
+
+        {/* traveling telemetry packets */}
+        {[0,1,2].map(i => (
+          <circle key={i} r="2" fill={ACCENT}>
+            <animateMotion dur="2.4s" repeatCount="indefinite" begin={`${i * 0.8}s`} path={sparkD}/>
+          </circle>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// HERO 4 — SUNX tokens (on Earth platform)
+// ─────────────────────────────────────────────────────────────
+function Hero4Tokens({ dark }) {
+  const gold = 'oklch(0.78 0.14 75)';
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    let i = 0, steps = 80, target = 864;
+    const t = setInterval(() => {
+      i++;
+      const p = i / steps, eased = 1 - Math.pow(1 - p, 3);
+      setCount(Math.round(target * eased));
+      if (i >= steps) clearInterval(t);
+    }, 30);
+    return () => clearInterval(t);
+  }, []);
+
+  const spark = [];
+  const N = 24;
+  for (let i = 0; i < N; i++) {
+    const x = (i / (N-1)) * (HERO_W - 48) + 24;
+    const base = i / (N-1);
+    const noise = Math.sin(i * 0.8) * 0.08 + Math.sin(i * 1.7) * 0.05;
+    const y = 220 - (base * 90 + noise * 40);
+    spark.push([x, y]);
+  }
+  const sparkD = spark.reduce((a, [x,y], i) => a + (i===0?`M ${x} ${y}`:` L ${x} ${y}`), '');
+  const sparkArea = sparkD + ` L ${spark[N-1][0]} 240 L ${spark[0][0]} 240 Z`;
+
+  return (
+    <div style={{ width: HERO_W, height: HERO_H, position: 'relative', borderRadius: 20, overflow: 'hidden',
+      background: dark
+        ? 'linear-gradient(160deg, oklch(0.22 0.03 250), oklch(0.17 0.015 230))'
+        : 'linear-gradient(160deg, oklch(0.98 0.01 230), oklch(0.94 0.02 220))',
+      border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}`,
+      padding: 20, boxSizing: 'border-box' }}>
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{
+          fontFamily: 'Geist Mono, ui-monospace, monospace',
+          fontSize: 10, letterSpacing: 1.5,
+          color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)',
+        }}>SUNX · EARTH WALLET</div>
+        <div style={{
+          padding: '4px 8px', borderRadius: 100,
+          background: dark ? 'rgba(180,220,160,0.15)' : 'rgba(50,150,80,0.1)',
+          color: ACCENT,
+          fontFamily: 'Geist Mono, ui-monospace, monospace',
+          fontSize: 9, letterSpacing: 0.5,
+          display: 'flex', alignItems: 'center', gap: 4,
+        }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: ACCENT,
+            animation: 'dotBreath 1.5s ease-in-out infinite' }} />
+          SETTLING
+        </div>
+      </div>
+
+      <div style={{ marginTop: 14, display: 'flex', alignItems: 'baseline', gap: 6 }}>
+        <div style={{
+          fontFamily: 'Geist, Inter, system-ui', fontWeight: 600,
+          fontSize: 56, letterSpacing: -2, lineHeight: 1,
+          color: dark ? '#fff' : '#0a1420',
+          fontVariantNumeric: 'tabular-nums',
+        }}>{count.toLocaleString()}</div>
+        <div style={{
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 14, color: gold,
+        }}>SUNX</div>
+      </div>
+      <div style={{
+        fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 10, color: ACCENT, marginTop: 2,
+      }}>+86.4 this week · 14 declarations verified</div>
+
+      <svg width={HERO_W - 40} height={130} style={{ position: 'absolute', left: 0, bottom: 20 }}
+        viewBox={`0 110 ${HERO_W} 140`}>
+        <defs>
+          <linearGradient id="h4sparkFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={PRIMARY} stopOpacity="0.35"/>
+            <stop offset="100%" stopColor={PRIMARY} stopOpacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d={sparkArea} fill="url(#h4sparkFill)"/>
+        <path d={sparkD} stroke={PRIMARY} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx={spark[N-1][0]} cy={spark[N-1][1]} r="5" fill={PRIMARY}/>
+        <circle cx={spark[N-1][0]} cy={spark[N-1][1]} r="9" fill={PRIMARY} opacity="0.3"
+          style={{ animation: 'dotBreath 1.6s ease-in-out infinite',
+            transformOrigin: `${spark[N-1][0]}px ${spark[N-1][1]}px` }} />
+        {[0,1,2,3,4].map(i => (
+          <circle key={i} cx={40 + i*60} cy={200} r="2" fill={gold}
+            style={{ animation: `particleRise 3s ease-out infinite`, animationDelay: `${i*0.6}s` }} />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// HERO 5 — Zone trust dial (H3 cell ready to declare)
+// ─────────────────────────────────────────────────────────────
+function Hero5Dial({ dark }) {
+  const good = ACCENT;
+  const track = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+  const textMute = dark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.45)';
+
+  const cx = HERO_W / 2, cy = 160, r = 100;
+  const startA = 135, sweepA = 270;
+  const trustScore = 0.87; // fraction
+  const endA = startA + sweepA * trustScore;
+
+  const polar = (deg, rad) => [cx + Math.cos(deg * Math.PI/180) * rad, cy + Math.sin(deg * Math.PI/180) * rad];
+  const arcPath = (from, to, rad) => {
+    const [x1,y1] = polar(from, rad), [x2,y2] = polar(to, rad);
+    const large = to - from > 180 ? 1 : 0;
+    return `M ${x1} ${y1} A ${rad} ${rad} 0 ${large} 1 ${x2} ${y2}`;
+  };
+
+  return (
+    <div style={{ width: HERO_W, height: HERO_H, position: 'relative',
+      display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+      <div style={{
+        position: 'absolute', width: 260, height: 260, borderRadius: '50%',
+        background: `radial-gradient(circle, ${good} 0%, transparent 70%)`,
+        opacity: 0.15, animation: 'haloBreath 4s ease-in-out infinite',
+      }} />
+
+      <svg width={HERO_W} height={HERO_H}>
+        {/* hexagonal frame behind dial */}
+        <path d={hexPath(cx, cy, 110)} fill="none"
+          stroke={dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}
+          strokeWidth="1" strokeDasharray="2 4" />
+
+        <path d={arcPath(startA, startA + sweepA, r)} fill="none" stroke={track} strokeWidth="14" strokeLinecap="round"/>
+        <path d={arcPath(startA, endA, r)} fill="none" stroke={good} strokeWidth="14" strokeLinecap="round"
+          style={{ strokeDasharray: 1000, strokeDashoffset: 1000, animation: 'dialDraw 2s ease-out forwards' }}/>
+
+        {Array.from({ length: 14 }).map((_, i) => {
+          const a = startA + (sweepA / 13) * i;
+          const [x1,y1] = polar(a, r-22), [x2,y2] = polar(a, r-14);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+            stroke={dark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)'} strokeWidth="1.5"/>;
+        })}
+
+        <text x={cx} y={cy - 4} textAnchor="middle"
+          style={{ fontFamily: 'Geist, Inter, system-ui', fontWeight: 600, fontSize: 56, letterSpacing: -1.8,
+            fill: dark ? '#fff' : '#0a1420' }}>0.87</text>
+        <text x={cx} y={cy + 26} textAnchor="middle"
+          style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 11, letterSpacing: 2, fill: good }}>
+          TRUST · READY</text>
+        <text x={cx} y={cy + 48} textAnchor="middle"
+          style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2, fill: textMute }}>
+          H3 · 8828308281fffff</text>
+      </svg>
+
+      <div style={{ position: 'absolute', left: 20, bottom: 20,
+        fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+        color: textMute }}>0.00</div>
+      <div style={{ position: 'absolute', right: 20, bottom: 20,
+        fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+        color: textMute }}>1.00</div>
+    </div>
+  );
+}
+
+window.Heroes = [Hero1Globe, Hero2Ripple, Hero3Network, Hero4Tokens, Hero5Dial];
+
+</script>
+<script type="text/babel">
+// Main onboarding prototype
+// Slide shell that renders inside iOS or Android device
+
+function OnboardingApp({ dark, lang, onToggleDark, onToggleLang, device }) {
+  const copy = window.ONBOARDING_COPY[lang];
+  const [slide, setSlide] = React.useState(() => {
+    const stored = parseInt(localStorage.getItem('sunx_slide') || '0', 10);
+    return isNaN(stored) ? 0 : Math.max(0, Math.min(4, stored));
+  });
+  const [autoPlay, setAutoPlay] = React.useState(true);
+
+  React.useEffect(() => {
+    localStorage.setItem('sunx_slide', String(slide));
+  }, [slide]);
+
+  // Auto-advance
+  React.useEffect(() => {
+    if (!autoPlay) return;
+    if (slide === 4) return; // don't auto-advance past the CTA
+    const t = setTimeout(() => setSlide(s => Math.min(4, s + 1)), 6500);
+    return () => clearTimeout(t);
+  }, [slide, autoPlay]);
+
+  const slideData = copy.slides[slide];
+  const Hero = window.Heroes[slide];
+  const moodByIdx = ['calm', 'focused', 'focused', 'excited', 'excited'];
+
+  // Screen content
+  const screen = (
+    <div key={slide} style={{
+      width: '100%', height: '100%', position: 'relative',
+      display: 'flex', flexDirection: 'column',
+      background: dark ? 'oklch(0.14 0.015 225)' : 'oklch(0.985 0.008 220)',
+      animation: 'fadeSlide 0.5s ease-out',
+      fontFamily: 'Geist, Inter, -apple-system, system-ui, sans-serif',
+    }}>
+      {/* Top bar: skip + progress */}
+      <div style={{
+        paddingTop: device === 'ios' ? 58 : 48,
+        paddingLeft: 20, paddingRight: 20,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        flexShrink: 0,
+      }}>
+        {/* SUNX wordmark */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{
+            width: 20, height: 20, borderRadius: 6,
+            background: 'linear-gradient(135deg, oklch(0.65 0.14 230), oklch(0.72 0.14 155))',
+            boxShadow: '0 2px 6px rgba(20,90,180,0.25)',
+          }} />
+          <span style={{
+            fontFamily: 'Geist Mono, ui-monospace, monospace',
+            fontSize: 11, letterSpacing: 2, fontWeight: 500,
+            color: dark ? 'rgba(255,255,255,0.7)' : 'rgba(20,30,50,0.6)',
+          }}>SUNX · SENSE</span>
+        </div>
+        <button onClick={() => setSlide(4)} style={{
+          border: 'none', background: 'transparent',
+          fontFamily: 'Geist, Inter, system-ui', fontSize: 13,
+          color: dark ? 'rgba(255,255,255,0.55)' : 'rgba(20,30,50,0.5)',
+          cursor: 'pointer', padding: '4px 8px',
+        }}>{copy.skip}</button>
+      </div>
+
+      {/* Hero visual */}
+      <div style={{
+        margin: '20px auto 0',
+        width: 342, position: 'relative',
+        display: 'flex', justifyContent: 'center',
+      }}>
+        <Hero dark={dark} />
+      </div>
+
+      {/* Hero label strip */}
+      <div style={{
+        margin: '12px 24px 0',
+        display: 'flex', alignItems: 'center', gap: 10,
+        fontFamily: 'Geist Mono, ui-monospace, monospace',
+        fontSize: 10, letterSpacing: 1.5,
+        color: dark ? 'rgba(255,255,255,0.45)' : 'rgba(20,30,50,0.45)',
+      }}>
+        <div style={{
+          width: 5, height: 5, borderRadius: '50%',
+          background: 'oklch(0.72 0.14 155)',
+          animation: 'dotBreath 1.6s ease-in-out infinite',
+        }} />
+        {slideData.heroLabel.toUpperCase()}
+        <div style={{ flex: 1, height: 1, background: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }} />
+        <span>
+          <span style={{ color: dark ? 'rgba(255,255,255,0.7)' : 'rgba(20,30,50,0.7)', fontSize: 11 }}>{slideData.stat.value}</span>
+          <span style={{ opacity: 0.7 }}>{slideData.stat.suffix}</span>
+        </span>
+      </div>
+
+      {/* Copy block */}
+      <div style={{ padding: '26px 24px 0', flex: 1 }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10,
+        }}>
+          <SenseOrb size={32} dark={dark} mood={moodByIdx[slide]} />
+          <div style={{
+            fontFamily: 'Geist Mono, ui-monospace, monospace',
+            fontSize: 10, letterSpacing: 1.8, fontWeight: 500,
+            color: 'oklch(0.65 0.14 230)',
+          }}>{slideData.eyebrow.toUpperCase()}</div>
+        </div>
+        <h1 style={{
+          fontFamily: 'Geist, Inter, system-ui', fontWeight: 600,
+          fontSize: 28, lineHeight: 1.15, letterSpacing: -0.8,
+          color: dark ? '#fff' : '#0a1420',
+          margin: '0 0 12px', textWrap: 'balance',
+        }}>{slideData.title}</h1>
+        <p style={{
+          fontFamily: 'Geist, Inter, system-ui', fontSize: 15, lineHeight: 1.5,
+          color: dark ? 'rgba(255,255,255,0.65)' : 'rgba(20,30,50,0.62)',
+          margin: 0, textWrap: 'pretty',
+          fontWeight: 400,
+        }}>{slideData.body}</p>
+      </div>
+
+      {/* Footer: dots + CTA */}
+      <div style={{
+        padding: '0 24px',
+        paddingBottom: device === 'ios' ? 40 : 32,
+        display: 'flex', flexDirection: 'column', gap: 18,
+        flexShrink: 0,
+      }}>
+        {/* Dots */}
+        <div style={{ display: 'flex', gap: 6, justifyContent: 'center' }}>
+          {[0,1,2,3,4].map(i => (
+            <div key={i} onClick={() => { setAutoPlay(false); setSlide(i); }}
+              style={{
+                height: 6, borderRadius: 3,
+                width: i === slide ? 24 : 6,
+                background: i === slide
+                  ? 'oklch(0.65 0.14 230)'
+                  : dark ? 'rgba(255,255,255,0.15)' : 'rgba(20,30,50,0.12)',
+                cursor: 'pointer',
+                transition: 'all 0.35s cubic-bezier(.2,.9,.2,1)',
+                position: 'relative', overflow: 'hidden',
+              }}>
+              {i === slide && autoPlay && slide !== 4 && (
+                <div style={{
+                  position: 'absolute', left: 0, top: 0, height: '100%',
+                  background: 'rgba(255,255,255,0.45)',
+                  animation: 'progressFill 6.5s linear forwards',
+                  borderRadius: 3,
+                }} />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <button onClick={() => {
+          setAutoPlay(false);
+          if (slide === 4) {
+            // "begin" — reset
+            setSlide(0); setAutoPlay(true);
+          } else {
+            setSlide(slide + 1);
+          }
+        }} style={{
+          height: 54, border: 'none', borderRadius: 16,
+          background: slide === 4
+            ? 'linear-gradient(135deg, oklch(0.65 0.14 230), oklch(0.58 0.16 220))'
+            : dark ? '#fff' : '#0a1420',
+          color: slide === 4 ? '#fff' : dark ? '#0a1420' : '#fff',
+          fontFamily: 'Geist, Inter, system-ui',
+          fontSize: 15, fontWeight: 600, letterSpacing: -0.2,
+          cursor: 'pointer',
+          boxShadow: slide === 4
+            ? '0 10px 30px rgba(20,90,200,0.35), inset 0 1px 0 rgba(255,255,255,0.25)'
+            : '0 2px 8px rgba(0,0,0,0.08)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          transition: 'transform 0.15s',
+        }}>
+          {slide === 4 ? copy.getStarted : copy.next}
+          <svg width="14" height="14" viewBox="0 0 14 14">
+            <path d="M2 7h10m-4-4l4 4-4 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+
+  return screen;
+}
+
+window.OnboardingApp = OnboardingApp;
+
+</script>
+
+<script type="text/babel">
+  const { useState, useEffect } = React;
+
+  function App() {
+    const [dark, setDark] = useState(TWEAK_DEFAULS.dark);
+    const [lang, setLang] = useState(TWEAK_DEFAULS.lang);
+    const [device, setDevice] = useState(TWEAK_DEFAULS.device);
+    const [tweaksOn, setTweaksOn] = useState(false);
+
+    useEffect(() => {
+      document.body.classList.toggle('dark', dark);
+    }, [dark]);
+
+    // Edit mode protocol
+    useEffect(() => {
+      const onMsg = (e) => {
+        if (!e.data || typeof e.data !== 'object') return;
+        if (e.data.type === '__activate_edit_mode') setTweaksOn(true);
+        if (e.data.type === '__deactivate_edit_mode') setTweaksOn(false);
+      };
+      window.addEventListener('message', onMsg);
+      window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+      return () => window.removeEventListener('message', onMsg);
+    }, []);
+
+    const persist = (patch) => {
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: patch }, '*');
+    };
+
+    const content = (
+      <OnboardingApp dark={dark} lang={lang} device={device} />
+    );
+
+    const phone = device === 'ios'
+      ? <IOSDevice dark={dark} width={390} height={844}>{content}</IOSDevice>
+      : <AndroidDevice dark={dark} width={390} height={844}>{content}</AndroidDevice>;
+
+    return (
+      <div className="phone-wrap" data-screen-label="SUNX Sense Onboarding">
+        {phone}
+
+        {tweaksOn && (
+          <div className="tweaks">
+            <h3>Tweaks</h3>
+
+            <div className="tweak-row">
+              <span>Appearance</span>
+              <div className="seg">
+                <button className={!dark ? 'active' : ''} onClick={() => { setDark(false); persist({ dark: false }); }}>LIGHT</button>
+                <button className={dark ? 'active' : ''} onClick={() => { setDark(true); persist({ dark: true }); }}>DARK</button>
+              </div>
+            </div>
+
+            <div className="tweak-row">
+              <span>Language</span>
+              <div className="seg">
+                <button className={lang === 'en' ? 'active' : ''} onClick={() => { setLang('en'); persist({ lang: 'en' }); }}>EN</button>
+                <button className={lang === 'tr' ? 'active' : ''} onClick={() => { setLang('tr'); persist({ lang: 'tr' }); }}>TR</button>
+              </div>
+            </div>
+
+            <div className="tweak-row">
+              <span>Device</span>
+              <div className="seg">
+                <button className={device === 'ios' ? 'active' : ''} onClick={() => { setDevice('ios'); persist({ device: 'ios' }); }}>iOS</button>
+                <button className={device === 'android' ? 'active' : ''} onClick={() => { setDevice('android'); persist({ device: 'android' }); }}>AND</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

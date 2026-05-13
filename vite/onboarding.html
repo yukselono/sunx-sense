@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SUNX Sense — Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    font-family: 'Geist', Inter, -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #f5f6f8;
+    color: #0a1420;
+    transition: background 0.4s ease;
+  }
+  body.dark { background: #0a0f16; color: #e8edf2; }
+
+  /* ===== animations ===== */
+  @keyframes breathPulse {
+    0%, 100% { transform: scale(0.85); opacity: 0; }
+    50%      { transform: scale(1.05); opacity: 0.8; }
+  }
+  @keyframes dotBreath {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50%      { transform: scale(1.4); opacity: 1; }
+  }
+  @keyframes dotRing {
+    0%   { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+  @keyframes ripExpand {
+    0%   { transform: scale(0.3); opacity: 0.9; stroke-width: 2.5; }
+    100% { transform: scale(6.5); opacity: 0; stroke-width: 0.4; }
+  }
+  @keyframes chipFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+  }
+  @keyframes dashFlow {
+    0%   { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -24; }
+  }
+  @keyframes coreSpin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes corePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+  }
+  @keyframes particleRise {
+    0%   { transform: translateY(0); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translateY(-80px); opacity: 0; }
+  }
+  @keyframes dialDraw {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes haloBreath {
+    0%, 100% { transform: scale(0.85); opacity: 0.15; }
+    50%      { transform: scale(1.1);  opacity: 0.3;  }
+  }
+  @keyframes fadeSlide {
+    0%   { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes progressFill {
+    0%   { width: 0%; }
+    100% { width: 100%; }
+  }
+  @keyframes panelIn {
+    0%   { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== stage ===== */
+  .stage {
+    min-height: 100vh; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    background:
+      radial-gradient(ellipse at 20% 10%, oklch(0.97 0.03 230 / 0.6) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, oklch(0.96 0.04 155 / 0.5) 0%, transparent 55%),
+      #f5f6f8;
+    transition: background 0.4s;
+  }
+  body.dark .stage {
+    background:
+      radial-gradient(ellipse at 20% 10%, oklch(0.30 0.06 230 / 0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, oklch(0.30 0.06 155 / 0.25) 0%, transparent 55%),
+      #0a0f16;
+  }
+
+  /* ===== tweaks panel ===== */
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px; z-index: 200;
+    width: 260px; padding: 16px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.04);
+    font-family: 'Geist', Inter, system-ui;
+    animation: panelIn 0.3s ease-out;
+  }
+  body.dark .tweaks {
+    background: rgba(15,22,32,0.85);
+    border-color: rgba(255,255,255,0.08);
+    color: #e8edf2;
+  }
+  .tweaks h3 {
+    margin: 0 0 12px; font-size: 11px; font-weight: 500;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: oklch(0.65 0.14 230);
+  }
+  .tweak-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0; font-size: 13px;
+  }
+  .tweak-row + .tweak-row {
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  body.dark .tweak-row + .tweak-row { border-top-color: rgba(255,255,255,0.06); }
+  .seg {
+    display: inline-flex; padding: 2px;
+    background: rgba(0,0,0,0.06); border-radius: 8px;
+  }
+  body.dark .seg { background: rgba(255,255,255,0.08); }
+  .seg button {
+    border: none; background: transparent;
+    padding: 5px 10px; border-radius: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1px;
+    color: inherit; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .seg button.active {
+    background: #fff; color: #0a1420;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  body.dark .seg button.active {
+    background: rgba(255,255,255,0.92);
+    color: #0a1420;
+  }
+
+  /* phone container lets us position the device */
+  .phone-wrap {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    gap: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div id="root"></div>
+</div>
+
+<script>
+  // Default tweak state (persisted)
+  const TWEAK_DEFAULS = /*EDITMODE-BEGIN*/{
+    "dark": true,
+    "lang": "en",
+    "device": "ios"
+  }/*EDITMODE-END*/;
+</script>
+
+<!-- React + Babel -->
+<script>
+// Bilingual copy — aligned with SUNX Sense real product
+// Zone-based environmental intelligence, H3 hex cells, declarations, PX Carbostar, SUNX Earth
+window.ONBOARDING_COPY = {
+  en: {
+    skip: 'Skip',
+    next: 'Continue',
+    getStarted: "Let's get started",
+    slides: [
+      {
+        eyebrow: '01 — Welcome',
+        title: 'The environment, mapped in real places.',
+        body: 'Sense is the mobile gateway to the SUNX ecosystem. It turns the world into interactive H3 zones — so you can explore environmental conditions where they actually happen.',
+        heroLabel: 'Global intelligence — live',
+        stat: { label: 'active zones', value: '128,540', suffix: '' },
+      },
+      {
+        eyebrow: '02 — Declarations',
+        title: 'Your signal strengthens the zone.',
+        body: 'A declaration is your on-the-ground reading of a zone. One tap adds a community-backed signal to the map and builds the trust layer for everyone nearby.',
+        heroLabel: 'Declaration → zone',
+        stat: { label: 'declarations today', value: '184,620', suffix: '' },
+      },
+      {
+        eyebrow: '03 — Device + Network',
+        title: 'Pair a PX Carbostar. Feed the earth.',
+        body: 'Plug in a portable PX Carbostar sensor and your zone broadcasts live CO₂ telemetry into the SUNX Earth network — visible to researchers, cities and neighbours worldwide.',
+        heroLabel: 'PX Carbostar · live telemetry',
+        stat: { label: 'CO₂ · this zone', value: '412', suffix: ' ppm' },
+      },
+      {
+        eyebrow: '04 — Rewards',
+        title: 'Data you contribute, value you keep.',
+        body: 'Every verified declaration and every telemetry hour earns you SUNX tokens on the Earth platform. Environmental action that compounds.',
+        heroLabel: 'SUNX · projected balance',
+        stat: { label: 'SUNX earned / week', value: '+86.4', suffix: '' },
+      },
+      {
+        eyebrow: '05 — Ready',
+        title: 'Pick a zone. Make your first declaration.',
+        body: 'Your zone is ready. One tap opens the map, the next sends your first signal into the network.',
+        heroLabel: 'Your zone · ready',
+        stat: { label: 'trust score · H3 cell', value: '0.87', suffix: '' },
+      },
+    ],
+  },
+  tr: {
+    skip: 'Geç',
+    next: 'Devam et',
+    getStarted: 'Hadi başlayalım',
+    slides: [
+      {
+        eyebrow: '01 — Merhaba',
+        title: 'Çevre, gerçek mekânlar üzerinde haritalandı.',
+        body: 'Sense, SUNX ekosisteminin mobil kapısıdır. Dünyayı etkileşimli H3 hücrelerine dönüştürür — böylece çevresel koşulları olduğu yerde keşfedersin.',
+        heroLabel: 'Küresel zekâ — canlı',
+        stat: { label: 'aktif bölge', value: '128.540', suffix: '' },
+      },
+      {
+        eyebrow: '02 — Deklarasyonlar',
+        title: 'Sinyalin bölgeni güçlendirir.',
+        body: 'Deklarasyon, bir bölgenin saha okumandır. Tek dokunuşla haritaya topluluk destekli bir sinyal ekler ve çevrendekiler için güven katmanını büyütürsün.',
+        heroLabel: 'Deklarasyon → bölge',
+        stat: { label: 'bugünkü deklarasyon', value: '184.620', suffix: '' },
+      },
+      {
+        eyebrow: '03 — Cihaz + Ağ',
+        title: 'PX Carbostar eşle. Dünyayı besle.',
+        body: 'Taşınabilir PX Carbostar sensörünü bağla; bölgen, SUNX Earth ağına canlı CO₂ telemetrisi yayınlamaya başlar — araştırmacılar, şehirler ve komşuların için görünür.',
+        heroLabel: 'PX Carbostar · canlı telemetri',
+        stat: { label: 'CO₂ · bu bölge', value: '412', suffix: ' ppm' },
+      },
+      {
+        eyebrow: '04 — Ödüller',
+        title: 'Kattığın veri, senin değerin.',
+        body: 'Doğrulanan her deklarasyon ve her telemetri saati, Earth platformunda SUNX token kazandırır. Büyüyen bir çevresel eylem.',
+        heroLabel: 'SUNX · tahmini bakiye',
+        stat: { label: 'haftalık SUNX', value: '+86,4', suffix: '' },
+      },
+      {
+        eyebrow: '05 — Hazırsın',
+        title: 'Bir bölge seç. İlk deklarasyonunu yap.',
+        body: 'Bölgen hazır. Bir dokunuş haritayı açar, bir sonraki dokunuş ilk sinyalini ağa gönderir.',
+        heroLabel: 'Bölgen · hazır',
+        stat: { label: 'güven skoru · H3', value: '0,87', suffix: '' },
+      },
+    ],
+  },
+};
+
+</script>
+<script type="module" src="/src/onboarding/main.jsx"></script>
+</body>
+</html>

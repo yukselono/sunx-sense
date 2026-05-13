@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SUNX Sense — Prototypes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh;
+    font-family: 'Geist', Inter, -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #0a0f16; color: #e8edf2;
+  }
+  .page {
+    min-height: 100vh; padding: 60px 32px;
+    background:
+      radial-gradient(ellipse at 12% 0%, oklch(0.30 0.06 230 / 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 30%, oklch(0.30 0.06 155 / 0.25) 0%, transparent 55%),
+      #0a0f16;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .brand {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 3px; color: oklch(0.65 0.14 230);
+    font-weight: 600; text-transform: uppercase; margin-bottom: 28px;
+  }
+  .brand .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: oklch(0.72 0.14 155); margin-right: 8px; vertical-align: middle;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.65; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+  h1 {
+    font-weight: 600; font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.05; letter-spacing: -1.4px; margin: 0 0 12px; text-wrap: balance;
+  }
+  h1 .a {
+    background: linear-gradient(110deg, oklch(0.65 0.14 230), oklch(0.72 0.14 155));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  p.lede { font-size: 16px; line-height: 1.55; color: rgba(255,255,255,0.62); margin: 0 0 40px; max-width: 580px; }
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  a.card {
+    display: block; padding: 22px;
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 18px;
+    background: rgba(255,255,255,0.03);
+    color: inherit; text-decoration: none;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s;
+  }
+  a.card:hover {
+    transform: translateY(-2px); border-color: oklch(0.65 0.14 230 / 0.5);
+    background: rgba(255,255,255,0.05);
+  }
+  .card .ix {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.8px; color: oklch(0.65 0.14 230);
+    text-transform: uppercase; font-weight: 600;
+  }
+  .card h2 { margin: 6px 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .card p { margin: 0; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.45; }
+  .arrow { float: right; color: rgba(255,255,255,0.4); }
+  footer {
+    margin-top: 56px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    font-family: 'Geist Mono', ui-monospace, monospace; letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+<div class="page"><div class="wrap">
+  <div class="brand"><span class="dot"></span>SUNX · SENSE · PROTOTYPES</div>
+  <h1>A free that <span class="a">feels alive</span>.<br>A pro that <span class="a">sees everything</span>.</h1>
+  <p class="lede">Click-through prototypes for the Sense onboarding, gamification, tier system, KVKK + GDPR beta consent flow, and signup / pricing page.</p>
+  <div class="grid">
+    <a class="card" href="SUNX Sense Signup.html">
+      <span class="arrow">→</span>
+      <div class="ix">05 · SIGNUP &amp; PRICING</div>
+      <h2>Sign up / Free vs Pro</h2>
+      <p>Full landing page: signup form, jurisdiction-aware consent (TR/EU/US), 34-feature comparison, competitor matrix, SP economy, pricing tiers.</p>
+    </a>
+    <a class="card" href="SUNX Sense Consent.html">
+      <span class="arrow">→</span>
+      <div class="ix">04 · CONSENT FLOW · EK J</div>
+      <h2>Beta consent flow</h2>
+      <p>8 phone screens implementing Annex J of the user agreement — KVKK + GDPR compliant Beta consent.</p>
+    </a>
+    <a class="card" href="SUNX Sense Onboarding.html">
+      <span class="arrow">→</span>
+      <div class="ix">01 · ONBOARDING</div>
+      <h2>Onboarding</h2>
+      <p>5-slide marketing tutorial with hero illustrations, iOS/Android device frames, TR/EN copy.</p>
+    </a>
+    <a class="card" href="SUNX Sense Gamification.html">
+      <span class="arrow">→</span>
+      <div class="ix">02 · GAMIFICATION</div>
+      <h2>Gamification</h2>
+      <p>8 screens turning measurement into a habit — streak, rank, leaderboard, place explorer, badges, referral, trust, identity.</p>
+    </a>
+    <a class="card" href="SUNX Sense Tiers.html">
+      <span class="arrow">→</span>
+      <div class="ix">03 · TIER SYSTEM</div>
+      <h2>Tier system</h2>
+      <p>8 screens: tiers, heatmap access, SP wallet, unlock, envlab.ai, exposure, replay, hardware = Pro.</p>
+    </a>
+  </div>
+  <footer>SUNX SENSE BETA · © 2026</footer>
+</div></div>
+</body>
+</html>

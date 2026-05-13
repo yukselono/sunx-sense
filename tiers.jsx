@@ -1,0 +1,861 @@
+// SUNX Sense Tier System — 8 screens, same format
+// Free vs Pro · SP economy · Fog of data · envlab.ai · Pro reports · Hardware unlock
+
+const TI_PRIMARY = 'oklch(0.65 0.14 230)';
+const TI_ACCENT  = 'oklch(0.72 0.14 155)';
+const TI_AMBER   = 'oklch(0.78 0.14 75)';
+const TI_RED     = 'oklch(0.62 0.18 25)';
+const TI_VIOLET  = 'oklch(0.62 0.18 295)';
+const TI_GOLD    = 'oklch(0.80 0.13 80)';
+
+function tiHex(cx, cy, r) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const a = Math.PI / 3 * i - Math.PI / 2;
+    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+  }
+  return 'M ' + pts.map(p => p.join(' ')).join(' L ') + ' Z';
+}
+
+const TIER_COPY = {
+  en: {
+    headerEyebrow: 'SUNX SENSE · TIER SYSTEM',
+    headerTitle: 'A free that feels alive. A Pro that sees everything.',
+    headerSub: 'Tiers, SP economy, fog of data, envlab.ai, exposure reports, hardware unlocks.',
+    screens: [
+      { id: 'tiers',     eyebrow: '01 · TIERS',           title: 'Explore the planet. Or understand it.',          body: 'Free users discover, participate, earn SP. Pro users get full environmental intelligence — deep zoom, history, AI, exposure reports.', cta: 'Try Pro 7 days free' },
+      { id: 'heatmap',   eyebrow: '02 · HEATMAP ACCESS',  title: 'Free sees the city. Pro sees the room.',         body: 'Free users browse global → city level. District, street, and building layers stay behind a fog you can sense, but not enter.',           cta: 'Unlock with 10 SP' },
+      { id: 'wallet',    eyebrow: '03 · SP WALLET',       title: 'Behavioral currency.',                            body: 'Sense Points are earned through participation and spent on temporary unlocks — district zoom, history, AI queries, even temporary Pro.', cta: 'See ways to earn' },
+      { id: 'unlock',    eyebrow: '04 · UNLOCK',          title: 'Open a district for 24 hours.',                   body: 'Tap a locked area and trade SP for time-bound access. Cheap unlocks for curiosity, full Pro for daily use.',                            cta: 'Unlock · 10 SP' },
+      { id: 'envlab',    eyebrow: '05 · ENVLAB.AI',       title: 'Ask the air a question.',                         body: 'Free users pay 5 SP per query. Pro users ask as often as they breathe.',                                                                  cta: 'Ask (5 SP)' },
+      { id: 'exposure',  eyebrow: '06 · EXPOSURE',        title: 'What you actually breathed this week.',           body: 'Daily, weekly, and monthly exposure across CO₂, PM, and VOC. Free users get a 30-day trial, then Pro continues the story.',             cta: 'See trends' },
+      { id: 'replay',    eyebrow: '07 · REPLAY',          title: 'Your year in air.',                               body: 'A Spotify-Wrapped style recap: cleanest hours, dirtiest commutes, exposure milestones, and the places that treated your lungs best.',  cta: 'Open my replay' },
+      { id: 'hardware',  eyebrow: '08 · HARDWARE = PRO',  title: 'A Carbostar earns Pro by existing.',              body: 'Carbostar and SX Miner owners receive Pro automatically — no subscription, with potential SP earning multipliers ahead.',                cta: 'Pair a device' },
+    ],
+    free: 'Free',
+    pro: 'Pro',
+    tagFree: 'Explore the planet.',
+    tagPro: 'Understand your environment.',
+    sp: 'SP',
+    spBalance: 'Sense Points',
+    locked: 'Locked',
+    foggy: 'Foggy',
+    earn: 'Earn',
+    spend: 'Spend',
+    activeNow: 'ACTIVE NOW',
+    proActive: 'PRO ACTIVE',
+    trialDay: 'Day 18 of 30 · trial',
+    earnMethods: [
+      { name: 'Daily check-in',        sp: '+5/day',   color: TI_ACCENT },
+      { name: 'Declaration',           sp: '+3 ea.',    color: TI_PRIMARY },
+      { name: 'Anomaly report',        sp: '+25',       color: TI_AMBER },
+      { name: 'Carbostar sync',        sp: '+10/hr',   color: TI_VIOLET },
+      { name: 'Route tracking',        sp: '+8/route', color: 'oklch(0.62 0.16 200)' },
+      { name: 'Quiz · 5 questions',    sp: '+15',       color: TI_GOLD },
+    ],
+    unlockOptions: [
+      { name: 'District zoom · 24h',   sp: 10,  active: true  },
+      { name: 'Building insight',      sp: 15,  active: false },
+      { name: '7-day history',         sp: 20,  active: false },
+      { name: '30-day history',        sp: 100, active: false },
+      { name: '1 day Pro',             sp: 50,  active: false },
+      { name: '1 week Pro',            sp: 250, active: false },
+    ],
+    aiQueries: [
+      'Best low-PM running route nearby?',
+      'Which hours today have cleaner air?',
+      'Lowest CO₂ coworking spaces nearby?',
+      'Best district for children today?',
+    ],
+    exposureMetrics: [
+      { name: 'CO₂',  unit: 'ppm·hr', value: 4820, delta: -8,  color: TI_PRIMARY },
+      { name: 'PM2.5',unit: 'µg·hr',  value: 612,  delta: +14, color: TI_AMBER   },
+      { name: 'VOC',  unit: 'ppb·hr', value: 218,  delta: -2,  color: TI_ACCENT  },
+    ],
+    replayCards: [
+      { metric: 'Cleanest hour', value: '06:14', sub: 'Mon · Maçka Park · 388 ppm' },
+      { metric: 'Worst commute', value: 'Tue 8:42', sub: 'Mecidiyeköy crossing · 1,420 ppm' },
+      { metric: 'Best place',    value: 'Atatürk Arboretum', sub: '24 visits this year' },
+      { metric: 'Lifetime',      value: '2,140 hrs', sub: 'of air measured' },
+    ],
+    hardware: [
+      { name: 'PX Carbostar', sub: 'Portable CO₂ · BLE 5.0', state: 'paired',    color: TI_ACCENT },
+      { name: 'SX Miner',     sub: 'Stationary node · WiFi', state: 'available', color: TI_PRIMARY },
+    ],
+  },
+  tr: {
+    headerEyebrow: 'SUNX SENSE · KATMAN SİSTEMİ',
+    headerTitle: 'Yaşayan bir Free. Her şeyi gören bir Pro.',
+    headerSub: 'Katmanlar, SP ekonomisi, veri sisi, envlab.ai, maruziyet raporları, donanım kilitleri.',
+    screens: [
+      { id: 'tiers',     eyebrow: '01 · KATMANLAR',         title: 'Gezegeni keşfet. Ya da onu anla.',                body: 'Free kullanıcı keşfeder, katılır, SP kazanır. Pro kullanıcı tam çevre zekâsı alır — derin zoom, tarih, AI, maruziyet raporları.', cta: 'Pro\u2019yu 7 gün dene' },
+      { id: 'heatmap',   eyebrow: '02 · ISI HARİTASI',      title: 'Free şehri görür. Pro odayı görür.',              body: 'Free kullanıcı küresel → şehir seviyesini gezer. İlçe, sokak ve bina katmanları, hissedilen ama açılmayan bir sis ardında kalır.', cta: '10 SP ile aç' },
+      { id: 'wallet',    eyebrow: '03 · SP CÜZDAN',         title: 'Davranışsal para birimi.',                        body: 'Sense Points katılımla kazanılır, geçici kilitleri açmak için harcanır — ilçe zoom, tarih, AI sorusu, hatta geçici Pro.',         cta: 'Kazanma yollarını gör' },
+      { id: 'unlock',    eyebrow: '04 · KİLİT AÇ',          title: 'Bir ilçeyi 24 saatliğine aç.',                    body: 'Kilitli bir alana dokun ve SP\u2019yle zaman sınırlı erişim al. Merak için ucuz açımlar, günlük kullanım için tam Pro.',           cta: 'Aç · 10 SP' },
+      { id: 'envlab',    eyebrow: '05 · ENVLAB.AI',         title: 'Havaya bir soru sor.',                            body: 'Free kullanıcı sorgu başına 5 SP öder. Pro kullanıcı nefes alır gibi sorar.',                                                          cta: 'Sor (5 SP)' },
+      { id: 'exposure',  eyebrow: '06 · MARUZİYET',         title: 'Bu hafta gerçekten ne soluduğun.',                body: 'CO₂, PM ve VOC için günlük, haftalık, aylık maruziyet. Free kullanıcı 30 gün deneme alır, sonra hikâyeyi Pro sürdürür.',             cta: 'Trendleri gör' },
+      { id: 'replay',    eyebrow: '07 · REPLAY',            title: 'Yılın · hava.',                                   body: 'Spotify Wrapped tarzı bir özet: en temiz saatler, en kirli yolculuklar, maruziyet kilometre taşları ve ciğerlerine en iyi davranan yerler.', cta: 'Replay\u2019imi aç' },
+      { id: 'hardware',  eyebrow: '08 · DONANIM = PRO',     title: 'Carbostar varlığıyla Pro kazandırır.',            body: 'Carbostar ve SX Miner sahipleri otomatik Pro alır — abonelik yok, ileride SP kazanma çarpanları olası.',                              cta: 'Cihaz eşle' },
+    ],
+    free: 'Free',
+    pro: 'Pro',
+    tagFree: 'Gezegeni keşfet.',
+    tagPro: 'Çevreni anla.',
+    sp: 'SP',
+    spBalance: 'Sense Points',
+    locked: 'Kilitli',
+    foggy: 'Sisli',
+    earn: 'Kazan',
+    spend: 'Harca',
+    activeNow: 'ŞU AN AKTİF',
+    proActive: 'PRO AKTİF',
+    trialDay: '30 günün 18. günü · deneme',
+    earnMethods: [
+      { name: 'Günlük giriş',         sp: '+5/gün',     color: TI_ACCENT },
+      { name: 'Deklarasyon',          sp: '+3 adet',    color: TI_PRIMARY },
+      { name: 'Anomali bildirimi',    sp: '+25',        color: TI_AMBER },
+      { name: 'Carbostar senkron',    sp: '+10/saat',   color: TI_VIOLET },
+      { name: 'Rota kaydı',           sp: '+8/rota',    color: 'oklch(0.62 0.16 200)' },
+      { name: 'Quiz · 5 soru',        sp: '+15',        color: TI_GOLD },
+    ],
+    unlockOptions: [
+      { name: 'İlçe zoom · 24sa',     sp: 10,  active: true  },
+      { name: 'Bina içgörüsü',        sp: 15,  active: false },
+      { name: '7 günlük tarih',       sp: 20,  active: false },
+      { name: '30 günlük tarih',      sp: 100, active: false },
+      { name: '1 gün Pro',            sp: 50,  active: false },
+      { name: '1 hafta Pro',          sp: 250, active: false },
+    ],
+    aiQueries: [
+      'Düşük PM\u2019li koşu rotası?',
+      'Bugün hangi saatler daha temiz?',
+      'En düşük CO₂\u2019li coworking?',
+      'Çocuk için en iyi ilçe bugün?',
+    ],
+    exposureMetrics: [
+      { name: 'CO₂',  unit: 'ppm·sa', value: 4820, delta: -8,  color: TI_PRIMARY },
+      { name: 'PM2.5',unit: 'µg·sa',  value: 612,  delta: +14, color: TI_AMBER   },
+      { name: 'VOC',  unit: 'ppb·sa', value: 218,  delta: -2,  color: TI_ACCENT  },
+    ],
+    replayCards: [
+      { metric: 'En temiz saat',    value: '06:14', sub: 'Pzt · Maçka Parkı · 388 ppm' },
+      { metric: 'En kötü yol',      value: 'Sal 8:42', sub: 'Mecidiyeköy kavşağı · 1.420 ppm' },
+      { metric: 'En iyi yer',       value: 'Atatürk Arboretumu', sub: 'Bu yıl 24 ziyaret' },
+      { metric: 'Toplam',           value: '2.140 sa', sub: 'havayla ölçülmüş' },
+    ],
+    hardware: [
+      { name: 'PX Carbostar', sub: 'Taşınabilir CO₂ · BLE 5.0', state: 'paired',    color: TI_ACCENT },
+      { name: 'SX Miner',     sub: 'Sabit düğüm · WiFi',         state: 'available', color: TI_PRIMARY },
+    ],
+  },
+};
+
+// ─────────────────────────────────────────────────────────────
+// 1. TIERS — Free vs Pro side by side
+// ─────────────────────────────────────────────────────────────
+function TiTiers({ dark, lang }) {
+  const c = TIER_COPY[lang];
+
+  const Row = ({ label, free, pro }) => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 36px 36px', gap: 8, alignItems: 'center',
+      padding: '6px 0',
+      borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}` }}>
+      <div style={{ fontFamily: 'Geist', fontSize: 11.5,
+        color: dark ? 'rgba(255,255,255,0.75)' : 'rgba(20,30,50,0.75)' }}>{label}</div>
+      <div style={{ textAlign: 'center' }}>{free ? <Check color={TI_ACCENT}/> : <Dash dark={dark}/>}</div>
+      <div style={{ textAlign: 'center' }}>{pro ? <Check color={TI_GOLD}/> : <Dash dark={dark}/>}</div>
+    </div>
+  );
+
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        {/* Free card */}
+        <div style={{ padding: 14, borderRadius: 14,
+          background: dark ? 'oklch(0.20 0.02 225)' : 'rgba(255,255,255,0.85)',
+          border: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}` }}>
+          <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+            color: TI_ACCENT }}>{c.free.toUpperCase()}</div>
+          <div style={{ fontFamily: 'Geist', fontSize: 26, fontWeight: 600, marginTop: 2, letterSpacing: -0.8,
+            color: dark ? '#fff' : '#0a1420' }}>$0</div>
+          <div style={{ fontFamily: 'Geist', fontSize: 11, marginTop: 4,
+            color: dark ? 'rgba(255,255,255,0.55)' : 'rgba(20,30,50,0.55)', textWrap: 'balance' }}>{c.tagFree}</div>
+        </div>
+        {/* Pro card */}
+        <div style={{ padding: 14, borderRadius: 14,
+          background: 'linear-gradient(135deg, oklch(0.22 0.04 250), oklch(0.16 0.02 230))',
+          border: `1px solid ${TI_GOLD}55`,
+          position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: -10, right: -10, opacity: 0.3 }}>
+            <svg width="80" height="80" viewBox="-40 -40 80 80">
+              <path d={tiHex(0,0,30)} fill="none" stroke={TI_GOLD} strokeWidth="1.5"/>
+              <path d={tiHex(0,0,18)} fill={TI_GOLD} opacity="0.5"/>
+            </svg>
+          </div>
+          <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+            color: TI_GOLD }}>{c.pro.toUpperCase()}</div>
+          <div style={{ fontFamily: 'Geist', fontSize: 26, fontWeight: 600, marginTop: 2, letterSpacing: -0.8,
+            color: '#fff' }}>$5<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>/mo</span></div>
+          <div style={{ fontFamily: 'Geist', fontSize: 11, marginTop: 4,
+            color: 'rgba(255,255,255,0.65)', textWrap: 'balance' }}>{c.tagPro}</div>
+        </div>
+      </div>
+
+      {/* Comparison rows */}
+      <div style={{ padding: '4px 14px 8px', borderRadius: 14,
+        background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.6)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 36px 36px', gap: 8,
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+          color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)',
+          padding: '8px 0 6px', borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}` }}>
+          <span>FEATURE</span><span style={{ textAlign: 'center' }}>FREE</span><span style={{ textAlign: 'center' }}>PRO</span>
+        </div>
+        <Row label="City-level heatmap" free pro />
+        <Row label="District / street zoom" free={false} pro />
+        <Row label="Building insights" free={false} pro />
+        <Row label="24-hour history" free pro />
+        <Row label="Unlimited history" free={false} pro />
+        <Row label="envlab.ai queries" free={false} pro />
+        <Row label="Exposure reports" free={false} pro />
+        <Row label="Environmental Replay" free={false} pro />
+      </div>
+    </div>
+  );
+}
+function Check({ color }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="7" fill={color} opacity="0.18"/>
+      <path d="M5 8l2 2 4-4" stroke={color} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+function Dash({ dark }) {
+  return <div style={{ width: 12, height: 2, borderRadius: 1,
+    background: dark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.18)', margin: '0 auto' }} />;
+}
+
+// ─────────────────────────────────────────────────────────────
+// 2. HEATMAP — fog of data, zoom levels
+// ─────────────────────────────────────────────────────────────
+function TiHeatmap({ dark, lang }) {
+  const c = TIER_COPY[lang];
+  const W = 342, H = 220;
+  const cx = W/2, cy = H/2;
+
+  // hex tiles around center; outer ring foggy
+  const tiles = [];
+  const r = 16;
+  const dx = r * Math.sqrt(3);
+  const dy = r * 1.5;
+  for (let row = -5; row <= 5; row++) {
+    for (let col = -6; col <= 6; col++) {
+      const x = cx + col*dx + (row%2 ? dx/2 : 0);
+      const y = cy + row*dy;
+      const d = Math.hypot(x-cx, y-cy);
+      if (d > 130) continue;
+      tiles.push({ x, y, d });
+    }
+  }
+  // give some tiles colors (city-level visible)
+  const colorByDist = (d) => {
+    if (d < 35) return TI_AMBER;
+    if (d < 70) return 'oklch(0.78 0.14 95)';
+    return TI_ACCENT;
+  };
+
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {/* map */}
+      <div style={{ position: 'relative', width: W, height: H,
+        borderRadius: 18, overflow: 'hidden',
+        background: dark ? 'oklch(0.17 0.015 225)' : 'oklch(0.98 0.008 225)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}` }}>
+        <svg width={W} height={H}>
+          <defs>
+            <radialGradient id="fogmask" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#fff" stopOpacity="1"/>
+              <stop offset="55%" stopColor="#fff" stopOpacity="1"/>
+              <stop offset="100%" stopColor="#fff" stopOpacity="0.05"/>
+            </radialGradient>
+            <filter id="blur1"><feGaussianBlur stdDeviation="2"/></filter>
+          </defs>
+          {tiles.map((t, i) => {
+            const foggy = t.d > 90;
+            return (
+              <path key={i} d={tiHex(t.x, t.y, r-1)}
+                fill={foggy ? (dark ? 'rgba(140,180,255,0.08)' : 'rgba(20,90,180,0.05)') : colorByDist(t.d)}
+                stroke={dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'} strokeWidth="0.8"
+                opacity={foggy ? 0.4 : 0.85}
+                filter={foggy ? 'url(#blur1)' : undefined}
+              />
+            );
+          })}
+          {/* center crosshair */}
+          <circle cx={cx} cy={cy} r="3" fill={TI_PRIMARY}
+            style={{ animation: 'dotBreath 1.4s ease-in-out infinite', transformOrigin: `${cx}px ${cy}px` }}/>
+        </svg>
+
+        {/* lock chip at foggy edge */}
+        <div style={{ position: 'absolute', right: 18, top: 16,
+          padding: '6px 10px', borderRadius: 100,
+          background: dark ? 'rgba(15,25,35,0.9)' : 'rgba(255,255,255,0.95)',
+          border: `1px solid ${dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+          color: dark ? 'rgba(255,255,255,0.7)' : 'rgba(20,30,50,0.7)',
+          display: 'flex', alignItems: 'center', gap: 6,
+        }}>
+          <Lock size={10} color={TI_AMBER}/>
+          {c.foggy.toUpperCase()} · STREET LV
+        </div>
+
+        {/* zoom levels indicator */}
+        <div style={{ position: 'absolute', left: 16, bottom: 14,
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+          color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)' }}>
+          ZOOM · CITY · 50KM RADIUS
+        </div>
+      </div>
+
+      {/* zoom ladder */}
+      <div style={{ padding: '8px 12px', borderRadius: 14,
+        background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.6)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}`,
+        display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {[
+          { lv: 'Global',   open: true },
+          { lv: 'City',     open: true },
+          { lv: 'District', open: false, cost: '10 SP' },
+          { lv: 'Street',   open: false, cost: '10 SP' },
+          { lv: 'Building', open: false, cost: '15 SP' },
+        ].map((z, i, arr) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10,
+            padding: '8px 4px',
+            borderBottom: i < arr.length-1 ? `1px solid ${dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'}` : 'none'
+          }}>
+            <div style={{ width: 14, height: 14, borderRadius: 4,
+              background: z.open ? TI_ACCENT : 'transparent',
+              border: z.open ? 'none' : `1.5px solid ${dark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)'}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {z.open ? <svg width="9" height="9" viewBox="0 0 9 9"><path d="M2 4.5l2 2 3-4" stroke="#fff" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                : <Lock size={8} color={dark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)'}/>}
+            </div>
+            <span style={{ flex: 1, fontFamily: 'Geist', fontSize: 12,
+              color: dark ? '#fff' : '#0a1420',
+              opacity: z.open ? 1 : 0.7 }}>{z.lv}</span>
+            <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+              color: z.open ? TI_ACCENT : TI_PRIMARY }}>
+              {z.open ? c.activeNow : z.cost}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+function Lock({ size = 12, color = '#888' }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 12 12">
+      <rect x="2.5" y="5.5" width="7" height="5" rx="1" fill={color}/>
+      <path d="M4 5.5V4a2 2 0 014 0v1.5" stroke={color} strokeWidth="1.4" fill="none"/>
+    </svg>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 3. SP WALLET — balance + earn methods
+// ─────────────────────────────────────────────────────────────
+function TiWallet({ dark, lang }) {
+  const c = TIER_COPY[lang];
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* balance card */}
+      <div style={{ padding: 18, borderRadius: 18,
+        background: 'linear-gradient(135deg, oklch(0.22 0.04 250), oklch(0.16 0.02 230))',
+        border: `1px solid rgba(255,255,255,0.06)`,
+        position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', right: -20, bottom: -30, opacity: 0.2 }}>
+          <svg width="160" height="160" viewBox="-80 -80 160 160">
+            <path d={tiHex(0,0,60)} fill="none" stroke={TI_PRIMARY} strokeWidth="1.5"/>
+            <path d={tiHex(0,0,40)} fill="none" stroke={TI_PRIMARY} strokeWidth="1" strokeDasharray="2 4"/>
+            <text x="0" y="6" textAnchor="middle" fontFamily="Geist" fontWeight="700" fontSize="22" fill={TI_PRIMARY}>SP</text>
+          </svg>
+        </div>
+        <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+          color: 'rgba(255,255,255,0.5)' }}>{c.spBalance.toUpperCase()}</div>
+        <div style={{ fontFamily: 'Geist', fontSize: 50, fontWeight: 600, lineHeight: 1, letterSpacing: -1.8,
+          fontVariantNumeric: 'tabular-nums', color: '#fff', marginTop: 4 }}>284<span style={{ fontSize: 18, color: TI_PRIMARY, marginLeft: 6 }}>SP</span></div>
+        <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+          color: TI_ACCENT, marginTop: 4 }}>+38 THIS WEEK · 0 SPENT</div>
+      </div>
+
+      {/* earn methods */}
+      <div style={{ padding: '4px 0', borderRadius: 14,
+        background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.6)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+        <div style={{ padding: '10px 14px 6px',
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+          color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)' }}>{c.earn.toUpperCase()}</div>
+        {c.earnMethods.map((m, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10,
+            padding: '8px 14px',
+            borderTop: `1px solid ${dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'}` }}>
+            <div style={{ width: 6, height: 22, borderRadius: 3, background: m.color }} />
+            <span style={{ flex: 1, fontFamily: 'Geist', fontSize: 12, fontWeight: 500,
+              color: dark ? '#fff' : '#0a1420' }}>{m.name}</span>
+            <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 11, letterSpacing: 0.5,
+              fontWeight: 600, color: m.color, fontVariantNumeric: 'tabular-nums' }}>{m.sp}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 4. UNLOCK — district unlock interaction modal
+// ─────────────────────────────────────────────────────────────
+function TiUnlock({ dark, lang }) {
+  const c = TIER_COPY[lang];
+
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* primary unlock card */}
+      <div style={{ padding: 18, borderRadius: 18,
+        background: dark ? 'oklch(0.20 0.02 225)' : 'rgba(255,255,255,0.9)',
+        border: `1.5px solid ${TI_PRIMARY}`,
+        boxShadow: `0 8px 30px ${TI_PRIMARY}33` }}>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Lock size={14} color={TI_PRIMARY}/>
+            <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+              color: TI_PRIMARY }}>UNLOCK · 24 HOURS</span>
+          </div>
+          <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+            color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)' }}>23:59:48</span>
+        </div>
+
+        <div style={{ marginTop: 12, fontFamily: 'Geist', fontSize: 22, fontWeight: 600, letterSpacing: -0.6,
+          color: dark ? '#fff' : '#0a1420' }}>Çankaya · Kavaklıdere</div>
+        <div style={{ fontFamily: 'Geist', fontSize: 12, marginTop: 2,
+          color: dark ? 'rgba(255,255,255,0.55)' : 'rgba(20,30,50,0.55)' }}>2.4 km² · 412 active sensors · 1,820 declarations</div>
+
+        {/* SP cost line */}
+        <div style={{ marginTop: 14, padding: '12px 14px', borderRadius: 12,
+          background: dark ? 'rgba(120,180,255,0.08)' : 'rgba(20,90,200,0.06)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+              color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)' }}>COST</div>
+            <div style={{ fontFamily: 'Geist', fontSize: 22, fontWeight: 600, marginTop: 2,
+              color: TI_PRIMARY }}>10 <span style={{ fontSize: 11, fontFamily: 'Geist Mono, ui-monospace, monospace', letterSpacing: 1 }}>SP</span></div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+              color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)' }}>BALANCE AFTER</div>
+            <div style={{ fontFamily: 'Geist', fontSize: 16, fontWeight: 500, marginTop: 4,
+              color: dark ? '#fff' : '#0a1420' }}>284 → <span style={{ color: TI_ACCENT }}>274</span></div>
+          </div>
+        </div>
+      </div>
+
+      {/* other options */}
+      <div style={{ padding: '4px 0', borderRadius: 14,
+        background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.6)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+        <div style={{ padding: '10px 14px 6px',
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+          color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)' }}>OTHER UNLOCKS</div>
+        {c.unlockOptions.slice(1).map((o, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10,
+            padding: '8px 14px',
+            borderTop: `1px solid ${dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'}` }}>
+            <Lock size={11} color={dark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'}/>
+            <span style={{ flex: 1, fontFamily: 'Geist', fontSize: 12,
+              color: dark ? '#fff' : '#0a1420' }}>{o.name}</span>
+            <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 11, letterSpacing: 0.5,
+              fontWeight: 600, color: TI_PRIMARY }}>{o.sp} SP</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 5. ENVLAB.AI — query interface
+// ─────────────────────────────────────────────────────────────
+function TiEnvlab({ dark, lang }) {
+  const c = TIER_COPY[lang];
+
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* AI orb hero */}
+      <div style={{ padding: 16, borderRadius: 18,
+        background: 'linear-gradient(160deg, oklch(0.22 0.04 250), oklch(0.16 0.02 230))',
+        border: `1px solid rgba(255,255,255,0.06)`,
+        position: 'relative', overflow: 'hidden',
+        display: 'flex', alignItems: 'center', gap: 14 }}>
+        {/* orb */}
+        <div style={{ position: 'relative', width: 64, height: 64,
+          display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {[0,1,2].map(i => (
+            <div key={i} style={{
+              position: 'absolute', width: 64, height: 64, borderRadius: '50%',
+              border: `1px solid ${TI_VIOLET}`, opacity: 0.4,
+              animation: 'haloBreath 2.5s ease-in-out infinite',
+              animationDelay: `${i * 0.4}s`,
+            }} />
+          ))}
+          <div style={{
+            width: 36, height: 36, borderRadius: '50%',
+            background: `radial-gradient(circle at 35% 30%, #fff, ${TI_VIOLET})`,
+            boxShadow: `0 0 24px ${TI_VIOLET}`,
+            animation: 'dotBreath 1.6s ease-in-out infinite',
+          }}/>
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+            color: 'rgba(255,255,255,0.55)' }}>ENVLAB · AI</div>
+          <div style={{ fontFamily: 'Geist', fontSize: 18, fontWeight: 600, color: '#fff', marginTop: 2, letterSpacing: -0.4 }}>
+            Ask the air.
+          </div>
+          <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+            color: TI_ACCENT, marginTop: 4 }}>5 SP / QUERY · UNLIMITED FOR PRO</div>
+        </div>
+      </div>
+
+      {/* suggested queries */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {c.aiQueries.map((q, i) => (
+          <div key={i} style={{ padding: '10px 12px', borderRadius: 10,
+            background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.6)',
+            border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}`,
+            display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 22, height: 22, borderRadius: '50%',
+              background: dark ? 'rgba(120,180,255,0.10)' : 'rgba(20,90,200,0.08)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: TI_PRIMARY, fontFamily: 'Geist', fontSize: 12, fontWeight: 600 }}>?</div>
+            <span style={{ flex: 1, fontFamily: 'Geist', fontSize: 12,
+              color: dark ? '#fff' : '#0a1420' }}>{q}</span>
+            <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 10, letterSpacing: 0.8,
+              color: TI_PRIMARY, fontWeight: 600 }}>5 SP</span>
+          </div>
+        ))}
+      </div>
+
+      {/* input field */}
+      <div style={{ padding: '10px 12px', borderRadius: 12,
+        background: dark ? 'oklch(0.16 0.012 225)' : '#fff',
+        border: `1.5px dashed ${TI_VIOLET}55`,
+        fontFamily: 'Geist', fontSize: 12,
+        color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span>Type your question…</span>
+        <div style={{ width: 24, height: 24, borderRadius: '50%',
+          background: TI_PRIMARY,
+          display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h7m-3-3l3 3-3 3" stroke="#fff" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 6. EXPOSURE REPORT — Pro weekly recap (or trial)
+// ─────────────────────────────────────────────────────────────
+function TiExposure({ dark, lang }) {
+  const c = TIER_COPY[lang];
+
+  // sparkline for CO2 exposure across 7 days
+  const W = 310, H = 80;
+  const pts = [0.5, 0.7, 0.4, 0.85, 0.6, 0.55, 0.42].map((v, i, arr) => {
+    const x = (i / (arr.length-1)) * (W - 16) + 8;
+    const y = H - 12 - v * (H - 22);
+    return [x, y];
+  });
+  const sparkD = pts.reduce((a, [x,y], i) => a + (i===0?`M ${x} ${y}`:` L ${x} ${y}`), '');
+  const sparkArea = sparkD + ` L ${pts[pts.length-1][0]} ${H-6} L ${pts[0][0]} ${H-6} Z`;
+
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Pro-trial banner */}
+      <div style={{ padding: '8px 12px', borderRadius: 10,
+        background: dark ? 'rgba(180,220,160,0.10)' : 'rgba(50,150,80,0.08)',
+        border: `1px solid ${TI_ACCENT}55`,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: TI_ACCENT,
+            animation: 'dotBreath 1.5s ease-in-out infinite' }} />
+          <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+            color: TI_ACCENT, fontWeight: 600 }}>{c.trialDay.toUpperCase()}</span>
+        </div>
+        <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+          color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)' }}>12 DAYS LEFT</span>
+      </div>
+
+      {/* CO2 hero */}
+      <div style={{ padding: '14px 16px', borderRadius: 14,
+        background: dark ? 'oklch(0.20 0.02 225)' : 'rgba(255,255,255,0.85)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}` }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.5,
+              color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)' }}>WEEK 19 · CO₂ EXPOSURE</div>
+            <div style={{ fontFamily: 'Geist', fontSize: 34, fontWeight: 600, marginTop: 2, letterSpacing: -1.2,
+              fontVariantNumeric: 'tabular-nums', color: dark ? '#fff' : '#0a1420' }}>4,820 <span style={{ fontSize: 13, color: TI_PRIMARY }}>ppm·hr</span></div>
+          </div>
+          <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 11, letterSpacing: 0.8,
+            color: TI_ACCENT, fontWeight: 600 }}>▼ 8%</div>
+        </div>
+        <svg width={W} height={H} style={{ marginTop: 6, marginLeft: -2 }}>
+          <defs>
+            <linearGradient id="expFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={TI_PRIMARY} stopOpacity="0.35"/>
+              <stop offset="100%" stopColor={TI_PRIMARY} stopOpacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d={sparkArea} fill="url(#expFill)"/>
+          <path d={sparkD} stroke={TI_PRIMARY} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+          {pts.map(([x,y], i) => (
+            <circle key={i} cx={x} cy={y} r={i === pts.length-1 ? 4 : 2.5} fill={TI_PRIMARY}/>
+          ))}
+        </svg>
+        <div style={{ display: 'flex', justifyContent: 'space-between',
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 8.5, letterSpacing: 1,
+          color: dark ? 'rgba(255,255,255,0.35)' : 'rgba(20,30,50,0.35)', marginTop: 2 }}>
+          <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+        </div>
+      </div>
+
+      {/* other metrics */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+        {c.exposureMetrics.slice(1).map((m, i) => (
+          <div key={i} style={{ padding: '12px 14px', borderRadius: 12,
+            background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.6)',
+            border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+            <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+              color: m.color, fontWeight: 600 }}>{m.name.toUpperCase()}</div>
+            <div style={{ fontFamily: 'Geist', fontSize: 22, fontWeight: 600, marginTop: 2, letterSpacing: -0.6,
+              fontVariantNumeric: 'tabular-nums', color: dark ? '#fff' : '#0a1420' }}>{m.value.toLocaleString()}</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2,
+              fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 0.8 }}>
+              <span style={{ color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)' }}>{m.unit}</span>
+              <span style={{ color: m.delta > 0 ? TI_AMBER : TI_ACCENT, fontWeight: 600 }}>
+                {m.delta > 0 ? '▲' : '▼'} {Math.abs(m.delta)}%
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 7. ENVIRONMENTAL REPLAY — Spotify-Wrapped style
+// ─────────────────────────────────────────────────────────────
+function TiReplay({ dark, lang }) {
+  const c = TIER_COPY[lang];
+
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Big wrapped card */}
+      <div style={{ padding: 20, borderRadius: 22,
+        background: `linear-gradient(150deg, ${TI_VIOLET}, oklch(0.45 0.18 280), ${TI_PRIMARY})`,
+        position: 'relative', overflow: 'hidden',
+        minHeight: 150 }}>
+        <div style={{ position: 'absolute', right: -30, top: -30, opacity: 0.4 }}>
+          <svg width="200" height="200" viewBox="-100 -100 200 200">
+            {[80, 60, 40, 20].map((rr,i) => (
+              <path key={i} d={tiHex(0,0,rr)} fill="none" stroke="#fff" strokeWidth="1" opacity={0.4 - i*0.08}/>
+            ))}
+          </svg>
+        </div>
+
+        <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 2.5,
+          color: 'rgba(255,255,255,0.7)' }}>SUNX · REPLAY 2026</div>
+        <div style={{ fontFamily: 'Geist', fontSize: 32, fontWeight: 600, marginTop: 6, lineHeight: 1.05,
+          letterSpacing: -1, color: '#fff', textWrap: 'balance' }}>
+          Your year<br/>in air.
+        </div>
+        <div style={{ marginTop: 12, fontFamily: 'Geist', fontSize: 12,
+          color: 'rgba(255,255,255,0.75)' }}>2,140 hours · 18,200 measurements</div>
+      </div>
+
+      {/* recap cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+        {c.replayCards.map((r, i) => (
+          <div key={i} style={{ padding: 12, borderRadius: 12,
+            background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.7)',
+            border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+            <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 8.5, letterSpacing: 1.2,
+              color: dark ? 'rgba(255,255,255,0.45)' : 'rgba(20,30,50,0.45)' }}>{r.metric.toUpperCase()}</div>
+            <div style={{ fontFamily: 'Geist', fontSize: 15, fontWeight: 600, marginTop: 2, lineHeight: 1.15,
+              color: dark ? '#fff' : '#0a1420', letterSpacing: -0.2 }}>{r.value}</div>
+            <div style={{ fontFamily: 'Geist', fontSize: 10.5, marginTop: 4, lineHeight: 1.4,
+              color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)' }}>{r.sub}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 8. HARDWARE = PRO — Carbostar / SX Miner auto-unlock
+// ─────────────────────────────────────────────────────────────
+function TiHardware({ dark, lang }) {
+  const c = TIER_COPY[lang];
+
+  return (
+    <div style={{ width: 342, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Pro Active hero */}
+      <div style={{ padding: 16, borderRadius: 18,
+        background: 'linear-gradient(135deg, oklch(0.22 0.04 250), oklch(0.16 0.02 230))',
+        border: `1.5px solid ${TI_GOLD}55`,
+        position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', right: -16, top: -16, opacity: 0.25 }}>
+          <svg width="130" height="130" viewBox="-65 -65 130 130">
+            <path d={tiHex(0,0,52)} fill="none" stroke={TI_GOLD} strokeWidth="1.5"/>
+            <path d={tiHex(0,0,38)} fill="none" stroke={TI_GOLD} strokeWidth="1" strokeDasharray="2 4"/>
+            <path d={tiHex(0,0,24)} fill={TI_GOLD} opacity="0.4"/>
+          </svg>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: TI_GOLD,
+            animation: 'dotBreath 1.5s ease-in-out infinite' }} />
+          <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.8,
+            color: TI_GOLD, fontWeight: 600 }}>{c.proActive}</span>
+        </div>
+        <div style={{ marginTop: 8, fontFamily: 'Geist', fontSize: 22, fontWeight: 600, letterSpacing: -0.6,
+          lineHeight: 1.15, color: '#fff', textWrap: 'balance' }}>
+          Carbostar paired.<br/>Pro unlocked.
+        </div>
+        <div style={{ marginTop: 6, fontFamily: 'Geist', fontSize: 11.5,
+          color: 'rgba(255,255,255,0.65)' }}>No subscription. Indefinite access while device is active.</div>
+      </div>
+
+      {/* device list */}
+      <div style={{ padding: '4px 0', borderRadius: 14,
+        background: dark ? 'oklch(0.18 0.012 225)' : 'rgba(255,255,255,0.6)',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}` }}>
+        {c.hardware.map((h, i, arr) => {
+          const paired = h.state === 'paired';
+          return (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12,
+              padding: '12px 14px',
+              borderTop: i > 0 ? `1px solid ${dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'}` : 'none'
+            }}>
+              <div style={{ width: 42, height: 42, borderRadius: 10,
+                background: paired
+                  ? `linear-gradient(135deg, ${h.color}33, ${h.color}11)`
+                  : (dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'),
+                border: paired ? `1px solid ${h.color}55` : 'none',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                {paired ? (
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: h.color,
+                    boxShadow: `0 0 10px ${h.color}`,
+                    animation: 'dotBreath 1.4s ease-in-out infinite' }} />
+                ) : (
+                  <Lock size={14} color={dark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'}/>
+                )}
+                <div style={{ position: 'absolute', right: 4, top: 6, width: 4, height: 28,
+                  background: paired
+                    ? `repeating-linear-gradient(to bottom, transparent 0 2px, ${h.color}aa 2px 3px)`
+                    : 'transparent',
+                  borderRadius: 2 }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: 'Geist', fontSize: 13, fontWeight: 600,
+                  color: dark ? '#fff' : '#0a1420' }}>{h.name}</div>
+                <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+                  color: dark ? 'rgba(255,255,255,0.45)' : 'rgba(20,30,50,0.45)', marginTop: 2 }}>{h.sub}</div>
+              </div>
+              <span style={{
+                padding: '4px 8px', borderRadius: 100,
+                fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1, fontWeight: 600,
+                color: paired ? h.color : (dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)'),
+                background: paired ? `${h.color}22` : (dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'),
+              }}>{paired ? 'PAIRED' : 'AVAILABLE'}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+const TIER_COMPONENTS = [TiTiers, TiHeatmap, TiWallet, TiUnlock, TiEnvlab, TiExposure, TiReplay, TiHardware];
+
+// ─────────────────────────────────────────────────────────────
+// Screen shell — identical chrome to gamification
+// ─────────────────────────────────────────────────────────────
+function TierScreen({ dark, lang, device, idx }) {
+  const c = TIER_COPY[lang];
+  const screen = c.screens[idx];
+  const Hero = TIER_COMPONENTS[idx];
+
+  return (
+    <div key={idx} style={{
+      width: '100%', height: '100%', position: 'relative',
+      display: 'flex', flexDirection: 'column',
+      background: dark ? 'oklch(0.14 0.015 225)' : 'oklch(0.985 0.008 220)',
+      animation: 'fadeSlide 0.5s ease-out',
+      fontFamily: 'Geist, Inter, -apple-system, system-ui, sans-serif',
+    }}>
+      <div style={{
+        paddingTop: device === 'ios' ? 58 : 48,
+        paddingLeft: 20, paddingRight: 20,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ width: 20, height: 20, borderRadius: 6,
+            background: 'linear-gradient(135deg, oklch(0.65 0.14 230), oklch(0.72 0.14 155))',
+            boxShadow: '0 2px 6px rgba(20,90,180,0.25)' }} />
+          <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 11, letterSpacing: 2, fontWeight: 500,
+            color: dark ? 'rgba(255,255,255,0.7)' : 'rgba(20,30,50,0.6)' }}>SUNX · SENSE</span>
+        </div>
+        <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 10, letterSpacing: 1.5,
+          color: dark ? 'rgba(255,255,255,0.45)' : 'rgba(20,30,50,0.45)' }}>
+          {String(idx+1).padStart(2,'0')} / 08
+        </div>
+      </div>
+
+      <div style={{ margin: '20px auto 0', display: 'flex', justifyContent: 'center' }}>
+        <Hero dark={dark} lang={lang} />
+      </div>
+
+      <div style={{ margin: '14px 24px 0',
+        fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 10, letterSpacing: 1.8,
+        color: TI_PRIMARY, fontWeight: 500 }}>{screen.eyebrow}</div>
+
+      <div style={{ padding: '8px 24px 0', flex: 1 }}>
+        <h1 style={{ fontFamily: 'Geist', fontWeight: 600, fontSize: 22, lineHeight: 1.18, letterSpacing: -0.6,
+          color: dark ? '#fff' : '#0a1420', margin: '0 0 8px', textWrap: 'balance' }}>{screen.title}</h1>
+        <p style={{ fontFamily: 'Geist', fontSize: 13, lineHeight: 1.5,
+          color: dark ? 'rgba(255,255,255,0.6)' : 'rgba(20,30,50,0.6)',
+          margin: 0, textWrap: 'pretty' }}>{screen.body}</p>
+      </div>
+
+      <div style={{ padding: '0 24px', paddingBottom: device === 'ios' ? 40 : 32 }}>
+        <button style={{
+          width: '100%', height: 50, border: 'none', borderRadius: 14,
+          background: 'linear-gradient(135deg, oklch(0.65 0.14 230), oklch(0.58 0.16 220))',
+          color: '#fff', fontFamily: 'Geist', fontSize: 14, fontWeight: 600,
+          cursor: 'pointer',
+          boxShadow: '0 8px 20px rgba(20,90,200,0.3)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+        }}>
+          {screen.cta}
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7h10m-4-4l4 4-4 4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+window.TierScreen = TierScreen;
+window.TIER_COPY = TIER_COPY;
