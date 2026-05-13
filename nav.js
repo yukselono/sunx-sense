@@ -6,7 +6,8 @@
     { href: 'SUNX Sense Gamification.html',     label: 'Gamification', ix: '02' },
     { href: 'SUNX Sense Tiers.html',            label: 'Tiers',        ix: '03' },
     { href: 'SUNX Sense Consent.html',          label: 'Consent · EK J', ix: '04' },
-    { href: 'SUNX Sense Signup.html',           label: 'Sign up',      ix: '05' },
+    { href: 'SUNX Sense Odor.html',             label: 'Odor',         ix: '05' },
+    { href: 'SUNX Sense Signup.html',           label: 'Sign up',      ix: '06' },
   ];
   const here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
 
