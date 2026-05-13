@@ -1,5 +1,4 @@
-// Shared sticky top navigation injected into every page.
-// Single source of truth — edit here, all pages update.
+// Shared top navigation injected into every page. Edit here, every page updates.
 (function () {
   const LINKS = [
     { href: 'index.html',                       label: 'Home',         ix: '00' },
@@ -9,84 +8,111 @@
     { href: 'SUNX Sense Consent.html',          label: 'Consent · EK J', ix: '04' },
     { href: 'SUNX Sense Signup.html',           label: 'Sign up',      ix: '05' },
   ];
-
   const here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
 
   const css = `
+    /* Reserve space at top of every page for the fixed nav */
+    body { padding-top: 60px; }
+
     .sx-nav {
-      position: sticky; top: 0; z-index: 1000;
-      backdrop-filter: blur(18px) saturate(180%);
-      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 9999;
+      height: 60px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .sx-nav-pill {
+      pointer-events: auto;
+      max-width: 1140px;
+      width: calc(100% - 32px);
+      margin-top: 12px;
+      padding: 6px 8px 6px 16px;
+      display: flex; align-items: center; gap: 4px;
       background: rgba(10, 15, 22, 0.72);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.32),
+        0 1px 0 rgba(255,255,255,0.06) inset;
       font-family: 'Geist', Inter, -apple-system, system-ui, sans-serif;
     }
-    body:not(.dark) .sx-nav {
-      background: rgba(245, 246, 248, 0.78);
-      border-bottom-color: rgba(20,30,50,0.08);
-    }
-    .sx-nav-inner {
-      max-width: 1280px; margin: 0 auto;
-      padding: 12px 24px;
-      display: flex; align-items: center; gap: 24px;
-      flex-wrap: wrap;
-    }
-    .sx-nav .brand {
-      font-family: 'Geist Mono', ui-monospace, monospace;
-      font-size: 11px; letter-spacing: 2.6px; font-weight: 600;
-      color: oklch(0.65 0.14 230); text-transform: uppercase;
-      text-decoration: none; flex-shrink: 0;
-      display: inline-flex; align-items: center; gap: 8px;
-    }
-    .sx-nav .brand .dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: oklch(0.72 0.14 155);
-      animation: sx-pulse 2.4s ease-in-out infinite;
-    }
-    @keyframes sx-pulse {
-      0%, 100% { opacity: 0.65; transform: scale(1); }
-      50%      { opacity: 1;    transform: scale(1.3); }
-    }
-    .sx-nav-links {
-      display: flex; gap: 4px; flex-wrap: wrap; flex: 1;
-      justify-content: flex-end;
-    }
-    .sx-nav-links a {
-      font-family: 'Geist', system-ui, sans-serif;
-      font-size: 13px; font-weight: 500;
-      color: rgba(255,255,255,0.65);
+
+    .sx-brand {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 6px 10px 6px 4px;
       text-decoration: none;
-      padding: 7px 12px; border-radius: 8px;
-      transition: background 0.15s, color 0.15s;
-      display: inline-flex; align-items: center; gap: 8px;
-      white-space: nowrap;
+      flex-shrink: 0;
+      margin-right: 4px;
+      border-right: 1px solid rgba(255,255,255,0.08);
     }
-    body:not(.dark) .sx-nav-links a { color: rgba(20,30,50,0.7); }
-    .sx-nav-links a .ix {
+    .sx-brand .orb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 30%, oklch(0.85 0.16 155), oklch(0.55 0.18 230) 70%);
+      box-shadow:
+        0 0 12px oklch(0.65 0.14 230 / 0.55),
+        inset 0 0 6px rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .sx-brand .wm {
       font-family: 'Geist Mono', ui-monospace, monospace;
-      font-size: 9px; letter-spacing: 1.2px; opacity: 0.6;
+      font-size: 11px; letter-spacing: 2.4px; font-weight: 600;
+      color: #fff; text-transform: uppercase;
+      line-height: 1;
     }
-    .sx-nav-links a:hover {
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.95);
+    .sx-brand .wm em {
+      font-style: normal;
+      background: linear-gradient(110deg, oklch(0.72 0.14 230), oklch(0.78 0.14 155));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    body:not(.dark) .sx-nav-links a:hover {
-      background: rgba(20,30,50,0.05);
-      color: rgba(20,30,50,0.95);
+
+    .sx-links {
+      display: flex; align-items: center; gap: 2px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
-    .sx-nav-links a.active {
-      background: linear-gradient(135deg, oklch(0.65 0.14 230 / 0.18), oklch(0.72 0.14 155 / 0.12));
-      color: oklch(0.78 0.14 230);
-      border: 1px solid oklch(0.65 0.14 230 / 0.35);
-      padding: 6px 11px;
+    .sx-links::-webkit-scrollbar { display: none; }
+
+    .sx-link {
+      position: relative;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
+      font-size: 13px; font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: color 0.15s, background 0.15s;
     }
-    body:not(.dark) .sx-nav-links a.active {
-      color: oklch(0.45 0.16 230);
+    .sx-link .ix {
+      font-family: 'Geist Mono', ui-monospace, monospace;
+      font-size: 9px; letter-spacing: 1.2px;
+      color: rgba(255,255,255,0.35); font-weight: 600;
     }
-    @media (max-width: 760px) {
-      .sx-nav-inner { padding: 10px 16px; gap: 12px; }
-      .sx-nav-links a { padding: 6px 9px; font-size: 12px; }
-      .sx-nav-links a .ix { display: none; }
+    .sx-link:hover { color: #fff; }
+    .sx-link:hover .ix { color: rgba(255,255,255,0.55); }
+    .sx-link.active {
+      color: #fff;
+      background: linear-gradient(135deg, oklch(0.65 0.14 230 / 0.5), oklch(0.55 0.16 220 / 0.45));
+      box-shadow:
+        0 4px 14px oklch(0.55 0.16 220 / 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .sx-link.active .ix { color: rgba(255,255,255,0.75); }
+
+    @media (max-width: 860px) {
+      .sx-nav-pill { padding: 5px 8px; }
+      .sx-brand { padding-right: 8px; margin-right: 2px; }
+      .sx-brand .wm { font-size: 10px; letter-spacing: 2px; }
+      .sx-link { padding: 7px 10px; font-size: 12px; }
+      .sx-link .ix { display: none; }
+    }
+    @media (max-width: 560px) {
+      .sx-nav-pill { border-radius: 16px; width: calc(100% - 16px); padding: 4px; }
+      .sx-brand { padding: 4px 8px 4px 2px; }
     }
   `;
 
@@ -95,19 +121,20 @@
   document.head.appendChild(style);
 
   const linkHTML = LINKS.map(l => {
-    const active = l.href === here ? ' class="active"' : '';
-    return `<a href="${l.href}"${active}><span class="ix">${l.ix}</span>${l.label}</a>`;
+    const active = l.href === here ? ' active' : '';
+    return `<a class="sx-link${active}" href="${l.href}"><span class="ix">${l.ix}</span>${l.label}</a>`;
   }).join('');
 
   const nav = document.createElement('header');
   nav.className = 'sx-nav';
   nav.innerHTML = `
-    <div class="sx-nav-inner">
-      <a class="brand" href="index.html"><span class="dot"></span>SUNX · SENSE</a>
-      <nav class="sx-nav-links">${linkHTML}</nav>
+    <div class="sx-nav-pill">
+      <a class="sx-brand" href="index.html">
+        <span class="orb"></span>
+        <span class="wm">SUNX<em> · SENSE</em></span>
+      </a>
+      <nav class="sx-links">${linkHTML}</nav>
     </div>
   `;
-
-  // Insert as the very first element of <body>.
   document.body.insertBefore(nav, document.body.firstChild);
 })();
