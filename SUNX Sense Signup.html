@@ -632,23 +632,16 @@
   footer.foot a { color: var(--fg-soft); text-decoration: none; margin-right: 18px; }
   footer.foot a:hover { color: var(--fg); }
 </style>
+<script src="nav.js" defer></script>
 </head>
 <body class="dark">
 
 <div class="page">
 
-  <nav class="top">
-    <div class="brand"><span class="dot"></span>SUNX · SENSE</div>
-    <div class="nav-actions">
-      <a href="SUNX Sense Onboarding.html">Onboarding</a>
-      <a href="SUNX Sense Tiers.html">Tiers</a>
-      <a href="SUNX Sense Consent.html">Consent (EK J)</a>
-      <div class="seg" id="theme-toggle">
-        <button data-theme="light">LIGHT</button>
-        <button data-theme="dark" class="active">DARK</button>
-      </div>
-    </div>
-  </nav>
+  <div class="seg" id="theme-toggle" style="position: fixed; bottom: 20px; left: 20px; z-index: 999;">
+    <button data-theme="light">LIGHT</button>
+    <button data-theme="dark" class="active">DARK</button>
+  </div>
 
   <!-- ============ HERO + SIGNUP ============ -->
   <section class="hero">
