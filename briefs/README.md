@@ -1,49 +1,78 @@
 # Mission Brief Generator
 
-Customer-facing **Mission Brief** companion pages — auto-generated from sales proposals.
+Customer-facing **Mission Brief** companion pages — auto-generated from sales proposals, displayed in a gallery on the home page with SVG poster thumbnails.
 
-## What this is
+## How it works
 
-When the proposal-generator session produces a proposal for a new deployment, it should also produce a **Mission Brief**: a customer-facing HTML page that shows *how it will go* — venue, schedule, fleet, dashboard, roadmap, risks — in the same visual language as the proposal.
+```
+briefs/
+├── data/                      ← source of truth (one JSON per brief)
+│   └── carbostar-px-zwf2026.json
+├── template.html              ← HTML template with {{tokens}}
+├── build.mjs                  ← THE build command
+├── new.mjs                    ← scaffold a new brief
+├── schema.json                ← JSON Schema (for validation / LLM)
+├── manifest.json              ← auto-generated index (don't edit)
+└── README.md
+```
 
-Reference brief: [`../Carbostar PX Mission Brief.html`](../Carbostar%20PX%20Mission%20Brief.html) — the canonical example for the Sıfır Atık Vakfı / Zero Waste Forum 2026 deployment.
+The repo root contains the rendered HTML files plus the home-page gallery (`index.html`) that reads `manifest.json` and renders cards with SVG poster previews.
 
-## Workflow
+## Add a new brief — three steps
 
-The other Claude session (proposal generator) does this:
+```bash
+# 1. Scaffold a new JSON, seeded from the Carbostar example
+node briefs/new.mjs acme-cop31 "Acme Industries"
 
-1. After the proposal is finalized, build a `data.json` matching [`schema.json`](schema.json).
-2. Either:
-   - **Path A (recommended)** — Call `node render.mjs data.json output.html`. This substitutes `{{TOKEN}}` placeholders in [`template.html`](template.html) with values from `data.json`.
-   - **Path B (custom layout)** — If the deployment needs sections that don't fit the template (e.g. multi-city, no event, B2B-only), generate a fresh HTML using the Carbostar brief + the existing [`example-carbostar.json`](example-carbostar.json) as visual + structural references.
+# 2. Edit briefs/data/acme-cop31.json — fill in the TODOs.
+#    Schema: see briefs/schema.json or the Carbostar example.
 
-3. Save the result to `../<slug>.html` (e.g. `../Acme Deployment Brief.html`) and add a card to `../index.html`, an entry to `../nav.js`.
+# 3. Build everything
+node briefs/build.mjs
+```
 
-## Files
+The build command:
+- Scans `briefs/data/*.json`
+- Renders each to the repo root using `template.html`
+- Rebuilds `manifest.json` from scratch
+- **Cleans up stale outputs** (HTML files at root that were in the previous manifest but no longer have a corresponding JSON)
 
-| File | Purpose |
-|---|---|
-| `schema.json` | JSON schema describing every field a brief needs. |
-| `example-carbostar.json` | The Carbostar PX / ZWF 2026 brief's data — a worked example. |
-| `template.html` | Slimmed-down templated brief with `{{TOKEN}}` placeholders. Single-page, same design tokens as the reference. |
-| `render.mjs` | Node script: reads a JSON file, swaps tokens, writes the result. |
-| `README.md` | This file. |
+To **remove** a brief: `rm briefs/data/<slug>.json && node briefs/build.mjs`.
+
+## What the brief looks like
+
+Take a look at [`../Carbostar PX Mission Brief.html`](../Carbostar%20PX%20Mission%20Brief.html) — the canonical example, hand-crafted for the Sıfır Atık Vakfı / Zero Waste Forum 2026 deployment.
+
+The template is a slimmed-down version of that same design language (Geist + OKLCH, dark glass cards, hero countdown, 6 sections: Stage · Fleet · Dashboard · Roadmap · Risks · Bridge).
+
+## Workflow for the proposal-generator Claude session
+
+1. After generating a proposal, produce a `data.json` matching `briefs/schema.json`.
+2. Save it as `briefs/data/<slug>.json` (slug = lowercase-kebab-case).
+3. Run `node briefs/build.mjs`.
+4. `git add briefs/data/<slug>.json briefs/manifest.json "<output>.html" && git commit && git push`.
+5. The new brief appears on the home page gallery within 30–60s.
 
 ## Design rules (do not break)
 
 - **Geist + Geist Mono** fonts (Google).
 - **OKLCH color tokens**: primary `0.65 0.14 230`, accent `0.72 0.14 155`, amber `0.78 0.14 75`, red `0.65 0.18 25`, violet `0.62 0.18 295`, gold `0.80 0.13 80`. Backgrounds: `#07090d` / `#0c1018`.
-- **Eyebrow style** — Geist Mono, 11px, 2px letter-spacing, `--primary` color, uppercase.
+- **Eyebrow style** — Geist Mono, 11px, 2px letter-spacing, primary color, uppercase.
 - **Big numbers** — Geist 600 weight, tight letter-spacing (-1 to -3px), high contrast.
-- **Eyebrows over titles** — section headings are always preceded by an uppercase mono eyebrow (e.g. `01 · THE STAGE`).
-- **No emoji in chrome**, only sparingly inside cards if relevant.
+- **Eyebrows over titles** — section headings always preceded by an uppercase mono eyebrow (e.g. `01 · THE STAGE`).
 - Dark background only. No light-mode variant.
-- Customer brand goes **front-stage**, ONO is **back-stage / invisible technology partner**.
+- Customer brand is **front-stage**; ONO is **back-stage / invisible technology partner**.
 
-## Tone rules (do not break)
+## Tone rules
 
 - Calm, scientific, operational. Not salesy.
-- Past tense for delivered, future tense for upcoming, present tense for live.
-- Avoid hyperbole, no rocket emojis, no exclamation points.
-- Risks are listed, not hidden — credibility comes from acknowledging them.
+- Past for delivered, future for upcoming, present for live.
 - Numbers > adjectives.
+- Risks listed openly — credibility comes from acknowledging them.
+
+## Per-brief customization
+
+In `data/<slug>.json`:
+
+- `meta.accentHue` — OKLCH hue for that brief's gallery card (default 230 = blue). Try 155 (green) for sustainability, 295 (violet) for tech, 75 (amber) for civic, 25 (red) for industrial.
+- `meta.outputFilename` — override the rendered HTML filename. Default: `<Client> <Project> Mission Brief.html`.

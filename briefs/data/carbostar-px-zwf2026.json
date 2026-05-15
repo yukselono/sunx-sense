@@ -5,7 +5,11 @@
     "documentId": "TKF-2026-0427",
     "eventDate": "2026-06-05T09:00:00+03:00",
     "updatedAt": "15 MAY 2026",
-    "audience": "CUSTOMER"
+    "audience": "CUSTOMER",
+    "accentHue": 230,
+    "outputFilename": "Carbostar PX Mission Brief.html",
+    "skipBuild": true,
+    "_comment": "skipBuild=true means this brief uses a hand-crafted HTML (not the template). build.mjs lists it in the manifest but leaves the HTML alone."
   },
   "hero": {
     "eyebrow": "ZERO WASTE FORUM 2026 · OPERATIONAL BRIEF · CUSTOMER",
