@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mission Brief Data",
+  "description": "Schema for data driving a customer-facing Mission Brief HTML page.",
+  "type": "object",
+  "required": ["meta", "hero", "stage", "fleet", "dashboard", "roadmap", "risks", "closing"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["client", "project", "documentId", "eventDate", "updatedAt"],
+      "properties": {
+        "client":        { "type": "string", "description": "Front-stage brand (e.g. 'Sıfır Atık Vakfı')." },
+        "project":       { "type": "string", "description": "ONO product line (e.g. 'Carbostar PX')." },
+        "documentId":    { "type": "string", "description": "Internal proposal/document ID (e.g. 'TKF-2026-0427')." },
+        "eventDate":     { "type": "string", "format": "date-time", "description": "ISO start datetime — drives the countdown." },
+        "updatedAt":     { "type": "string", "description": "Human-readable date the brief was last updated (e.g. '15 MAY 2026')." },
+        "audience":      { "type": "string", "enum": ["INTERNAL", "CUSTOMER", "INVESTOR"], "default": "CUSTOMER" }
+      }
+    },
+    "hero": {
+      "type": "object",
+      "required": ["eyebrow", "headline", "lede", "stats"],
+      "properties": {
+        "eyebrow":  { "type": "string", "description": "e.g. 'ZERO WASTE FORUM 2026 · OPERATIONAL BRIEF · CUSTOMER'." },
+        "headline": {
+          "type": "object",
+          "required": ["lines", "accent"],
+          "description": "Three-line poster headline. Last line is accented.",
+          "properties": {
+            "lines":  { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 3 },
+            "accent": { "type": "string", "description": "The accented closing line." }
+          }
+        },
+        "lede": { "type": "string", "description": "1–2 sentence summary." },
+        "stats": {
+          "type": "array",
+          "minItems": 4, "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["v", "l"],
+            "properties": {
+              "v":   { "type": "string", "description": "Headline value (e.g. '500')." },
+              "l":   { "type": "string", "description": "Label (e.g. 'CARBOSTAR PX')." },
+              "sub": { "type": "string", "description": "Sub-detail (e.g. '+ 50 buffer')." }
+            }
+          }
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "required": ["venue", "dates", "format", "scale", "role", "frontStage", "backStage"],
+      "properties": {
+        "venue":      { "type": "string", "description": "Venue + city (e.g. 'Atatürk Havalimanı · Istanbul')." },
+        "dates":      { "type": "string", "description": "Human-readable date range (e.g. '5–7 JUN 2026')." },
+        "format":     { "type": "string", "description": "e.g. 'Forum + Pavilion'." },
+        "scale":      { "type": "string", "description": "e.g. '5,000+ visitors'." },
+        "role":       { "type": "string", "description": "ONO's role in 1 sentence." },
+        "frontStage": {
+          "type": "object",
+          "required": ["who", "sub"],
+          "properties": {
+            "who": { "type": "string" },
+            "sub": { "type": "string" }
+          }
+        },
+        "backStage": {
+          "type": "object",
+          "required": ["who", "sub"],
+          "properties": {
+            "who": { "type": "string" },
+            "sub": { "type": "string" }
+          }
+        }
+      }
+    },
+    "fleet": {
+      "type": "object",
+      "required": ["units", "buffer", "lot", "idRange", "calibration", "shipDate"],
+      "properties": {
+        "units":       { "type": "integer", "description": "Primary unit count (e.g. 500)." },
+        "buffer":      { "type": "integer", "description": "Shadow buffer units (e.g. 50)." },
+        "lot":         { "type": "string",  "description": "Production lot (e.g. 'LOT 04')." },
+        "idRange":     { "type": "string",  "description": "Serial range (e.g. 'PX-2026-0001 → PX-2026-0500')." },
+        "calibration": { "type": "string",  "description": "Calibration standard (e.g. 'NIST-traceable · ±30 ppm')." },
+        "shipDate":    { "type": "string",  "description": "Ship-to-venue date (e.g. '28 MAY 2026')." }
+      }
+    },
+    "dashboard": {
+      "type": "object",
+      "required": ["headline", "description", "streamCount", "languages"],
+      "properties": {
+        "headline":    { "type": "string", "description": "Dashboard section headline." },
+        "description": { "type": "string" },
+        "streamCount": { "type": "integer" },
+        "languages":   { "type": "array", "items": { "type": "string" }, "description": "Languages displayed (e.g. ['EN', 'TR'])." }
+      }
+    },
+    "roadmap": {
+      "type": "object",
+      "required": ["phases"],
+      "properties": {
+        "phases": {
+          "type": "array",
+          "minItems": 3, "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "window", "deliverable", "status"],
+            "properties": {
+              "id":          { "type": "string", "description": "e.g. 'T-21'." },
+              "title":       { "type": "string", "description": "Phase title." },
+              "window":      { "type": "string", "description": "Date window (e.g. 'MAY 15 – JUN 4')." },
+              "deliverable": { "type": "string", "description": "What ships at the end of this phase." },
+              "status":      { "type": "string", "enum": ["DONE", "ACTIVE", "NEXT", "BLOCKED"] }
+            }
+          }
+        }
+      }
+    },
+    "risks": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["title", "severity", "owner", "mitigation"],
+        "properties": {
+          "title":      { "type": "string" },
+          "severity":   { "type": "string", "enum": ["LOW", "MED", "HIGH"] },
+          "owner":      { "type": "string" },
+          "mitigation": { "type": "string" }
+        }
+      }
+    },
+    "closing": {
+      "type": "object",
+      "required": ["bridgeNodes", "manifesto", "signoff"],
+      "properties": {
+        "bridgeNodes": {
+          "type": "array", "minItems": 2, "maxItems": 4,
+          "description": "Strategic steps from this event onward (e.g. Seed → Scale → COP31).",
+          "items": {
+            "type": "object",
+            "required": ["when", "what", "desc"],
+            "properties": {
+              "when": { "type": "string" },
+              "what": { "type": "string" },
+              "desc": { "type": "string" }
+            }
+          }
+        },
+        "manifesto": { "type": "string", "description": "Closing paragraph framing why this matters." },
+        "signoff":   { "type": "string", "description": "Closing line (e.g. 'ONO Yazılım · operations spine · invisible by design')." }
+      }
+    }
+  }
+}

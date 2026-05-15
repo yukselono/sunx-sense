@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "client": "Sıfır Atık Vakfı",
+    "project": "Carbostar PX",
+    "documentId": "TKF-2026-0427",
+    "eventDate": "2026-06-05T09:00:00+03:00",
+    "updatedAt": "15 MAY 2026",
+    "audience": "CUSTOMER"
+  },
+  "hero": {
+    "eyebrow": "ZERO WASTE FORUM 2026 · OPERATIONAL BRIEF · CUSTOMER",
+    "headline": {
+      "lines": ["Twenty-one days.", "Five hundred devices."],
+      "accent": "One global stage."
+    },
+    "lede": "ONO Yazılım deploys the largest event-scale carbon measurement infrastructure in Türkiye for the Sıfır Atık Vakfı at Atatürk Havalimanı — under the foundation's name, with COP31 Antalya as the destination.",
+    "stats": [
+      { "v": "500",    "l": "CARBOSTAR PX",       "sub": "+ 50 buffer" },
+      { "v": "5,000+", "l": "VISITORS",            "sub": "150+ countries" },
+      { "v": "100+",   "l": "MINISTERS",           "sub": "200+ mayors" },
+      { "v": "3",      "l": "DAYS",                "sub": "5–7 June" },
+      { "v": "$95.5K", "l": "TKF-2026-0427",       "sub": "+ KDV" },
+      { "v": "TR",     "l": "BRANDED AS",          "sub": "Sıfır Atık Vakfı" }
+    ]
+  },
+  "stage": {
+    "venue": "Atatürk Havalimanı · Istanbul",
+    "dates": "5–7 JUN 2026",
+    "format": "Forum + Pavilion",
+    "scale": "5,000+ visitors",
+    "role": "Technology & operations provider. Invisible by design.",
+    "frontStage": { "who": "Sıfır Atık Vakfı", "sub": "Brand · narrative · audience" },
+    "backStage":  { "who": "ONO Yazılım",      "sub": "Devices · software · ops" }
+  },
+  "fleet": {
+    "units": 500,
+    "buffer": 50,
+    "lot": "LOT 04",
+    "idRange": "PX-2026-0001 → PX-2026-0500",
+    "calibration": "NIST-traceable · ±30 ppm @ 400 ppm",
+    "shipDate": "28 MAY 2026"
+  },
+  "dashboard": {
+    "headline": "Live carbon data, projected on the main stage.",
+    "description": "Streams from 500 Carbostar PX devices, projected on the main stage. Dual-language, audience-readable, no jargon.",
+    "streamCount": 500,
+    "languages": ["EN", "TR"]
+  },
+  "roadmap": {
+    "phases": [
+      { "id": "T-21", "title": "Production lock",     "window": "MAY 15 – MAY 22", "deliverable": "BoM frozen · LOT 04 cast", "status": "DONE" },
+      { "id": "T-14", "title": "Calibration & QA",     "window": "MAY 22 – MAY 28", "deliverable": "500 + 50 units calibrated", "status": "ACTIVE" },
+      { "id": "T-7",  "title": "Logistics",            "window": "MAY 28 – JUN 4",  "deliverable": "Units at venue, staged",     "status": "NEXT" },
+      { "id": "T-0",  "title": "Go-live",              "window": "JUN 5 – JUN 7",   "deliverable": "Live forum + main-stage projection", "status": "NEXT" },
+      { "id": "T+14", "title": "Case study",           "window": "JUN 8 – JUN 21",  "deliverable": "Co-authored case study with foundation", "status": "NEXT" }
+    ]
+  },
+  "risks": [
+    { "title": "Calibration drift in transit",       "severity": "MED",  "owner": "Hardware Ops", "mitigation": "Buffer of 50 + on-site recalibration kit." },
+    { "title": "Network instability at venue",       "severity": "MED",  "owner": "Site Ops",     "mitigation": "Dual SIM + local-cache mode for dashboard." },
+    { "title": "Foundation brand approval slippage", "severity": "HIGH", "owner": "Partnerships", "mitigation": "Brand kit pre-locked + escalation contact at TKF." },
+    { "title": "Talent unavailability during event", "severity": "LOW",  "owner": "People Ops",   "mitigation": "Rotating shift schedule, on-call list." }
+  ],
+  "closing": {
+    "bridgeNodes": [
+      { "when": "JUN 5–7 · ISTANBUL",   "what": "Seed",  "desc": "Tactical introductions with ministers, mayors, UN officials. English brief card on every Carbostar." },
+      { "when": "AUG 2026 · ANKARA",    "what": "Scale", "desc": "Municipal pilot conversations spun out of forum contacts." },
+      { "when": "NOV 2026 · ANTALYA",   "what": "COP31", "desc": "Carbostar PX active in the Sıfır Atık pavilion. Türkiye positioned as MRV-capable host nation." }
+    ],
+    "manifesto": "The Sıfır Atık Forumu 2026 is not a delivery for ONO — it is an entry into the international climate-tech bloodstream of Türkiye. Every Carbostar PX is a calling card.",
+    "signoff": "ONO Yazılım · operations spine · invisible by design"
+  }
+}
