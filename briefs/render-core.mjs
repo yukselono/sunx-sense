@@ -57,7 +57,90 @@ export function renderBridge(nodes) {
     </div>`).join('');
 }
 
+// Archetype defaults — fill in section.* labels when the JSON doesn't override.
+// briefType drives which preset is used: 'hardware' | 'saas' | 'ai' | 'grid' | 'generic'.
+const ARCHETYPE_DEFAULTS = {
+  hardware: {
+    stage:     { eyebrow: '01 · THE STAGE',  title: 'Where it all happens.', venueLabel: 'VENUE',
+                 label1: 'Dates', label2: 'Format', label3: 'Scale' },
+    fleet:     { eyebrow: '02 · FLEET',      title: 'Every unit. Tracked. Calibrated. Bound for the stage.',
+                 unitsLabel: 'Primary units', bufferLabel: 'Buffer', bufferSub: 'Shadow units',
+                 lotLabel: 'Lot', lotSub: 'BoM locked',
+                 shipLabel: 'Ship date', shipSub: 'to venue',
+                 idIcon: '📡', calibrationIcon: '🎯' },
+    dashboard: { eyebrow: '03 · DASHBOARD',  streamLabel: 'CONCURRENT STREAMS · LIVE' },
+    roadmap:   { eyebrow: '04 · ROADMAP',    title: 'From production lock to case study — phase by phase.' },
+    risks:     { eyebrow: '05 · RISKS',      title: 'What could break — and how we already handle it.' },
+    bridge:    { eyebrow: '06 · BRIDGE',     title: 'This deployment is a seed, not a destination.' },
+  },
+  saas: {
+    stage:     { eyebrow: '01 · ENGAGEMENT', title: 'How the relationship is set up.', venueLabel: 'ENGAGEMENT',
+                 label1: 'Kickoff', label2: 'Format', label3: 'Scale' },
+    fleet:     { eyebrow: '02 · SCOPE',      title: 'Every seat. Provisioned. Trained.',
+                 unitsLabel: 'Seats', bufferLabel: 'Headroom', bufferSub: 'Reserved capacity',
+                 lotLabel: 'Tier', lotSub: 'Plan',
+                 shipLabel: 'Onboarding', shipSub: 'Kickoff date',
+                 idIcon: '🏢', calibrationIcon: '📊' },
+    dashboard: { eyebrow: '03 · REPORTING',  streamLabel: 'WORKSPACES · LIVE' },
+    roadmap:   { eyebrow: '04 · ROLLOUT',    title: 'From contracts signed to first quarterly review.' },
+    risks:     { eyebrow: '05 · RISKS',      title: 'What could slow this down — and how we already handle it.' },
+    bridge:    { eyebrow: '06 · EXPANSION',  title: 'Onboarding is the start, not the finish.' },
+  },
+  ai: {
+    stage:     { eyebrow: '01 · PILOT',      title: 'How the pilot is structured.', venueLabel: 'PILOT SCOPE',
+                 label1: 'Pilot window', label2: 'Format', label3: 'Scale' },
+    fleet:     { eyebrow: '02 · MODELS',     title: 'Every model. Trained. Validated. Deployed.',
+                 unitsLabel: 'Models', bufferLabel: 'Variants', bufferSub: 'A/B candidates',
+                 lotLabel: 'Family', lotSub: 'Architecture',
+                 shipLabel: 'Go-live', shipSub: 'Production date',
+                 idIcon: '🧠', calibrationIcon: '🎯' },
+    dashboard: { eyebrow: '03 · OBSERVABILITY', streamLabel: 'INFERENCE STREAMS · LIVE' },
+    roadmap:   { eyebrow: '04 · PIPELINE',   title: 'From data audit to monitoring — phase by phase.' },
+    risks:     { eyebrow: '05 · RISKS',      title: 'What could degrade the model — and how we already handle it.' },
+    bridge:    { eyebrow: '06 · NEXT MODELS', title: 'Each model unlocks the next.' },
+  },
+  grid: {
+    stage:     { eyebrow: '01 · GRID NODE',  title: 'Where the integration happens.', venueLabel: 'SITE',
+                 label1: 'Pilot window', label2: 'Topology', label3: 'Scale' },
+    fleet:     { eyebrow: '02 · ASSETS',     title: 'Every inverter. Wired. Forecasting.',
+                 unitsLabel: 'Inverters', bufferLabel: 'Reserve', bufferSub: 'Capacity headroom',
+                 lotLabel: 'Phase', lotSub: 'Installation tier',
+                 shipLabel: 'Energize', shipSub: 'Commissioning date',
+                 idIcon: '⚡', calibrationIcon: '🛰' },
+    dashboard: { eyebrow: '03 · TELEMETRY',  streamLabel: 'GRID POINTS · LIVE' },
+    roadmap:   { eyebrow: '04 · ROADMAP',    title: 'From site survey to grid-scale operation — phase by phase.' },
+    risks:     { eyebrow: '05 · RISKS',      title: 'What could fault the integration — and how we already handle it.' },
+    bridge:    { eyebrow: '06 · GRID GROWTH', title: 'A node today, a network tomorrow.' },
+  },
+  generic: {
+    stage:     { eyebrow: '01 · ENGAGEMENT', title: 'How the work is set up.', venueLabel: 'SCOPE',
+                 label1: 'Window', label2: 'Format', label3: 'Scale' },
+    fleet:     { eyebrow: '02 · DELIVERABLES', title: 'Every item. Specified. Delivered.',
+                 unitsLabel: 'Units', bufferLabel: 'Buffer', bufferSub: 'Reserve',
+                 lotLabel: 'Batch', lotSub: 'Identifier',
+                 shipLabel: 'Delivery', shipSub: 'Date',
+                 idIcon: '📦', calibrationIcon: '✅' },
+    dashboard: { eyebrow: '03 · DASHBOARD',  streamLabel: 'DATA SOURCES · LIVE' },
+    roadmap:   { eyebrow: '04 · ROADMAP',    title: 'From kickoff to handover — phase by phase.' },
+    risks:     { eyebrow: '05 · RISKS',      title: 'What could break — and how we already handle it.' },
+    bridge:    { eyebrow: '06 · WHAT NEXT',  title: 'This delivery is a start, not an end.' },
+  },
+};
+
+function resolveSection(data) {
+  const type = (data.meta?.briefType) || 'hardware';
+  const preset = ARCHETYPE_DEFAULTS[type] || ARCHETYPE_DEFAULTS.generic;
+  const user = data.section || {};
+  // Shallow-merge user-supplied section overrides on top of the archetype preset.
+  const out = {};
+  for (const k of Object.keys(preset)) {
+    out[k] = { ...preset[k], ...(user[k] || {}) };
+  }
+  return out;
+}
+
 export function renderBrief(template, data) {
+  const section = resolveSection(data);
   const tokens = {
     'meta.client':        escapeHTML(data.meta.client),
     'meta.project':       escapeHTML(data.meta.project),
@@ -101,6 +184,36 @@ export function renderBrief(template, data) {
     'closing.bridge':     renderBridge(data.closing.bridgeNodes),
     'closing.manifesto':  escapeHTML(data.closing.manifesto),
     'closing.signoff':    escapeHTML(data.closing.signoff),
+
+    // Section labels (archetype-driven, user-overridable)
+    'section.stage.eyebrow':     escapeHTML(section.stage.eyebrow),
+    'section.stage.title':       escapeHTML(section.stage.title),
+    'section.stage.venueLabel':  escapeHTML(section.stage.venueLabel),
+    'section.stage.label1':      escapeHTML(section.stage.label1),
+    'section.stage.label2':      escapeHTML(section.stage.label2),
+    'section.stage.label3':      escapeHTML(section.stage.label3),
+
+    'section.fleet.eyebrow':         escapeHTML(section.fleet.eyebrow),
+    'section.fleet.title':           escapeHTML(section.fleet.title),
+    'section.fleet.unitsLabel':      escapeHTML(section.fleet.unitsLabel),
+    'section.fleet.bufferLabel':     escapeHTML(section.fleet.bufferLabel),
+    'section.fleet.bufferSub':       escapeHTML(section.fleet.bufferSub),
+    'section.fleet.lotLabel':        escapeHTML(section.fleet.lotLabel),
+    'section.fleet.lotSub':          escapeHTML(section.fleet.lotSub),
+    'section.fleet.shipLabel':       escapeHTML(section.fleet.shipLabel),
+    'section.fleet.shipSub':         escapeHTML(section.fleet.shipSub),
+    'section.fleet.idIcon':          section.fleet.idIcon,
+    'section.fleet.calibrationIcon': section.fleet.calibrationIcon,
+
+    'section.dashboard.eyebrow':     escapeHTML(section.dashboard.eyebrow),
+    'section.dashboard.streamLabel': escapeHTML(section.dashboard.streamLabel),
+
+    'section.roadmap.eyebrow': escapeHTML(section.roadmap.eyebrow),
+    'section.roadmap.title':   escapeHTML(section.roadmap.title),
+    'section.risks.eyebrow':   escapeHTML(section.risks.eyebrow),
+    'section.risks.title':     escapeHTML(section.risks.title),
+    'section.bridge.eyebrow':  escapeHTML(section.bridge.eyebrow),
+    'section.bridge.title':    escapeHTML(section.bridge.title),
   };
 
   let out = template;

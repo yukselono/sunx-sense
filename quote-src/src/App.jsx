@@ -376,38 +376,282 @@ const safeNumber = (v) => (v === "" ? "" : Number(v) || 0);
 // Hand off the generated quote to the SUNX Sense Mission Brief preview.
 const SUNX_BRIEF_URL = "/sunx-sense/briefs/import.html";
 
+// Map catalog ids to brief archetypes. Each archetype has bespoke copy.
+const ARCHETYPE_OF = {
+  carbostar: 'hardware',
+  carboware: 'saas',
+  senseai:   'ai',
+  sunx:      'grid',
+  custom:    'generic',
+};
+
+// Per-archetype content shaping (stage/fleet/dashboard/roadmap/risks/bridge)
+const ARCHETYPE_CONTENT = {
+  hardware: ({ client, project, totalUnits, items }) => ({
+    stage: {
+      venue: "TBD · venue to be confirmed with client",
+      format: "Forum / pavilion / event-scale deployment",
+      scale: totalUnits + " device" + (totalUnits === 1 ? "" : "s"),
+      role: "Technology & operations provider. Invisible by design.",
+    },
+    fleet: {
+      units: totalUnits,
+      buffer: Math.max(1, Math.round(totalUnits * 0.1)),
+      lot: "LOT TBD",
+      idRange: project.toUpperCase().slice(0,3) + "-XXXX-0001 → " + project.toUpperCase().slice(0,3) + "-XXXX-" + String(totalUnits).padStart(4,'0'),
+      calibration: "NIST-traceable · ±30 ppm @ 400 ppm",
+      shipDate: "TBD",
+    },
+    dashboard: {
+      headline: "Live carbon data, projected on the main stage.",
+      description: "Streams from the deployed " + project + " fleet, accessible via a white-label dashboard. Dual-language, audience-readable, no jargon.",
+      streamCount: totalUnits,
+    },
+    roadmap: [
+      { id: "T-21", title: "Production lock",  window: "- 3 weeks",  deliverable: "BoM frozen · production casting", status: "ACTIVE" },
+      { id: "T-14", title: "Calibration & QA", window: "- 2 weeks",  deliverable: "All units calibrated, traceable", status: "NEXT" },
+      { id: "T-7",  title: "Logistics",        window: "- 1 week",   deliverable: "Units at venue, staged",          status: "NEXT" },
+      { id: "T-0",  title: "Go-live",          window: "Event week", deliverable: "Live forum + main-stage projection", status: "NEXT" },
+      { id: "T+14", title: "Case study",       window: "+ 2 weeks",  deliverable: "Co-authored case study",          status: "NEXT" },
+    ],
+    risks: [
+      { title: "Calibration drift in transit",       severity: "MED",  owner: "Hardware Ops", mitigation: "Buffer units + on-site recalibration kit." },
+      { title: "Network instability at venue",       severity: "MED",  owner: "Site Ops",     mitigation: "Dual SIM + local-cache mode for dashboard." },
+      { title: "Brand approval slippage",            severity: "HIGH", owner: "Partnerships", mitigation: "Brand kit pre-locked + escalation contact." },
+      { title: "Talent unavailability during event", severity: "LOW",  owner: "People Ops",   mitigation: "Rotating shift schedule, on-call list." },
+    ],
+    bridge: [
+      { when: "DEPLOY",   what: "Operate",     desc: project + " fleet active at " + client + "'s site." },
+      { when: "MEASURE",  what: "Learn",       desc: "Public-facing storytelling from real-world data." },
+      { when: "EXPAND",   what: "Scale",       desc: "Optional multi-site expansion + future-event reuse." },
+    ],
+    manifestoSuffix: "Every device is a calling card.",
+  }),
+  saas: ({ client, project, totalUnits, items }) => ({
+    stage: {
+      venue: client + " · all workspaces",
+      format: "SaaS engagement",
+      scale: totalUnits + " seat" + (totalUnits === 1 ? "" : "s"),
+      role: "Cloud platform + onboarding partner. Embedded in your reporting workflow.",
+    },
+    fleet: {
+      units: totalUnits,
+      buffer: Math.max(1, Math.round(totalUnits * 0.2)),
+      lot: "ENTERPRISE",
+      idRange: client.replace(/\s+/g, '').toUpperCase().slice(0,8) + "-WS-001 → " + String(totalUnits).padStart(3,'0'),
+      calibration: "SLA · 99.9% uptime · 24h response",
+      shipDate: "Kickoff TBD",
+    },
+    dashboard: {
+      headline: "Scope 1-2-3 emissions, live across your organization.",
+      description: project + " centralises reporting from every workspace into a single ESG-grade dashboard. Auditable, exportable, board-ready.",
+      streamCount: totalUnits,
+    },
+    roadmap: [
+      { id: "W-1", title: "Contracts & SSO",      window: "Week 1",  deliverable: "MSA signed · SAML/OIDC wired",       status: "ACTIVE" },
+      { id: "W-2", title: "Data ingestion",       window: "Week 2",  deliverable: "Initial scope data flowing in",       status: "NEXT" },
+      { id: "W-3", title: "Workspace rollout",    window: "Week 3",  deliverable: "All seats provisioned, trained",      status: "NEXT" },
+      { id: "W-4", title: "First report",         window: "Week 4",  deliverable: "First ESG-ready report generated",    status: "NEXT" },
+      { id: "Q+1", title: "Quarterly review",     window: "+ 1 quarter", deliverable: "Optimization + roadmap update", status: "NEXT" },
+    ],
+    risks: [
+      { title: "Data quality from upstream systems",    severity: "MED",  owner: "Data Ops",      mitigation: "Validation rules + curated source mappings during onboarding." },
+      { title: "Integration with ERP/HRIS complexity",   severity: "MED",  owner: "Solutions",     mitigation: "Pre-built connectors + dedicated integration window in week 2." },
+      { title: "Change management / adoption",           severity: "HIGH", owner: "Customer Success", mitigation: "Champion programme + workspace-level training sessions." },
+      { title: "Audit-readiness gaps",                   severity: "LOW",  owner: "Compliance",    mitigation: "Pre-audit checklist + sample export 30 days before deadline." },
+    ],
+    bridge: [
+      { when: "ONBOARD", what: "Activate",    desc: "First quarterly report shipped to " + client + "'s board." },
+      { when: "OPERATE", what: "Embed",       desc: "Reporting cadence locked into operating rhythm." },
+      { when: "EXPAND",  what: "Scale",       desc: "Optional add-ons: supplier scope-3, target setting, audit module." },
+    ],
+    manifestoSuffix: "ESG reporting that survives an audit.",
+  }),
+  ai: ({ client, project, totalUnits, items }) => ({
+    stage: {
+      venue: client + " · production environment",
+      format: "ML pilot → production",
+      scale: totalUnits + " model" + (totalUnits === 1 ? "" : "s") + " or use-case" + (totalUnits === 1 ? "" : "s"),
+      role: "ML engineering partner. Models trained on your data, run in your environment.",
+    },
+    fleet: {
+      units: totalUnits,
+      buffer: 2,
+      lot: "ARCH-v1",
+      idRange: "model-001 → " + String(totalUnits).padStart(3,'0'),
+      calibration: "Target accuracy ≥ 92% · drift threshold 5%",
+      shipDate: "Production cut TBD",
+    },
+    dashboard: {
+      headline: "Predictive maintenance + anomaly detection, live.",
+      description: project + " surfaces predicted failures, anomalies, and confidence intervals into a clean operator dashboard. Alerts route to the right team automatically.",
+      streamCount: totalUnits,
+    },
+    roadmap: [
+      { id: "P-1", title: "Data audit",         window: "Phase 1",  deliverable: "Data sources mapped, quality scored", status: "ACTIVE" },
+      { id: "P-2", title: "Baseline model",     window: "Phase 2",  deliverable: "Trained baseline, accuracy validated", status: "NEXT" },
+      { id: "P-3", title: "Validation",         window: "Phase 3",  deliverable: "Backtest on 6-12 months of production data", status: "NEXT" },
+      { id: "P-4", title: "Deployment",         window: "Phase 4",  deliverable: "Models in production with monitoring", status: "NEXT" },
+      { id: "P+1", title: "Monitoring & retrain", window: "Ongoing", deliverable: "Drift detection + scheduled retraining", status: "NEXT" },
+    ],
+    risks: [
+      { title: "Data drift after deployment",          severity: "MED",  owner: "ML Ops",   mitigation: "Drift detector + automatic retraining trigger at 5% threshold." },
+      { title: "Label quality on edge cases",          severity: "MED",  owner: "Data Sci", mitigation: "Active-learning loop + manual review of low-confidence predictions." },
+      { title: "False positives flooding operators",   severity: "HIGH", owner: "Product",  mitigation: "Tunable thresholds + per-operator silence windows in dashboard." },
+      { title: "Model interpretability for compliance", severity: "LOW",  owner: "Compliance", mitigation: "SHAP-style explanations on every flagged prediction." },
+    ],
+    bridge: [
+      { when: "TRAIN",   what: "Validate",   desc: "First production model live with full monitoring." },
+      { when: "OPERATE", what: "Improve",    desc: "Continuous learning from operator feedback." },
+      { when: "EXPAND",  what: "Multiply",   desc: "Adjacent use-cases unlocked with the validated pipeline." },
+    ],
+    manifestoSuffix: "Models that earn their keep.",
+  }),
+  grid: ({ client, project, totalUnits, items }) => ({
+    stage: {
+      venue: client + " · grid integration site",
+      format: "Inverter / grid integration",
+      scale: totalUnits + " grid point" + (totalUnits === 1 ? "" : "s"),
+      role: "Grid integration partner. Inverter telemetry + forecasting, end-to-end.",
+    },
+    fleet: {
+      units: totalUnits,
+      buffer: Math.max(1, Math.round(totalUnits * 0.05)),
+      lot: "PHASE 1",
+      idRange: "GP-001 → " + String(totalUnits).padStart(3,'0'),
+      calibration: "Forecast MAPE ≤ 8% · sampling 1 min",
+      shipDate: "Commissioning TBD",
+    },
+    dashboard: {
+      headline: "Grid telemetry + weather-aware forecasting, live.",
+      description: project + " pulls inverter telemetry every minute and overlays weather-aware generation forecasts. Dispatchable on the same screen.",
+      streamCount: totalUnits,
+    },
+    roadmap: [
+      { id: "S-1", title: "Site survey",      window: "Phase 1",  deliverable: "Single-line diagram + comms plan",      status: "ACTIVE" },
+      { id: "S-2", title: "Inverter API",     window: "Phase 2",  deliverable: "All inverters under telemetry",         status: "NEXT" },
+      { id: "S-3", title: "Forecast model",   window: "Phase 3",  deliverable: "Backtested weather-aware forecast",     status: "NEXT" },
+      { id: "S-4", title: "Energize",         window: "Phase 4",  deliverable: "Full dispatch loop live",                status: "NEXT" },
+      { id: "S+1", title: "Grid expansion",   window: "Ongoing",  deliverable: "Additional sites onboarded",            status: "NEXT" },
+    ],
+    risks: [
+      { title: "Inverter API rate limits / outages",  severity: "MED",  owner: "Site Ops",    mitigation: "Local edge buffer + retry queues during outages." },
+      { title: "Forecast accuracy in extreme weather", severity: "MED",  owner: "Data Sci",   mitigation: "Ensemble of weather sources + confidence intervals." },
+      { title: "Comms reliability at remote sites",    severity: "HIGH", owner: "Infrastructure", mitigation: "Dual-carrier LTE + satellite fallback." },
+      { title: "Regulatory / interconnection approvals", severity: "LOW",  owner: "Regulatory", mitigation: "Pre-coordination with TEDAŞ + scheduling buffer." },
+    ],
+    bridge: [
+      { when: "PILOT",  what: "Validate",  desc: "Single-site forecast loop validated against actuals." },
+      { when: "SCALE",  what: "Multiply",  desc: "Multi-site expansion using the validated stack." },
+      { when: "EXPAND", what: "Network",   desc: "Aggregated forecast becomes a market product." },
+    ],
+    manifestoSuffix: "Every kilowatt-hour, accounted for.",
+  }),
+  generic: ({ client, project, totalUnits, items }) => ({
+    stage: {
+      venue: "TBD · scope to be confirmed with client",
+      format: "Operational deployment",
+      scale: totalUnits + " unit" + (totalUnits === 1 ? "" : "s"),
+      role: "Technology & operations partner.",
+    },
+    fleet: {
+      units: totalUnits || items.length,
+      buffer: Math.max(1, Math.round((totalUnits || items.length) * 0.1)),
+      lot: "BATCH TBD",
+      idRange: "TBD",
+      calibration: "Acceptance criteria · TBD",
+      shipDate: "TBD",
+    },
+    dashboard: {
+      headline: "Live operational data, on a single dashboard.",
+      description: "Streams from the deployed " + project + " setup, accessible via a white-label dashboard.",
+      streamCount: totalUnits || items.length,
+    },
+    roadmap: [
+      { id: "T-21", title: "Kickoff",        window: "- 3 weeks", deliverable: "Scope locked",            status: "ACTIVE" },
+      { id: "T-14", title: "Build",           window: "- 2 weeks", deliverable: "Core deliverable ready",  status: "NEXT" },
+      { id: "T-7",  title: "Acceptance",      window: "- 1 week",  deliverable: "Sign-off",                status: "NEXT" },
+      { id: "T-0",  title: "Go-live",         window: "Cutover",   deliverable: "In production",           status: "NEXT" },
+      { id: "T+14", title: "Stabilize",       window: "+ 2 weeks", deliverable: "Post-launch review",      status: "NEXT" },
+    ],
+    risks: [
+      { title: "Scope creep beyond proposal",  severity: "MED", owner: "Account", mitigation: "Written change-requests; addendum to original proposal." },
+      { title: "Stakeholder availability",     severity: "MED", owner: "PM",      mitigation: "Weekly sync + escalation path defined upfront." },
+      { title: "Integration unknowns",         severity: "LOW", owner: "Solutions", mitigation: "Discovery phase up front; contingency window in plan." },
+    ],
+    bridge: [
+      { when: "PHASE 1", what: "Deliver",   desc: "Core scope live for " + client + "." },
+      { when: "PHASE 2", what: "Stabilize", desc: "Tuning + dashboard refinements based on real-world data." },
+      { when: "PHASE 3", what: "Expand",    desc: "Optional scope additions." },
+    ],
+    manifestoSuffix: "Operational, not symbolic.",
+  }),
+};
+
 function quoteToBriefData(quote) {
   const client = quote.companyName || "Müşteri";
   const items = quote.items || [];
-  const totalUnits = items.reduce((acc, i) => acc + Number(i.qty || 0), 0);
+  const totalUnits = items.reduce((acc, i) => acc + Number(i.qty || 0), 0) || items.length;
   const headlineItem = [...items]
     .filter(i => i.catalogId !== 'custom' && i.name)
     .sort((a, b) => Number(b.price) - Number(a.price))[0] || items[0];
-  const project = headlineItem ? String(headlineItem.name).split('—')[0].trim() : "Carbostar PX";
+  const headlineCatalogId = headlineItem ? headlineItem.catalogId : 'custom';
+  const archetype = ARCHETYPE_OF[headlineCatalogId] || 'generic';
+  const project = headlineItem ? String(headlineItem.name).split('—')[0].trim() : "Custom Solution";
   const currency = CURRENCIES[quote.currency] || CURRENCIES.USD;
   const fmt = (n) => currency.symbol + new Intl.NumberFormat(currency.locale, { maximumFractionDigits: 0 }).format(Math.round(Number(n) || 0));
 
+  // Different archetypes have different time horizons. Hardware = event in ~60 days.
+  // SaaS/AI/grid are continuous engagements; we still set a 60-day milestone for the countdown.
   const eventDate = new Date(Date.now() + 60 * 86400000);
   const eventDateLabel = eventDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
   const updatedAt = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
 
+  // Archetype hue presets — gallery card tint matches the deployment kind.
+  const HUE = { hardware: 230, saas: 295, ai: 75, grid: 155, generic: 230 };
+
+  // Archetype-specific accent for the H1's closing line
+  const ACCENT_LINE = {
+    hardware: project + " ready.",
+    saas:     project + " across every workspace.",
+    ai:       project + " in production.",
+    grid:     project + " on the grid.",
+    generic:  project + " delivered.",
+  };
+
+  const HEADLINE_LINE2 = {
+    hardware: String(totalUnits) + " device" + (totalUnits === 1 ? "" : "s") + ", one timeline.",
+    saas:     String(totalUnits) + " seat" + (totalUnits === 1 ? "" : "s") + ", one source of truth.",
+    ai:       String(totalUnits) + " model" + (totalUnits === 1 ? "" : "s") + ", trained on your data.",
+    grid:     String(totalUnits) + " grid point" + (totalUnits === 1 ? "" : "s") + ", one operator view.",
+    generic:  String(totalUnits) + " line item" + (totalUnits === 1 ? "" : "s") + ", one timeline.",
+  };
+
+  const STAT_LABEL = {
+    hardware: "DEVICES", saas: "SEATS", ai: "MODELS", grid: "GRID POINTS", generic: "UNITS",
+  };
+
+  const content = ARCHETYPE_CONTENT[archetype]({ client, project, totalUnits, items });
+
   return {
     meta: {
       client, project,
+      briefType: archetype,
       documentId: quote.id || "ONX-DRAFT",
       eventDate: eventDate.toISOString(),
-      updatedAt, audience: "CUSTOMER", accentHue: 230,
+      updatedAt, audience: "CUSTOMER",
+      accentHue: HUE[archetype],
       outputFilename: client + " Mission Brief.html",
     },
     hero: {
       eyebrow: client.toUpperCase() + " · OPERATIONAL BRIEF · CUSTOMER",
       headline: {
-        lines: ["For " + client + ".", String(totalUnits || items.length) + " unit" + (totalUnits === 1 ? "" : "s") + ", one timeline."],
-        accent: project + " ready.",
+        lines: ["For " + client + ".", HEADLINE_LINE2[archetype]],
+        accent: ACCENT_LINE[archetype],
       },
-      lede: "ONO Yazılım proposes a structured deployment of " + project + " for " + client + ". This brief captures the operational plan — venue, fleet, dashboard, roadmap and risks — companion to proposal " + quote.id + ".",
+      lede: "ONO Yazılım proposes a structured engagement of " + project + " for " + client + ". This brief is the operational companion to proposal " + (quote.id || "DRAFT") + " — covering scope, fleet, dashboard, roadmap and risks.",
       stats: [
-        { v: String(totalUnits || items.length), l: project.toUpperCase().slice(0, 18), sub: "primary fleet" },
+        { v: String(totalUnits), l: STAT_LABEL[archetype], sub: project.slice(0, 20) },
         { v: String(items.length), l: "LINE ITEMS", sub: "in proposal" },
         { v: fmt(quote.subtotal), l: "SUBTOTAL", sub: "+ KDV" },
         { v: fmt(quote.total), l: "TOTAL", sub: "incl. tax" },
@@ -416,49 +660,26 @@ function quoteToBriefData(quote) {
       ],
     },
     stage: {
-      venue: "TBD · venue to be confirmed with client",
+      venue: content.stage.venue,
       dates: eventDateLabel,
-      format: "Operational deployment",
-      scale: String(totalUnits) + " unit" + (totalUnits === 1 ? "" : "s"),
-      role: "Technology & operations provider. Invisible by design.",
+      format: content.stage.format,
+      scale: content.stage.scale,
+      role: content.stage.role,
       frontStage: { who: client, sub: "Brand · narrative · audience" },
-      backStage:  { who: "ONO Yazılım", sub: "Devices · software · ops" },
+      backStage:  { who: "ONO Yazılım", sub: "Technology · software · ops" },
     },
-    fleet: {
-      units: totalUnits || items.length,
-      buffer: Math.max(1, Math.round((totalUnits || items.length) * 0.1)),
-      lot: "LOT TBD", idRange: "TBD",
-      calibration: "NIST-traceable · ±30 ppm @ 400 ppm",
-      shipDate: "TBD",
-    },
+    fleet: content.fleet,
     dashboard: {
-      headline: "Live data, projected on a single dashboard.",
-      description: "Streams from the deployed " + project + " fleet, accessible via a white-label dashboard. Dual-language, audience-readable, no jargon.",
-      streamCount: totalUnits || items.length,
+      headline: content.dashboard.headline,
+      description: content.dashboard.description,
+      streamCount: content.dashboard.streamCount,
       languages: ["EN", "TR"],
     },
-    roadmap: {
-      phases: [
-        { id: "T-21", title: "Production lock",  window: "- 3 weeks",  deliverable: "BoM frozen", status: "ACTIVE" },
-        { id: "T-14", title: "Calibration & QA", window: "- 2 weeks",  deliverable: "Fleet calibrated", status: "NEXT" },
-        { id: "T-7",  title: "Logistics",        window: "- 1 week",   deliverable: "Units at venue", status: "NEXT" },
-        { id: "T-0",  title: "Go-live",          window: "Event week", deliverable: "Deployment live", status: "NEXT" },
-        { id: "T+14", title: "Case study",       window: "+ 2 weeks",  deliverable: "Co-authored writeup", status: "NEXT" },
-      ],
-    },
-    risks: [
-      { title: "Scope creep beyond proposal",       severity: "MED", owner: "Account",      mitigation: "Change-requests go through written addendum to the original proposal." },
-      { title: "Calibration drift in transit",      severity: "MED", owner: "Hardware Ops", mitigation: "Buffer units + on-site recalibration kit." },
-      { title: "Network instability at venue",      severity: "MED", owner: "Site Ops",     mitigation: "Dual SIM + local-cache mode for dashboard." },
-      { title: "Talent unavailability during event", severity: "LOW", owner: "People Ops",  mitigation: "Rotating shift schedule, on-call list." },
-    ],
+    roadmap: { phases: content.roadmap },
+    risks:   content.risks,
     closing: {
-      bridgeNodes: [
-        { when: "PHASE 1", what: "Deploy",   desc: "Initial " + project + " fleet operational at " + client + "'s site." },
-        { when: "PHASE 2", what: "Optimize", desc: "Quarterly tuning + dashboard refinements based on real-world data." },
-        { when: "PHASE 3", what: "Expand",   desc: "Optional fleet expansion, additional sensors, multi-site coverage." },
-      ],
-      manifesto: "This deployment for " + client + " is operational, not symbolic. Every device, every dashboard view, every weekly report is a measured contribution to environmental intelligence.",
+      bridgeNodes: content.bridge,
+      manifesto: "This engagement for " + client + " is " + content.manifestoSuffix + " Every device, dashboard view, and report is a measured contribution.",
       signoff: "ONO Yazılım · operations spine · invisible by design",
     },
   };

@@ -272,18 +272,18 @@
 <!-- 01 · THE STAGE -->
 <section class="block" id="stage">
   <div class="wrap sec-head">
-    <div class="eyebrow">01 · THE STAGE</div>
-    <h2>{{meta.client}} · {{stage.venue}}</h2>
+    <div class="eyebrow">{{section.stage.eyebrow}}</div>
+    <h2>{{section.stage.title}}</h2>
     <p>{{stage.role}}</p>
   </div>
   <div class="wrap stage-grid">
     <div class="card">
-      <div class="eyebrow">VENUE</div>
+      <div class="eyebrow">{{section.stage.venueLabel}}</div>
       <h3>{{stage.venue}}</h3>
       <div class="meta-row">
-        <div><div class="l">Dates</div><div class="v">{{stage.dates}}</div></div>
-        <div><div class="l">Format</div><div class="v">{{stage.format}}</div></div>
-        <div><div class="l">Scale</div><div class="v">{{stage.scale}}</div></div>
+        <div><div class="l">{{section.stage.label1}}</div><div class="v">{{stage.dates}}</div></div>
+        <div><div class="l">{{section.stage.label2}}</div><div class="v">{{stage.format}}</div></div>
+        <div><div class="l">{{section.stage.label3}}</div><div class="v">{{stage.scale}}</div></div>
       </div>
     </div>
     <div class="card">
@@ -308,19 +308,19 @@
 <!-- 02 · FLEET -->
 <section class="block" id="fleet">
   <div class="wrap sec-head">
-    <div class="eyebrow">02 · FLEET</div>
-    <h2>Every {{meta.project}}. Tracked. Calibrated. Bound for the stage.</h2>
+    <div class="eyebrow">{{section.fleet.eyebrow}}</div>
+    <h2>{{section.fleet.title}}</h2>
   </div>
   <div class="wrap">
     <div class="fleet-grid">
-      <div class="fleet-stat"><div class="l">Primary units</div><div class="v">{{fleet.units}}</div><div class="sub">{{meta.project}}</div></div>
-      <div class="fleet-stat"><div class="l">Buffer</div><div class="v">+{{fleet.buffer}}</div><div class="sub">Shadow units</div></div>
-      <div class="fleet-stat"><div class="l">Lot</div><div class="v">{{fleet.lot}}</div><div class="sub">BoM locked</div></div>
-      <div class="fleet-stat"><div class="l">Ship date</div><div class="v">{{fleet.shipDate}}</div><div class="sub">to venue</div></div>
+      <div class="fleet-stat"><div class="l">{{section.fleet.unitsLabel}}</div><div class="v">{{fleet.units}}</div><div class="sub">{{meta.project}}</div></div>
+      <div class="fleet-stat"><div class="l">{{section.fleet.bufferLabel}}</div><div class="v">+{{fleet.buffer}}</div><div class="sub">{{section.fleet.bufferSub}}</div></div>
+      <div class="fleet-stat"><div class="l">{{section.fleet.lotLabel}}</div><div class="v">{{fleet.lot}}</div><div class="sub">{{section.fleet.lotSub}}</div></div>
+      <div class="fleet-stat"><div class="l">{{section.fleet.shipLabel}}</div><div class="v">{{fleet.shipDate}}</div><div class="sub">{{section.fleet.shipSub}}</div></div>
     </div>
     <div class="fleet-callout">
-      <span>📡 {{fleet.idRange}}</span>
-      <span>🎯 {{fleet.calibration}}</span>
+      <span>{{section.fleet.idIcon}} {{fleet.idRange}}</span>
+      <span>{{section.fleet.calibrationIcon}} {{fleet.calibration}}</span>
     </div>
   </div>
 </section>
@@ -328,13 +328,13 @@
 <!-- 03 · DASHBOARD -->
 <section class="block" id="dashboard">
   <div class="wrap sec-head">
-    <div class="eyebrow">03 · DASHBOARD</div>
+    <div class="eyebrow">{{section.dashboard.eyebrow}}</div>
     <h2>{{dashboard.headline}}</h2>
   </div>
   <div class="wrap">
     <div class="dashboard-card">
       <div class="stream-num">{{dashboard.streamCount}}</div>
-      <div class="stream-sub">CONCURRENT STREAMS · LIVE</div>
+      <div class="stream-sub">{{section.dashboard.streamLabel}}</div>
       <h3>{{dashboard.headline}}</h3>
       <p>{{dashboard.description}}</p>
       <div>{{dashboard.languages}}</div>
@@ -345,8 +345,8 @@
 <!-- 04 · ROADMAP -->
 <section class="block" id="roadmap">
   <div class="wrap sec-head">
-    <div class="eyebrow">04 · ROADMAP</div>
-    <h2>From production lock to case study — phase by phase.</h2>
+    <div class="eyebrow">{{section.roadmap.eyebrow}}</div>
+    <h2>{{section.roadmap.title}}</h2>
   </div>
   <div class="wrap">
     <div class="roadmap">{{roadmap.phases}}</div>
@@ -356,8 +356,8 @@
 <!-- 05 · RISKS -->
 <section class="block" id="risks">
   <div class="wrap sec-head">
-    <div class="eyebrow">05 · RISKS</div>
-    <h2>What could break — and how we already handle it.</h2>
+    <div class="eyebrow">{{section.risks.eyebrow}}</div>
+    <h2>{{section.risks.title}}</h2>
     <p>Credibility comes from naming risks before they name themselves.</p>
   </div>
   <div class="wrap">
@@ -368,8 +368,8 @@
 <!-- 06 · BRIDGE / CLOSING -->
 <section class="block" id="bridge">
   <div class="wrap sec-head">
-    <div class="eyebrow">06 · BRIDGE</div>
-    <h2>This event is a seed, not a destination.</h2>
+    <div class="eyebrow">{{section.bridge.eyebrow}}</div>
+    <h2>{{section.bridge.title}}</h2>
   </div>
   <div class="wrap">
     <div class="bridge">{{closing.bridge}}</div>
