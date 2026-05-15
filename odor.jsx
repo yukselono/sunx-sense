@@ -54,13 +54,15 @@ const ODOR_COPY = {
     headerSub: 'Community-reported environmental observations — not a complaint system.',
     screens: [
       { id: 'map',         eyebrow: '01 · MAP ENTRY',        label: 'Long-press to share' },
-      { id: 'intensity',   eyebrow: '02 · INTENSITY',         label: '5-point severity' },
-      { id: 'type',        eyebrow: '03 · ODOR TYPE',         label: '12 categories · multi-select' },
-      { id: 'discomfort',  eyebrow: '04 · DISCOMFORT',        label: 'Human impact' },
-      { id: 'duration',    eyebrow: '05 · DURATION',          label: 'Temporal pattern' },
-      { id: 'details',     eyebrow: '06 · OPTIONAL DETAILS',  label: 'Notes & media' },
-      { id: 'submitted',   eyebrow: '07 · SUBMITTED',         label: 'Thank-you state' },
-      { id: 'intel',       eyebrow: '08 · NEARBY INTEL',      label: 'Community signal' },
+      { id: 'longpress',   eyebrow: '02 · CONTEXTUAL MENU',  label: 'Long-press overlay' },
+      { id: 'intensity',   eyebrow: '03 · INTENSITY',         label: '5-point severity' },
+      { id: 'type',        eyebrow: '04 · ODOR TYPE',         label: '12 categories · multi-select' },
+      { id: 'discomfort',  eyebrow: '05 · DISCOMFORT',        label: 'Human impact' },
+      { id: 'duration',    eyebrow: '06 · DURATION',          label: 'Temporal pattern' },
+      { id: 'details',     eyebrow: '07 · OPTIONAL DETAILS',  label: 'Notes & media' },
+      { id: 'submitted',   eyebrow: '08 · SUBMITTED',         label: 'Thank-you state' },
+      { id: 'intel',       eyebrow: '09 · NEARBY INTEL',      label: 'Community signal' },
+      { id: 'community',   eyebrow: '10 · CONTRIBUTOR',       label: 'Calm leaderboard' },
     ],
   },
   tr: {
@@ -69,13 +71,15 @@ const ODOR_COPY = {
     headerSub: 'Topluluk tarafından raporlanan çevresel gözlemler — şikâyet sistemi değildir.',
     screens: [
       { id: 'map',         eyebrow: '01 · HARITA',           label: 'Haritada uzun bas' },
-      { id: 'intensity',   eyebrow: '02 · YOĞUNLUK',         label: '5 seviyeli skala' },
-      { id: 'type',        eyebrow: '03 · KOKU TÜRÜ',        label: '12 kategori · çoklu seçim' },
-      { id: 'discomfort',  eyebrow: '04 · RAHATSIZLIK',      label: 'İnsan etkisi' },
-      { id: 'duration',    eyebrow: '05 · SÜRE',             label: 'Zamansal örüntü' },
-      { id: 'details',     eyebrow: '06 · İSTEĞE BAĞLI',     label: 'Not & medya' },
-      { id: 'submitted',   eyebrow: '07 · GÖNDERİLDİ',       label: 'Teşekkür' },
-      { id: 'intel',       eyebrow: '08 · YAKIN ÇEVRE',      label: 'Topluluk sinyali' },
+      { id: 'longpress',   eyebrow: '02 · BAĞLAM MENÜSÜ',    label: 'Uzun bas menüsü' },
+      { id: 'intensity',   eyebrow: '03 · YOĞUNLUK',         label: '5 seviyeli skala' },
+      { id: 'type',        eyebrow: '04 · KOKU TÜRÜ',        label: '12 kategori · çoklu seçim' },
+      { id: 'discomfort',  eyebrow: '05 · RAHATSIZLIK',      label: 'İnsan etkisi' },
+      { id: 'duration',    eyebrow: '06 · SÜRE',             label: 'Zamansal örüntü' },
+      { id: 'details',     eyebrow: '07 · İSTEĞE BAĞLI',     label: 'Not & medya' },
+      { id: 'submitted',   eyebrow: '08 · GÖNDERİLDİ',       label: 'Teşekkür' },
+      { id: 'intel',       eyebrow: '09 · YAKIN ÇEVRE',      label: 'Topluluk sinyali' },
+      { id: 'community',   eyebrow: '10 · KATKIDA BULUNAN',  label: 'Sakin liderlik' },
     ],
   },
 };
@@ -249,6 +253,115 @@ function MapScreen({ dark, device, copy }) {
       </div>
       <div style={{ flex: 1 }}/>
       <Footer device={device}><PrimaryButton dark={dark}>Start observation</PrimaryButton></Footer>
+    </Shell>
+  );
+}
+
+function LongPressScreen({ dark, device, copy }) {
+  // Full-bleed map below, with an iOS-style contextual menu floating above the long-press point.
+  return (
+    <Shell dark={dark} device={device}>
+      <Eyebrow>{copy.screens[1].eyebrow}</Eyebrow>
+      <ScreenTitle title="Hold anywhere to share." sub="A 700ms long-press anywhere on the map opens this menu." dark={dark} />
+
+      {/* Map fills available space */}
+      <div style={{ position: 'relative', flex: 1, margin: '14px 24px 0', borderRadius: 18, overflow: 'hidden',
+        background: dark
+          ? 'linear-gradient(135deg, oklch(0.18 0.04 200), oklch(0.16 0.03 230))'
+          : 'linear-gradient(135deg, oklch(0.94 0.03 230), oklch(0.96 0.04 155))',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.06)' : 'rgba(20,30,50,0.06)'}` }}>
+        <svg viewBox="0 0 320 380" preserveAspectRatio="xMidYMid slice" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+          <g stroke={dark ? 'rgba(255,255,255,0.07)' : 'rgba(20,30,50,0.07)'} strokeWidth="1.5" fill="none">
+            <path d="M 0 60 L 320 60" />
+            <path d="M 0 130 L 320 130" />
+            <path d="M 0 220 L 320 220" />
+            <path d="M 0 310 L 320 310" />
+            <path d="M 60 0 L 60 380" />
+            <path d="M 170 0 L 170 380" />
+            <path d="M 250 0 L 250 380" />
+          </g>
+          <circle cx="100" cy="280" r="38" fill={O_ACCENT} opacity="0.25"/>
+          <circle cx="220" cy="80"  r="44" fill={O_PRIMARY} opacity="0.22"/>
+          <circle cx="260" cy="320" r="28" fill={O_AMBER} opacity="0.25"/>
+        </svg>
+
+        {/* Long-press indicator (the user's finger location) */}
+        <div style={{ position: 'absolute', top: '38%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 999, position: 'absolute',
+            top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+            background: O_ACCENT, opacity: 0.22,
+            animation: 'haloBreath 1.6s ease-in-out infinite',
+          }}/>
+          <div style={{
+            width: 28, height: 28, borderRadius: 999, position: 'relative',
+            background: O_ACCENT, border: '3px solid #fff',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.4)',
+          }}/>
+        </div>
+
+        {/* Contextual menu (iOS Haptic-style) */}
+        <div style={{
+          position: 'absolute', top: '48%', left: '50%', transform: 'translateX(-50%)',
+          width: 224,
+          background: 'rgba(28, 32, 40, 0.72)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          borderRadius: 14,
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08)',
+          overflow: 'hidden',
+          animation: 'fadeSlide 0.35s ease-out',
+        }}>
+          <div style={{ padding: '8px 14px 6px',
+            fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.4,
+            color: 'rgba(255,255,255,0.45)', fontWeight: 600 }}>
+            41.0428°N · 28.9722°E
+          </div>
+          {[
+            { ic: '👃', l: 'Odor observation',  active: true,  hint: '+15 SP' },
+            { ic: '👁',  l: 'Visibility issue',  active: false },
+            { ic: '💨', l: 'Smoke observation', active: false },
+            { ic: '😶‍🌫️', l: 'Air discomfort',     active: false },
+            { ic: '📍', l: 'Save to places',     active: false, divider: true },
+          ].map((it, i) => (
+            <div key={i} style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '11px 14px',
+              borderTop: it.divider ? '4px solid rgba(0,0,0,0.25)'
+                : i ? '1px solid rgba(255,255,255,0.06)' : 'none',
+              background: it.active ? 'rgba(110, 180, 130, 0.16)' : 'transparent',
+            }}>
+              <span style={{ fontSize: 16 }}>{it.ic}</span>
+              <span style={{ flex: 1, fontFamily: 'Geist', fontSize: 13.5,
+                color: '#fff', fontWeight: it.active ? 500 : 400 }}>{it.l}</span>
+              {it.hint && (
+                <span style={{
+                  fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1,
+                  padding: '2px 6px', borderRadius: 999, fontWeight: 600,
+                  background: O_ACCENT, color: '#0a1420',
+                }}>{it.hint}</span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Pressed-time hint */}
+        <div style={{ position: 'absolute', top: 14, left: '50%', transform: 'translateX(-50%)',
+          padding: '5px 12px', borderRadius: 999,
+          background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(10px)',
+          fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9.5, letterSpacing: 1.3,
+          color: 'rgba(255,255,255,0.8)' }}>
+          ⌛ HELD 0.7s
+        </div>
+      </div>
+
+      <Footer device={device}>
+        <div style={{ fontFamily: 'Geist', fontSize: 11.5, lineHeight: 1.4, textAlign: 'center',
+          color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)' }}>
+          Quick haptic feedback confirms the gesture. Release to pick.
+        </div>
+      </Footer>
     </Shell>
   );
 }
@@ -613,6 +726,142 @@ function IntelScreen({ dark, device, copy }) {
   );
 }
 
+function CommunityScreen({ dark, device, copy }) {
+  // Calm, scientific identity / contribution view. Not a competitive leaderboard.
+  const tiers = [
+    { name: 'Observer',        n: '0–24',     active: false },
+    { name: 'Steward',         n: '25–99',    active: false },
+    { name: 'Field Sensor',    n: '100–499',  active: true },
+    { name: 'Atmospheric Ally', n: '500+',    active: false },
+  ];
+  const recent = [
+    { who: 'You',                obs: 142, change: '+1 today',  you: true },
+    { who: 'Çağla T.',           obs: 218, change: '+3 today' },
+    { who: 'Mert · Beşiktaş',    obs: 96,  change: '+2 today' },
+    { who: 'Kira (anon)',        obs: 74,  change: '+1 today' },
+    { who: 'Volkan · Etiler',    obs: 51,  change: '+1 today' },
+  ];
+  return (
+    <Shell dark={dark} device={device}>
+      <Eyebrow>{copy.screens[9].eyebrow}</Eyebrow>
+      <ScreenTitle title="You’re part of the city’s nervous system."
+        sub="A contributor view — not a competition. Calm, anonymous, opt-out anytime."
+        dark={dark} />
+
+      {/* Identity card */}
+      <div style={{ margin: '14px 24px 0', padding: 18, borderRadius: 18,
+        background: `linear-gradient(135deg, ${O_ACCENT}22, oklch(0.55 0.14 200 / 0.18))`,
+        border: `1px solid ${O_ACCENT}44`,
+        position: 'relative', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 999, flexShrink: 0,
+            background: `radial-gradient(circle at 30% 30%, ${O_ACCENT}, oklch(0.55 0.16 200) 70%)`,
+            boxShadow: `0 6px 20px ${O_ACCENT}55, inset 0 0 10px rgba(255,255,255,0.2)`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: 'Geist', fontSize: 18, fontWeight: 600, color: '#fff', letterSpacing: -0.5,
+          }}>YK</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9,
+              letterSpacing: 1.6, color: O_ACCENT, fontWeight: 700, textTransform: 'uppercase' }}>
+              FIELD SENSOR · LV 3
+            </div>
+            <div style={{ fontFamily: 'Geist', fontSize: 17, fontWeight: 600, marginTop: 2,
+              color: dark ? '#fff' : '#0a1420' }}>142 observations</div>
+            <div style={{ fontFamily: 'Geist', fontSize: 11.5, marginTop: 1,
+              color: dark ? 'rgba(255,255,255,0.55)' : 'rgba(20,30,50,0.55)' }}>
+              Since March 2026 · 38 day streak
+            </div>
+          </div>
+        </div>
+        {/* Progress to next tier */}
+        <div style={{ marginTop: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between',
+            fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.2,
+            color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)', marginBottom: 6 }}>
+            <span>→ ATMOSPHERIC ALLY</span><span>142 / 500</span>
+          </div>
+          <div style={{ height: 6, borderRadius: 999,
+            background: dark ? 'rgba(255,255,255,0.06)' : 'rgba(20,30,50,0.08)' }}>
+            <div style={{ height: '100%', width: '28.4%', borderRadius: 999,
+              background: `linear-gradient(90deg, ${O_ACCENT}, ${O_PRIMARY})` }}/>
+          </div>
+        </div>
+      </div>
+
+      {/* Contributor tiers */}
+      <div style={{ padding: '14px 24px 0' }}>
+        <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.6,
+          color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)',
+          textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }}>CONTRIBUTOR TIERS</div>
+        <div style={{ display: 'flex', gap: 6 }}>
+          {tiers.map((t) => (
+            <div key={t.name} style={{
+              flex: 1, padding: '8px 6px', borderRadius: 10, textAlign: 'center',
+              background: t.active
+                ? `linear-gradient(135deg, ${O_ACCENT}33, transparent)`
+                : (dark ? 'rgba(255,255,255,0.03)' : 'rgba(20,30,50,0.03)'),
+              border: `1px solid ${t.active ? O_ACCENT : (dark ? 'rgba(255,255,255,0.06)' : 'rgba(20,30,50,0.06)')}`,
+            }}>
+              <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 8, letterSpacing: 0.8,
+                color: t.active ? O_ACCENT : (dark ? 'rgba(255,255,255,0.5)' : 'rgba(20,30,50,0.5)'),
+                fontWeight: 600, textTransform: 'uppercase' }}>{t.name}</div>
+              <div style={{ fontFamily: 'Geist', fontSize: 10, marginTop: 2,
+                color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)' }}>{t.n}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Neighborhood list */}
+      <div style={{ padding: '14px 24px 0', flex: 1 }}>
+        <div style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 1.6,
+          color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)',
+          textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>YOUR DISTRICT · BEŞIKTAŞ</div>
+        {recent.map((r, i) => (
+          <div key={i} style={{
+            display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0',
+            borderTop: i ? `1px solid ${dark ? 'rgba(255,255,255,0.05)' : 'rgba(20,30,50,0.05)'}` : 'none',
+            background: r.you ? `linear-gradient(90deg, ${O_ACCENT}11, transparent)` : 'transparent',
+            marginInline: r.you ? -10 : 0, paddingInline: r.you ? 10 : 0, borderRadius: r.you ? 8 : 0,
+          }}>
+            <span style={{
+              fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 10, fontWeight: 700,
+              width: 18, color: dark ? 'rgba(255,255,255,0.4)' : 'rgba(20,30,50,0.4)' }}>
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span style={{ flex: 1, fontFamily: 'Geist', fontSize: 13,
+              color: dark ? '#fff' : '#0a1420', fontWeight: r.you ? 600 : 400 }}>
+              {r.who}{r.you && <span style={{
+                marginLeft: 8, padding: '1px 6px', borderRadius: 999, fontSize: 9, fontWeight: 700,
+                background: O_ACCENT, color: '#0a1420',
+                fontFamily: 'Geist Mono, ui-monospace, monospace', letterSpacing: 0.8,
+              }}>YOU</span>}
+            </span>
+            <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 11, fontWeight: 600,
+              color: dark ? '#fff' : '#0a1420' }}>{r.obs}</span>
+            <span style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', fontSize: 9, letterSpacing: 0.5,
+              color: O_ACCENT, fontWeight: 600, minWidth: 56, textAlign: 'right' }}>{r.change}</span>
+          </div>
+        ))}
+
+        <div style={{ marginTop: 12, padding: 10, borderRadius: 10,
+          background: dark ? 'oklch(0.22 0.04 230 / 0.3)' : 'oklch(0.96 0.03 230 / 0.5)',
+          border: `1px solid ${dark ? 'rgba(110,160,220,0.18)' : 'rgba(110,160,220,0.25)'}`,
+          fontFamily: 'Geist', fontSize: 11, lineHeight: 1.4,
+          color: dark ? 'rgba(255,255,255,0.65)' : 'rgba(20,30,50,0.65)' }}>
+          ℹ️ Rankings are visible only inside your district and reset gently every season. No competitive notifications.
+        </div>
+      </div>
+
+      <Footer device={device}>
+        <PrimaryButton dark={dark}>Share district stats</PrimaryButton>
+        <GhostButton dark={dark}>Make me anonymous</GhostButton>
+      </Footer>
+    </Shell>
+  );
+}
+
 // ===== Dispatcher =====
 
 function OdorScreen({ dark, lang, device, idx }) {
@@ -620,6 +869,7 @@ function OdorScreen({ dark, lang, device, idx }) {
   const id = copy.screens[idx].id;
   switch (id) {
     case 'map':         return <MapScreen        dark={dark} device={device} copy={copy} />;
+    case 'longpress':   return <LongPressScreen  dark={dark} device={device} copy={copy} />;
     case 'intensity':   return <IntensityScreen  dark={dark} device={device} copy={copy} />;
     case 'type':        return <TypeScreen       dark={dark} device={device} copy={copy} />;
     case 'discomfort':  return <DiscomfortScreen dark={dark} device={device} copy={copy} />;
@@ -627,6 +877,7 @@ function OdorScreen({ dark, lang, device, idx }) {
     case 'details':     return <DetailsScreen    dark={dark} device={device} copy={copy} />;
     case 'submitted':   return <SubmittedScreen  dark={dark} device={device} copy={copy} />;
     case 'intel':       return <IntelScreen      dark={dark} device={device} copy={copy} />;
+    case 'community':   return <CommunityScreen  dark={dark} device={device} copy={copy} />;
     default:            return null;
   }
 }
