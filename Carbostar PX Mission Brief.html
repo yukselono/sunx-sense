@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Carbostar PX · Zero Waste Forum 2026 · Mission Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:        #07090d;
+    --bg-2:      #0c1018;
+    --panel:     oklch(0.16 0.012 235);
+    --panel-2:   oklch(0.19 0.015 235);
+    --border:    rgba(255,255,255,0.07);
+    --border-2:  rgba(255,255,255,0.12);
+    --text:      #e8edf2;
+    --text-mute: rgba(232,237,242,0.6);
+    --text-dim:  rgba(232,237,242,0.4);
+    --primary:   oklch(0.65 0.14 230);
+    --primary-2: oklch(0.55 0.16 230);
+    --accent:    oklch(0.72 0.14 155);
+    --amber:     oklch(0.78 0.14 75);
+    --red:       oklch(0.65 0.18 25);
+    --violet:    oklch(0.62 0.18 295);
+    --gold:      oklch(0.80 0.13 80);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', Inter, -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  ::selection { background: var(--primary); color: #fff; }
+
+  /* monospace eyebrows */
+  .eyebrow {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--primary); font-weight: 500;
+  }
+  .mono { font-family: 'Geist Mono', ui-monospace, monospace; }
+  .mute { color: var(--text-mute); }
+  .dim  { color: var(--text-dim); }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.6px; text-wrap: balance; margin: 0; }
+  p { margin: 0; text-wrap: pretty; }
+  button { font-family: inherit; }
+
+  /* layout */
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+  section { position: relative; }
+
+  /* nav */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(7,9,13,0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border);
+  }
+  nav.top .brand { display: flex; align-items: center; gap: 10px; }
+  nav.top .brand-mark {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: 0 4px 14px oklch(0.5 0.18 230 / 0.4);
+  }
+  nav.top .brand-text {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 2.5px; font-weight: 500;
+    color: var(--text);
+  }
+  nav.top ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; gap: 4px;
+  }
+  nav.top ul a {
+    display: block; padding: 6px 10px; border-radius: 8px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.6px; text-decoration: none;
+    color: var(--text-mute); transition: all 0.2s;
+  }
+  nav.top ul a:hover { color: var(--text); background: var(--border); }
+  nav.top .pill {
+    padding: 5px 10px; border-radius: 100px;
+    background: oklch(0.30 0.06 30 / 0.25);
+    border: 1px solid oklch(0.60 0.16 30 / 0.4);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.5px; color: var(--amber);
+    display: flex; align-items: center; gap: 6px;
+  }
+  nav.top .pill .dot {
+    width: 5px; height: 5px; border-radius: 50%; background: var(--amber);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  /* hero */
+  .hero {
+    min-height: 100vh; padding: 120px 0 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-grid-bg { position: absolute; inset: 0; opacity: 0.5; pointer-events: none; }
+  .hero-content { position: relative; z-index: 2; }
+  .hero h1 {
+    font-size: 92px; line-height: 0.96; letter-spacing: -3.5px;
+    margin: 24px 0 26px;
+    max-width: 1100px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p.lede {
+    font-size: 19px; max-width: 720px; line-height: 1.55;
+    color: var(--text-mute); margin-bottom: 56px;
+  }
+  .countdown {
+    display: grid; grid-template-columns: repeat(4, 160px); gap: 12px;
+    margin-bottom: 56px;
+  }
+  .countdown-cell {
+    padding: 18px 20px; border-radius: 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .countdown-cell .value {
+    font-family: 'Geist', system-ui;
+    font-size: 56px; font-weight: 600; line-height: 1; letter-spacing: -2.5px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+  .countdown-cell .label {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 2px; color: var(--text-dim);
+    margin-top: 8px;
+  }
+  .countdown-cell::after {
+    content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, transparent, var(--primary), transparent);
+    opacity: 0.4;
+  }
+
+  .stat-row {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
+    margin-top: 12px;
+  }
+  .stat {
+    padding: 18px 18px 16px; border-radius: 14px;
+    background: var(--panel); border: 1px solid var(--border);
+    position: relative;
+  }
+  .stat .v {
+    font-size: 32px; font-weight: 600; letter-spacing: -1.2px; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .l {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim);
+    margin-top: 6px;
+  }
+  .stat .sub {
+    font-size: 11px; color: var(--text-mute); margin-top: 4px;
+  }
+
+  /* section heading */
+  .sec-head { padding: 96px 0 32px; }
+  .sec-head h2 {
+    font-size: 52px; letter-spacing: -1.8px; line-height: 1.05; margin-top: 12px;
+    max-width: 900px;
+  }
+  .sec-head p {
+    color: var(--text-mute); font-size: 16px; line-height: 1.55;
+    max-width: 700px; margin-top: 16px;
+  }
+
+  /* generic card */
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 18px; padding: 24px;
+  }
+
+  /* the stage */
+  .stage-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px;
+  }
+  .venue-card {
+    padding: 0; overflow: hidden;
+    position: relative; min-height: 420px;
+    background: linear-gradient(160deg, var(--panel), var(--panel-2));
+  }
+  .venue-card .label-block {
+    position: absolute; left: 24px; top: 24px; right: 24px; z-index: 2;
+  }
+  .venue-card .label-block h3 {
+    font-size: 30px; letter-spacing: -1px; margin-top: 8px;
+  }
+  .venue-card .footer-block {
+    position: absolute; left: 24px; bottom: 24px; right: 24px; z-index: 2;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .venue-card .footer-block .item .l {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim);
+  }
+  .venue-card .footer-block .item .v {
+    font-size: 18px; font-weight: 600; margin-top: 2px;
+  }
+  .venue-svg { position: absolute; inset: 0; }
+
+  .role-card { display: flex; flex-direction: column; }
+  .role-card .partners {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px;
+  }
+  .role-card .partners .p {
+    padding: 14px; border-radius: 12px;
+    background: oklch(0.22 0.02 235); border: 1px solid var(--border);
+  }
+  .role-card .partners .p .role {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim); margin-bottom: 4px;
+  }
+  .role-card .partners .p .who {
+    font-size: 14px; font-weight: 600;
+  }
+  .role-card .partners .p .sub {
+    font-size: 11px; color: var(--text-mute); margin-top: 2px;
+  }
+  .role-card .visibility {
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* carbon experience */
+  .ce-wrap {
+    display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: stretch;
+  }
+  .ce-canvas {
+    height: 520px; border-radius: 18px; position: relative; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .ce-slider-row {
+    margin-top: 16px; display: flex; align-items: center; gap: 16px;
+    padding: 14px 18px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--border);
+  }
+  .ce-slider-row .label {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.5px; color: var(--text-dim);
+    min-width: 80px;
+  }
+  .ce-slider {
+    flex: 1; height: 6px; border-radius: 3px;
+    background: linear-gradient(90deg,
+      oklch(0.72 0.14 155),
+      oklch(0.78 0.14 95),
+      oklch(0.78 0.14 75),
+      oklch(0.65 0.18 25));
+    position: relative; cursor: pointer;
+  }
+  .ce-slider .knob {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #fff; border: 3px solid currentColor;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  }
+  .ce-readout {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .ce-readout .big {
+    padding: 24px; border-radius: 16px;
+    background: var(--panel); border: 1px solid var(--border);
+  }
+  .ce-readout .big .v {
+    font-size: 64px; font-weight: 600; letter-spacing: -2.5px; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .ce-readout .big .u {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 14px; color: var(--text-mute); margin-left: 6px;
+  }
+  .ce-readout .feel {
+    display: flex; flex-direction: column; gap: 6px; margin-top: 12px;
+  }
+  .ce-readout .feel-row {
+    display: flex; justify-content: space-between;
+    font-size: 12px; padding: 6px 0;
+    border-top: 1px solid var(--border);
+  }
+  .ce-readout .feel-row:first-child { border-top: none; }
+  .ce-readout .feel-row span:first-child { color: var(--text-mute); }
+  .ce-readout .scenarios {
+    display: grid; grid-template-rows: 1fr 1fr; gap: 8px;
+  }
+  .ce-readout .scenario {
+    padding: 14px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .ce-readout .scenario:hover { border-color: var(--border-2); }
+  .ce-readout .scenario.active {
+    border-color: currentColor;
+    background: oklch(0.20 0.02 235);
+    box-shadow: 0 0 0 3px currentColor / 0.15;
+  }
+  .ce-readout .scenario .name { font-size: 13px; font-weight: 600; }
+  .ce-readout .scenario .sub { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+
+  /* fleet */
+  .fleet-controls {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .fleet-chip {
+    padding: 8px 14px; border-radius: 100px;
+    background: var(--panel); border: 1px solid var(--border);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.2px; color: var(--text-mute);
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .fleet-chip:hover { color: var(--text); border-color: var(--border-2); }
+  .fleet-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .fleet-chip .swatch { width: 8px; height: 8px; border-radius: 2px; }
+  .fleet-chip .count { color: var(--text-dim); font-weight: 600; }
+  .fleet-chip.active .count { color: rgba(0,0,0,0.5); }
+
+  .fleet-grid-card {
+    padding: 32px;
+  }
+  .fleet-grid {
+    display: grid;
+    gap: 2px;
+  }
+  .fleet-meta {
+    display: flex; justify-content: space-between; margin-top: 20px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.2px; color: var(--text-dim);
+  }
+
+  /* live dashboard */
+  .dash {
+    background: var(--bg-2);
+    border: 1px solid var(--border-2);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  }
+  .dash-chrome {
+    padding: 12px 18px; background: oklch(0.10 0.01 235);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.5px; color: var(--text-dim);
+  }
+  .dash-chrome .dots { display: flex; gap: 6px; }
+  .dash-chrome .dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: oklch(0.25 0.01 235);
+  }
+  .dash-body {
+    display: grid; grid-template-columns: 1.5fr 1fr; gap: 1px;
+    background: var(--border);
+  }
+  .dash-main, .dash-side {
+    background: var(--bg-2); padding: 24px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .dash-kpi-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  .dash-kpi {
+    padding: 14px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--border);
+  }
+  .dash-kpi .l {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 8.5px; letter-spacing: 1.2px; color: var(--text-dim);
+  }
+  .dash-kpi .v {
+    font-size: 22px; font-weight: 600; letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums; margin-top: 4px;
+  }
+  .dash-kpi .d {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; margin-top: 4px;
+  }
+  .dash-chart {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    flex: 1; min-height: 220px;
+    position: relative;
+  }
+  .dash-heatmap {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    min-height: 220px;
+  }
+  .dash-top-zones {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .zone-row {
+    display: grid; grid-template-columns: 18px 1fr 60px 60px; gap: 10px;
+    align-items: center; padding: 8px 0;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .zone-row:first-of-type { border-top: none; }
+  .zone-row .rank {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; color: var(--text-dim);
+  }
+  .zone-row .bar {
+    height: 4px; border-radius: 2px;
+    background: var(--border); overflow: hidden;
+  }
+  .zone-row .bar i {
+    display: block; height: 100%; border-radius: 2px;
+  }
+  .zone-row .v {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px; text-align: right; font-variant-numeric: tabular-nums;
+  }
+
+  /* roadmap */
+  .roadmap {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+  }
+  .phase {
+    padding: 18px; border-radius: 14px;
+    background: var(--panel); border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.25s;
+    position: relative;
+  }
+  .phase:hover { transform: translateY(-2px); border-color: var(--border-2); }
+  .phase.current {
+    border-color: var(--primary);
+    background: linear-gradient(160deg, oklch(0.22 0.04 235), var(--panel));
+    box-shadow: 0 12px 40px oklch(0.4 0.16 235 / 0.25);
+  }
+  .phase .week {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim);
+  }
+  .phase.current .week { color: var(--primary); }
+  .phase .title { font-size: 15px; font-weight: 600; margin-top: 8px; letter-spacing: -0.3px; }
+  .phase .dates { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; color: var(--text-mute); margin-top: 4px; }
+  .phase ul {
+    margin: 14px 0 0; padding: 0; list-style: none;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .phase li {
+    font-size: 11.5px; color: var(--text-mute); line-height: 1.45;
+    padding-left: 14px; position: relative;
+  }
+  .phase li::before {
+    content: ''; position: absolute; left: 0; top: 7px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--text-dim);
+  }
+  .phase.current li::before { background: var(--accent); }
+  .phase .badge {
+    position: absolute; top: 14px; right: 14px;
+    padding: 3px 7px; border-radius: 100px;
+    background: var(--primary); color: #fff;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 8px; letter-spacing: 1.5px; font-weight: 600;
+  }
+
+  /* risk matrix */
+  .risk-wrap {
+    display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: stretch;
+  }
+  .risk-grid {
+    display: grid; grid-template-columns: 80px repeat(3, 1fr); grid-template-rows: 40px repeat(3, 1fr);
+    gap: 6px;
+    min-height: 480px;
+  }
+  .risk-grid .axis-label-x, .risk-grid .axis-label-y {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .risk-grid .axis-label-y { writing-mode: vertical-rl; transform: rotate(180deg); }
+  .risk-cell {
+    border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--border);
+    padding: 10px; position: relative;
+    display: flex; flex-direction: column; gap: 4px;
+    overflow: hidden;
+  }
+  .risk-cell.sev-1 { background: oklch(0.18 0.02 155 / 0.4); border-color: oklch(0.40 0.10 155 / 0.3); }
+  .risk-cell.sev-2 { background: oklch(0.20 0.03 95 / 0.4); border-color: oklch(0.50 0.10 95 / 0.4); }
+  .risk-cell.sev-3 { background: oklch(0.22 0.05 75 / 0.5); border-color: oklch(0.55 0.14 75 / 0.5); }
+  .risk-cell.sev-4 { background: oklch(0.22 0.06 25 / 0.5); border-color: oklch(0.55 0.16 25 / 0.6); }
+  .risk-cell .corner-label {
+    position: absolute; top: 6px; right: 8px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 8px; letter-spacing: 1px; color: var(--text-dim);
+  }
+  .risk-pill {
+    padding: 4px 7px; border-radius: 6px;
+    background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);
+    font-size: 10px; line-height: 1.25; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .risk-pill:hover { background: rgba(0,0,0,0.55); border-color: rgba(255,255,255,0.2); }
+  .risk-detail {
+    padding: 24px; border-radius: 18px;
+    background: var(--panel); border: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 12px;
+    align-self: stretch;
+  }
+  .risk-detail .head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .risk-detail h3 { font-size: 18px; letter-spacing: -0.4px; }
+  .risk-detail .sev-badge {
+    padding: 4px 8px; border-radius: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1px; white-space: nowrap;
+  }
+  .risk-detail .meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding: 12px; border-radius: 10px;
+    background: var(--bg-2); border: 1px solid var(--border);
+  }
+  .risk-detail .meta .item .l {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.3px; color: var(--text-dim);
+  }
+  .risk-detail .meta .item .v { font-size: 13px; font-weight: 600; margin-top: 2px; }
+  .risk-detail .contingency { font-size: 13px; line-height: 1.5; color: var(--text-mute); }
+
+  /* COP31 bridge */
+  .bridge {
+    position: relative;
+    padding: 32px;
+    border-radius: 22px;
+    background:
+      radial-gradient(ellipse at 0% 100%, oklch(0.30 0.12 230 / 0.5), transparent 60%),
+      radial-gradient(ellipse at 100% 0%, oklch(0.28 0.16 295 / 0.4), transparent 55%),
+      var(--panel);
+    border: 1px solid var(--border-2);
+    overflow: hidden;
+  }
+  .bridge-timeline {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    position: relative; margin-top: 20px;
+  }
+  .bridge-timeline::before {
+    content: ''; position: absolute; left: 24px; right: 24px; top: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--violet), var(--gold));
+  }
+  .bridge-node {
+    padding: 24px 16px 16px;
+    position: relative;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .bridge-node .dot-marker {
+    width: 16px; height: 16px; border-radius: 50%; position: absolute; top: 22px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg); border: 3px solid currentColor;
+    z-index: 2;
+  }
+  .bridge-node .when {
+    margin-top: 26px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.5px;
+    text-align: center;
+  }
+  .bridge-node .what { text-align: center; font-size: 14px; font-weight: 600; letter-spacing: -0.3px; }
+  .bridge-node .desc { text-align: center; font-size: 11.5px; color: var(--text-mute); line-height: 1.5; }
+
+  .bridge-quote {
+    margin-top: 36px; padding-top: 28px;
+    border-top: 1px solid var(--border-2);
+    max-width: 820px;
+  }
+  .bridge-quote .q {
+    font-size: 22px; line-height: 1.4; letter-spacing: -0.5px;
+    font-weight: 500;
+  }
+  .bridge-quote .q .accent { color: var(--accent); }
+
+  /* footer */
+  footer {
+    padding: 60px 0 80px;
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+  }
+  footer .row {
+    display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.5px; color: var(--text-dim);
+  }
+  footer .row .group { display: flex; gap: 24px; }
+
+  /* tooltips */
+  .tooltip {
+    position: absolute; z-index: 50;
+    padding: 8px 10px; border-radius: 8px;
+    background: var(--bg); border: 1px solid var(--border-2);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1px;
+    pointer-events: none; white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  }
+
+  /* animations */
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  @keyframes drift {
+    0% { transform: translate(0,0); }
+    50% { transform: translate(40px, -20px); }
+    100% { transform: translate(0,0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in {
+    opacity: 1; transform: translateY(0);
+  }
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useMemo } = React;
+
+// ─── helpers ───────────────────────────────────────────────
+function hexPath(cx, cy, r) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const a = Math.PI / 3 * i - Math.PI / 2;
+    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+  }
+  return 'M ' + pts.map(p => p.join(' ')).join(' L ') + ' Z';
+}
+
+const EVENT_START = new Date('2026-06-05T09:00:00+03:00').getTime();
+
+function useCountdown() {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  const ms = Math.max(0, EVENT_START - now);
+  const d = Math.floor(ms / 86400000);
+  const h = Math.floor((ms / 3600000) % 24);
+  const m = Math.floor((ms / 60000) % 60);
+  const s = Math.floor((ms / 1000) % 60);
+  return { d, h, m, s };
+}
+
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { rootMargin: '-10% 0%' });
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
+// ─── nav ───────────────────────────────────────────────────
+function NavBar() {
+  return (
+    <nav className="top">
+      <div className="brand">
+        <div className="brand-mark"/>
+        <span className="brand-text">ONO · CARBOSTAR PX</span>
+      </div>
+      <ul>
+        <li><a href="#stage">THE STAGE</a></li>
+        <li><a href="#carbon">EXPERIENCE</a></li>
+        <li><a href="#fleet">FLEET</a></li>
+        <li><a href="#dashboard">DASHBOARD</a></li>
+        <li><a href="#roadmap">ROADMAP</a></li>
+        <li><a href="#risks">RISKS</a></li>
+        <li><a href="#cop31">COP31</a></li>
+      </ul>
+      <div className="pill">
+        <span className="dot"/>
+        T-MINUS · WEEK 2 OF 4
+      </div>
+    </nav>
+  );
+}
+
+// ─── hero ──────────────────────────────────────────────────
+function HexNetworkBg() {
+  // Subtle animated hex grid that drifts slowly
+  const nodes = useMemo(() => {
+    const out = [];
+    const r = 38;
+    const dx = r * Math.sqrt(3), dy = r * 1.5;
+    for (let row = -2; row < 18; row++) {
+      for (let col = -2; col < 30; col++) {
+        const x = col * dx + (row % 2 ? dx / 2 : 0);
+        const y = row * dy;
+        const accent = (Math.sin(row*1.3 + col*0.7) > 0.7);
+        out.push({ x, y, accent });
+      }
+    }
+    return out;
+  }, []);
+  return (
+    <svg className="hero-grid-bg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="hbgMask" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor="#fff" stopOpacity="0.9"/>
+          <stop offset="100%" stopColor="#fff" stopOpacity="0"/>
+        </radialGradient>
+        <mask id="hbg-m"><rect width="1600" height="900" fill="url(#hbgMask)"/></mask>
+      </defs>
+      <g mask="url(#hbg-m)">
+        {nodes.map((n, i) => (
+          <path key={i} d={hexPath(n.x, n.y, 18)}
+            fill="none"
+            stroke={n.accent ? 'oklch(0.65 0.14 230)' : 'rgba(255,255,255,0.08)'}
+            strokeWidth={n.accent ? 1.2 : 0.6}
+            opacity={n.accent ? 0.7 : 1}
+          />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+function Hero() {
+  const { d, h, m, s } = useCountdown();
+  return (
+    <section className="hero">
+      <HexNetworkBg/>
+      <div className="wrap hero-content">
+        <div className="eyebrow">ZERO WASTE FORUM 2026 · OPERATIONAL BRIEF · INTERNAL</div>
+        <h1>
+          Twenty-one days.<br/>
+          Five hundred devices.<br/>
+          <span className="accent">One global stage.</span>
+        </h1>
+        <p className="lede">
+          ONO Yazılım deploys the largest event-scale carbon measurement
+          infrastructure in Türkiye for the Sıfır Atık Vakfı at Atatürk
+          Havalimanı — under the foundation's name, with COP31 Antalya as
+          the destination.
+        </p>
+
+        <div className="countdown">
+          <div className="countdown-cell">
+            <div className="value">{String(d).padStart(2,'0')}</div>
+            <div className="label">DAYS</div>
+          </div>
+          <div className="countdown-cell">
+            <div className="value">{String(h).padStart(2,'0')}</div>
+            <div className="label">HOURS</div>
+          </div>
+          <div className="countdown-cell">
+            <div className="value">{String(m).padStart(2,'0')}</div>
+            <div className="label">MINUTES</div>
+          </div>
+          <div className="countdown-cell">
+            <div className="value">{String(s).padStart(2,'0')}</div>
+            <div className="label">SECONDS · TO GO-LIVE</div>
+          </div>
+        </div>
+
+        <div className="stat-row">
+          {[
+            { v: '500', l: 'CARBOSTAR PX', sub: '+ 50 buffer' },
+            { v: '5,000+', l: 'VISITORS', sub: '150+ countries' },
+            { v: '100+', l: 'MINISTERS', sub: '200+ mayors' },
+            { v: '3', l: 'DAYS', sub: '5–7 June' },
+            { v: '$95.5K', l: 'TKF-2026-0427', sub: '+ KDV' },
+            { v: 'TR', l: 'BRANDED AS', sub: 'Sıfır Atık Vakfı' },
+          ].map((s, i) => (
+            <div className="stat" key={i}>
+              <div className="v">{s.v}</div>
+              <div className="l">{s.l}</div>
+              <div className="sub">{s.sub}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── the stage ─────────────────────────────────────────────
+function VenueIllustration() {
+  // Stylized terminal layout with two zones
+  return (
+    <svg className="venue-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="vg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="oklch(0.18 0.02 235)"/>
+          <stop offset="100%" stopColor="oklch(0.12 0.012 235)"/>
+        </linearGradient>
+      </defs>
+      <rect width="800" height="500" fill="url(#vg)"/>
+      {/* terminal silhouette: stylized roof curves */}
+      <g opacity="0.4" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1">
+        {[0,1,2,3,4,5,6,7,8,9].map(i => (
+          <path key={i}
+            d={`M ${i * 80 + 40} 380 Q ${i * 80 + 80} ${340 - (i % 2) * 20} ${i * 80 + 120} 380`}
+          />
+        ))}
+      </g>
+      <line x1="0" y1="380" x2="800" y2="380" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
+
+      {/* zone 1: 2000+ ppm (left center) */}
+      <g transform="translate(260 220)">
+        <circle r="80" fill="oklch(0.55 0.18 30 / 0.10)"/>
+        <circle r="60" fill="oklch(0.55 0.18 30 / 0.15)"/>
+        <circle r="36" fill="oklch(0.55 0.18 30 / 0.35)" style={{ animation: 'pulse 3s ease-in-out infinite' }}/>
+        <text y="-94" fontFamily="Geist Mono" fontSize="9" letterSpacing="1.5" fill="oklch(0.78 0.14 25)" textAnchor="middle">ZONE A · 2000+ PPM</text>
+      </g>
+      {/* zone 2: 400 ppm (right center) */}
+      <g transform="translate(540 220)">
+        <circle r="80" fill="oklch(0.55 0.14 155 / 0.10)"/>
+        <circle r="60" fill="oklch(0.55 0.14 155 / 0.15)"/>
+        <circle r="36" fill="oklch(0.55 0.14 155 / 0.35)" style={{ animation: 'pulse 3s ease-in-out infinite 1.5s' }}/>
+        <text y="-94" fontFamily="Geist Mono" fontSize="9" letterSpacing="1.5" fill="oklch(0.72 0.14 155)" textAnchor="middle">ZONE B · 400 PPM</text>
+      </g>
+      {/* connection */}
+      <line x1="296" y1="220" x2="504" y2="220" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="3 4"/>
+
+      {/* scattered sensor dots */}
+      {[
+        [120, 160], [180, 100], [320, 90], [420, 80], [580, 110], [680, 100], [720, 180],
+        [80, 280], [180, 320], [320, 350], [420, 360], [580, 350], [680, 320], [720, 280],
+      ].map(([x,y], i) => (
+        <circle key={i} cx={x} cy={y} r="2.5" fill="oklch(0.65 0.14 230)"
+          style={{ animation: `pulse ${2 + (i % 3) * 0.5}s ease-in-out infinite`, animationDelay: `${i * 0.2}s` }}
+        />
+      ))}
+
+      <text x="400" y="56" textAnchor="middle"
+        fontFamily="Geist Mono" fontSize="9" letterSpacing="2"
+        fill="rgba(255,255,255,0.35)">ATATÜRK HAVALİMANI · KONGRE ALANI</text>
+    </svg>
+  );
+}
+
+function TheStage() {
+  return (
+    <section id="stage">
+      <div className="wrap sec-head reveal">
+        <div className="eyebrow">01 · THE STAGE</div>
+        <h2>The world's sustainability community arrives in Istanbul on June 5.</h2>
+        <p>Türkiye's flagship environmental forum, hosted by Sıfır Atık Vakfı, is the
+        first global stage of the year before COP31 Antalya. ONO is the invisible
+        technology partner — branded as the foundation, operating as the spine.</p>
+      </div>
+      <div className="wrap stage-grid reveal">
+        <div className="card venue-card">
+          <VenueIllustration/>
+          <div className="label-block">
+            <div className="eyebrow">VENUE</div>
+            <h3>Atatürk Havalimanı · Istanbul</h3>
+          </div>
+          <div className="footer-block">
+            <div className="item">
+              <div className="l">DATES</div>
+              <div className="v">5–7 JUN 2026</div>
+            </div>
+            <div className="item">
+              <div className="l">FORMAT</div>
+              <div className="v">Forum + Pavilion</div>
+            </div>
+            <div className="item">
+              <div className="l">SCALE</div>
+              <div className="v">5,000+ visitors</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="card role-card">
+          <div className="eyebrow">ONO ROLE</div>
+          <h3 style={{ fontSize: 24, letterSpacing: -0.5, marginTop: 8 }}>
+            Technology &amp; operations provider. Invisible by design.
+          </h3>
+          <p className="mute" style={{ fontSize: 13, marginTop: 12 }}>
+            500 Carbostar PX devices, the Carbon Experience Area, the white-label
+            dashboard and mobile app — all deployed under the Sıfır Atık Vakfı
+            brand. ONO's reward lives in the case study after the event.
+          </p>
+          <div className="partners">
+            <div className="p">
+              <div className="role">FRONT-STAGE</div>
+              <div className="who">Sıfır Atık Vakfı</div>
+              <div className="sub">Brand · narrative · audience</div>
+            </div>
+            <div className="p">
+              <div className="role">BACK-STAGE</div>
+              <div className="who">ONO Yazılım</div>
+              <div className="sub">Devices · software · ops</div>
+            </div>
+          </div>
+          <div className="visibility">
+            <div className="eyebrow">VISIBILITY</div>
+            <p className="mute" style={{ fontSize: 13, marginTop: 8 }}>
+              Devices, dashboard and app carry foundation branding. ONO appears as
+              "Technology Partner" in foundation channels — and as case-study author
+              in ours, subject to written consent.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── carbon experience ─────────────────────────────────────
+function CarbonExperience() {
+  const [ppm, setPpm] = useState(400);
+  const slideRef = useRef(null);
+  const dragging = useRef(false);
+
+  const setFromX = (clientX) => {
+    if (!slideRef.current) return;
+    const r = slideRef.current.getBoundingClientRect();
+    const t = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
+    setPpm(Math.round(400 + t * 1800));
+  };
+
+  useEffect(() => {
+    const m = (e) => { if (dragging.current) setFromX(e.clientX); };
+    const u = () => { dragging.current = false; };
+    window.addEventListener('mousemove', m);
+    window.addEventListener('mouseup', u);
+    return () => { window.removeEventListener('mousemove', m); window.removeEventListener('mouseup', u); };
+  }, []);
+
+  const t = (ppm - 400) / 1800;
+  const color = t < 0.2 ? 'oklch(0.72 0.14 155)'
+              : t < 0.5 ? 'oklch(0.78 0.14 95)'
+              : t < 0.8 ? 'oklch(0.75 0.14 65)'
+              :           'oklch(0.65 0.18 25)';
+  const label = t < 0.15 ? 'FOREST FRESH'
+              : t < 0.35 ? 'OUTDOOR BASELINE'
+              : t < 0.55 ? 'INDOOR · GOOD'
+              : t < 0.75 ? 'CROWDED · STUFFY'
+              :            'HIGH DENSITY · RESTRICTED';
+  const feel = t < 0.25 ? 'Calm. Energetic. Cognitive performance at peak.'
+             : t < 0.55 ? 'Alert. Normal indoor air. Concentration intact.'
+             : t < 0.75 ? 'Drowsy. Reduced focus. Mild headache risk.'
+             :            'Heavy. Headaches likely. Cognitive performance drops.';
+
+  // particle field — denser & redder at high ppm
+  const particles = useMemo(() => {
+    const out = [];
+    for (let i = 0; i < 300; i++) {
+      out.push({
+        x: Math.random() * 100, y: Math.random() * 100,
+        r: 0.3 + Math.random() * 1.5,
+        seed: Math.random(),
+      });
+    }
+    return out;
+  }, []);
+  const visibleCount = Math.floor(20 + t * 280);
+
+  return (
+    <section id="carbon">
+      <div className="wrap sec-head reveal">
+        <div className="eyebrow">02 · CARBON EXPERIENCE AREA</div>
+        <h2>An installation that lets visitors feel the air.</h2>
+        <p>Two modular chambers built from wood and recycled material. Move the
+        slider to walk between them — from 400 ppm forest fresh to 2,000+ ppm
+        density. Live sensor readouts pipe into the public dashboard.</p>
+      </div>
+      <div className="wrap ce-wrap reveal">
+        <div>
+          <div className="ce-canvas" style={{
+            background: `radial-gradient(ellipse at 50% 60%, ${color}33 0%, transparent 70%), var(--panel)` }}>
+            <svg viewBox="0 0 800 500" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="ce-fog" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor={color} stopOpacity={0.18 + t * 0.4}/>
+                  <stop offset="100%" stopColor={color} stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+
+              {/* chamber outline */}
+              <g opacity="0.8">
+                <rect x="80" y="100" width="640" height="300" rx="20"
+                  fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1.2" strokeDasharray="2 5"/>
+                {/* divider */}
+                <line x1="400" y1="110" x2="400" y2="390" stroke="rgba(255,255,255,0.10)" strokeWidth="1.2" strokeDasharray="2 5"/>
+              </g>
+
+              {/* left side: forest cues (tree silhouettes) — fade as ppm rises */}
+              <g opacity={Math.max(0.05, 1 - t * 1.4)}>
+                {[120, 180, 240, 300, 360].map((x, i) => (
+                  <g key={i} transform={`translate(${x} 320)`}>
+                    <rect x="-3" y="0" width="6" height="40" fill="oklch(0.30 0.08 145)"/>
+                    <circle cx="0" cy="-15" r={18 + (i%2)*6} fill="oklch(0.55 0.16 155)" opacity="0.5"/>
+                  </g>
+                ))}
+              </g>
+
+              {/* right side: people cues (silhouette circles) — appear as ppm rises */}
+              <g opacity={Math.min(0.9, t * 1.4)}>
+                {[
+                  [440, 320], [490, 340], [540, 320], [590, 340], [640, 320], [680, 340],
+                  [460, 280], [510, 300], [560, 280], [610, 300], [660, 280],
+                ].map(([x,y], i) => (
+                  <g key={i} transform={`translate(${x} ${y})`}>
+                    <circle cy="-22" r="8" fill="rgba(255,255,255,0.20)"/>
+                    <path d="M -10 0 Q -10 -14 0 -14 Q 10 -14 10 0 Z" fill="rgba(255,255,255,0.15)"/>
+                  </g>
+                ))}
+              </g>
+
+              {/* particle field — CO2 visualization */}
+              <g>
+                {particles.slice(0, visibleCount).map((p, i) => (
+                  <circle key={i}
+                    cx={80 + p.x * 6.4} cy={100 + p.y * 3}
+                    r={p.r}
+                    fill={color} opacity={0.4 + t * 0.4}
+                    style={{ animation: `drift ${6 + (p.seed * 6)}s ease-in-out infinite`, animationDelay: `${-p.seed * 6}s` }}
+                  />
+                ))}
+              </g>
+
+              {/* fog overlay */}
+              <rect x="80" y="100" width="640" height="300" rx="20" fill="url(#ce-fog)"/>
+
+              {/* sensor pin in chamber */}
+              <g transform={`translate(${400 + (t - 0.5) * 200} 250)`}>
+                <circle r="22" fill={color} opacity="0.15" style={{ animation: 'pulse 2s ease-in-out infinite' }}/>
+                <circle r="10" fill={color}/>
+                <circle r="4" fill="#fff"/>
+              </g>
+            </svg>
+          </div>
+
+          <div className="ce-slider-row">
+            <span className="label">400 ppm</span>
+            <div className="ce-slider" ref={slideRef}
+              onMouseDown={(e) => { dragging.current = true; setFromX(e.clientX); }}>
+              <div className="knob" style={{ left: `${t * 100}%`, color }}/>
+            </div>
+            <span className="label" style={{ textAlign: 'right' }}>2200 ppm</span>
+          </div>
+          <p className="mute" style={{ fontSize: 12, marginTop: 12, lineHeight: 1.55 }}>
+            <span style={{ color: 'var(--amber)', fontFamily: 'Geist Mono' }}>SAFETY · </span>
+            Chambers continuously ventilated; absolute cap 5,000 ppm. Capacity 10–15 visitors per chamber.
+            Materials: modular wood + recycled. Live plants in Zone B donated to a local school post-event.
+          </p>
+        </div>
+
+        <div className="ce-readout">
+          <div className="big">
+            <div className="eyebrow" style={{ color }}>CHAMBER · LIVE</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', marginTop: 12 }}>
+              <span className="v" style={{ color }}>{ppm.toLocaleString()}</span>
+              <span className="u">ppm CO₂</span>
+            </div>
+            <div style={{ fontFamily: 'Geist Mono', fontSize: 10, letterSpacing: 1.5,
+              color, marginTop: 6 }}>{label}</div>
+            <div className="feel">
+              <div className="feel-row">
+                <span>Cognitive feel</span>
+                <span style={{ color: 'var(--text)' }}>{feel}</span>
+              </div>
+              <div className="feel-row">
+                <span>Module</span>
+                <span style={{ color: 'var(--text)' }}>{t < 0.5 ? 'B · Forest' : 'A · Density'}</span>
+              </div>
+              <div className="feel-row">
+                <span>Visitors inside</span>
+                <span style={{ color: 'var(--text)' }}>{Math.round(2 + t * 13)} of 15</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="scenarios">
+            <div className={`scenario ${t < 0.3 ? 'active' : ''}`} onClick={() => setPpm(420)}
+              style={{ color: 'oklch(0.72 0.14 155)' }}>
+              <div className="name">Zone B · Forest 400 ppm</div>
+              <div className="sub">Trees · plants · birdsong · cold cedar air</div>
+            </div>
+            <div className={`scenario ${t > 0.6 ? 'active' : ''}`} onClick={() => setPpm(2100)}
+              style={{ color: 'oklch(0.65 0.18 25)' }}>
+              <div className="name">Zone A · Density 2,000+ ppm</div>
+              <div className="sub">Crowd hum · warm air · pressure on your forehead</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── device fleet ──────────────────────────────────────────
+const STATUSES = [
+  { id: 'all',        name: 'All',        color: null },
+  { id: 'produced',   name: 'Produced',   color: 'oklch(0.45 0.10 235)' },
+  { id: 'calibrated', name: 'Calibrated', color: 'oklch(0.65 0.14 230)' },
+  { id: 'burnin',     name: 'Burn-in',    color: 'oklch(0.78 0.14 75)' },
+  { id: 'packed',     name: 'Packed',     color: 'oklch(0.62 0.18 295)' },
+  { id: 'shipped',    name: 'Shipped',    color: 'oklch(0.72 0.14 155)' },
+  { id: 'deployed',   name: 'Deployed',   color: 'oklch(0.85 0.14 155)' },
+];
+
+function DeviceFleet() {
+  // 500 devices in a 25x20 grid. Status distribution reflects current week (we're in Week 2):
+  // - Produced: 60% = 300
+  // - Calibrated: 25% = 125
+  // - Burn-in: 8% = 40
+  // - Packed: 4% = 20
+  // - Shipped: 2% = 10
+  // - Deployed: 1% = 5 (pilot)
+  const devices = useMemo(() => {
+    const arr = [];
+    const seq = [
+      { st: 'deployed',   n: 5 },
+      { st: 'shipped',    n: 10 },
+      { st: 'packed',     n: 20 },
+      { st: 'burnin',     n: 40 },
+      { st: 'calibrated', n: 125 },
+      { st: 'produced',   n: 300 },
+    ];
+    let id = 1;
+    for (const s of seq) {
+      for (let i = 0; i < s.n; i++) {
+        arr.push({ id: `PX-2026-${String(id).padStart(4, '0')}`, status: s.st });
+        id++;
+      }
+    }
+    // shuffle a bit so the grid looks distributed (deterministic by index)
+    return arr.sort((a, b) => (a.id.charCodeAt(8) * 31 + a.id.charCodeAt(9)) % 7 - (b.id.charCodeAt(8) * 31 + b.id.charCodeAt(9)) % 7);
+  }, []);
+
+  const counts = useMemo(() => {
+    const c = {};
+    devices.forEach(d => { c[d.status] = (c[d.status] || 0) + 1; });
+    c.all = devices.length;
+    return c;
+  }, [devices]);
+
+  const [filter, setFilter] = useState('all');
+  const colorMap = Object.fromEntries(STATUSES.map(s => [s.id, s.color]));
+  const [hover, setHover] = useState(null);
+
+  return (
+    <section id="fleet">
+      <div className="wrap sec-head reveal">
+        <div className="eyebrow">03 · THE 500</div>
+        <h2>Every Carbostar PX. Tracked. Calibrated. Bound for the stage.</h2>
+        <p>Each device is uniquely serialized, factory-calibrated, then burned in for 24 hours
+        before packing. Live production status as of today — 21 days from go-live.</p>
+      </div>
+      <div className="wrap reveal">
+        <div className="fleet-controls">
+          {STATUSES.map(s => (
+            <div key={s.id} className={`fleet-chip ${filter === s.id ? 'active' : ''}`}
+              onClick={() => setFilter(s.id)}>
+              {s.color && <span className="swatch" style={{ background: s.color }}/>}
+              {s.name.toUpperCase()}
+              <span className="count">{counts[s.id] || 0}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="card fleet-grid-card" style={{ position: 'relative' }}>
+          <svg viewBox="0 0 1100 660" width="100%" preserveAspectRatio="xMidYMid meet">
+            {devices.map((d, i) => {
+              const col = i % 25;
+              const row = Math.floor(i / 25);
+              const r = 16;
+              const dx = r * Math.sqrt(3);
+              const dy = r * 1.5;
+              const x = 30 + col * dx + (row % 2 ? dx / 2 : 0);
+              const y = 30 + row * dy;
+              const active = filter === 'all' || d.status === filter;
+              const c = colorMap[d.status];
+              return (
+                <g key={d.id} onMouseEnter={() => setHover({ d, x, y })} onMouseLeave={() => setHover(null)}>
+                  <path d={hexPath(x, y, r - 1)}
+                    fill={active ? c : 'oklch(0.20 0.015 235)'}
+                    stroke={active ? c : 'rgba(255,255,255,0.04)'}
+                    strokeWidth={active ? 0.5 : 1}
+                    opacity={active ? 0.9 : 0.25}
+                    style={{ transition: 'all 0.4s', cursor: 'pointer' }}
+                  />
+                </g>
+              );
+            })}
+          </svg>
+
+          {hover && (
+            <div className="tooltip" style={{
+              left: `${(hover.x / 1100) * 100}%`, top: `calc(${(hover.y / 660) * 100}% - 32px)`,
+              transform: 'translateX(-50%)'
+            }}>
+              {hover.d.id} · {STATUSES.find(s => s.id === hover.d.status).name.toUpperCase()}
+            </div>
+          )}
+
+          <div className="fleet-meta">
+            <span>PX-2026-0001 → PX-2026-0500 · LOT 04 · BoM locked</span>
+            <span>BUFFER · +50 SHADOW UNITS (PX-2026-0501 → 0550)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── live dashboard preview ────────────────────────────────
+function LiveDashboard() {
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setTick(x => x + 1), 1200);
+    return () => clearInterval(t);
+  }, []);
+
+  // Simulated KPIs
+  const baseSensors = 487 + (tick % 6);
+  const totalDecl = 12340 + tick * 7;
+  const avgPpm = 642 + Math.sin(tick * 0.4) * 18;
+  const peak = 1842 + Math.floor(Math.sin(tick * 0.2) * 35);
+
+  // Sparkline: rolling 60-point curve, evolving
+  const points = useMemo(() => {
+    const N = 60;
+    const out = [];
+    for (let i = 0; i < N; i++) {
+      const t = i / (N - 1);
+      const x = 20 + t * (640 - 40);
+      const base = 500 + Math.sin(t * 6 + tick * 0.1) * 80
+        + Math.sin(t * 14 + tick * 0.05) * 30
+        + Math.sin(t * 3 + tick * 0.2) * 60;
+      const y = 220 - (base - 350) * 0.25;
+      out.push([x, Math.min(210, Math.max(20, y))]);
+    }
+    return out;
+  }, [tick]);
+  const sparkD = points.reduce((a, [x,y], i) => a + (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`), '');
+  const sparkArea = sparkD + ` L ${points[points.length-1][0]} 230 L ${points[0][0]} 230 Z`;
+
+  // Heatmap: 8x5 grid of zones
+  const heatCells = useMemo(() => {
+    const out = [];
+    for (let r = 0; r < 5; r++) {
+      for (let c = 0; c < 8; c++) {
+        const seed = Math.sin(r * 17 + c * 31 + tick * 0.05);
+        const intensity = (seed + 1) / 2;
+        out.push({ r, c, intensity });
+      }
+    }
+    return out;
+  }, [tick]);
+
+  const ZONES = [
+    { name: 'Main Hall', ppm: 612, peak: 940 },
+    { name: 'Carbon Experience', ppm: 1820, peak: 2110 },
+    { name: 'Networking', ppm: 720, peak: 1140 },
+    { name: 'Press Room', ppm: 590, peak: 780 },
+    { name: 'Cafeteria', ppm: 820, peak: 1320 },
+  ];
+
+  return (
+    <section id="dashboard">
+      <div className="wrap sec-head reveal">
+        <div className="eyebrow">04 · LIVE DASHBOARD · WHITE-LABEL</div>
+        <h2>The public face: the foundation's dashboard, live for 5,000+ visitors.</h2>
+        <p>Streams from 500 Carbostar PX devices, projected on the main stage. Dual-language,
+        role-based access, 15-minute restore window, public share URL.</p>
+      </div>
+      <div className="wrap reveal">
+        <div className="dash">
+          <div className="dash-chrome">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div className="dots"><span/><span/><span/></div>
+              <span>SIFIRATIK.DASHBOARD.SUNX.LIVE</span>
+            </div>
+            <div style={{ display: 'flex', gap: 16 }}>
+              <span style={{ color: 'var(--accent)' }}>● LIVE</span>
+              <span>SYNC · 1.2s</span>
+              <span>5 JUN 2026 · 11:42 · ISTANBUL</span>
+            </div>
+          </div>
+          <div className="dash-body">
+            <div className="dash-main">
+              <div className="dash-kpi-row">
+                <div className="dash-kpi">
+                  <div className="l">SENSORS ONLINE</div>
+                  <div className="v">{baseSensors} <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>/ 500</span></div>
+                  <div className="d" style={{ color: 'var(--accent)' }}>● {Math.round((baseSensors/500)*100)}% · NOMINAL</div>
+                </div>
+                <div className="dash-kpi">
+                  <div className="l">DECLARATIONS</div>
+                  <div className="v">{totalDecl.toLocaleString()}</div>
+                  <div className="d" style={{ color: 'var(--accent)' }}>▲ +{tick * 7} this hour</div>
+                </div>
+                <div className="dash-kpi">
+                  <div className="l">AVG VENUE CO₂</div>
+                  <div className="v">{avgPpm.toFixed(0)} <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>ppm</span></div>
+                  <div className="d" style={{ color: 'var(--amber)' }}>● MODERATE</div>
+                </div>
+                <div className="dash-kpi">
+                  <div className="l">PEAK ZONE</div>
+                  <div className="v">{peak} <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>ppm</span></div>
+                  <div className="d" style={{ color: 'var(--red)' }}>● CARBON EXP · ZONE A</div>
+                </div>
+              </div>
+
+              <div className="dash-chart">
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <div>
+                    <div style={{ fontFamily: 'Geist Mono', fontSize: 9, letterSpacing: 1.5, color: 'var(--text-dim)' }}>VENUE CO₂ · LAST 60 MIN</div>
+                    <div style={{ fontSize: 20, fontWeight: 600, marginTop: 2 }}>Real-time stream · 60s windows</div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'center', fontFamily: 'Geist Mono', fontSize: 10, color: 'var(--text-dim)' }}>
+                    <span><span style={{ color: 'var(--primary)' }}>━</span> Average</span>
+                    <span><span style={{ color: 'var(--accent)' }}>━</span> Forest baseline</span>
+                  </div>
+                </div>
+                <svg viewBox="0 0 660 240" width="100%" height="220">
+                  <defs>
+                    <linearGradient id="sparkfill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="oklch(0.65 0.14 230)" stopOpacity="0.4"/>
+                      <stop offset="100%" stopColor="oklch(0.65 0.14 230)" stopOpacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  {/* gridlines */}
+                  {[40, 90, 140, 190].map((y, i) => (
+                    <line key={i} x1="20" y1={y} x2="640" y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
+                  ))}
+                  {/* forest baseline */}
+                  <line x1="20" y1="180" x2="640" y2="180" stroke="oklch(0.72 0.14 155)" strokeWidth="1" strokeDasharray="3 4" opacity="0.5"/>
+                  <text x="630" y="174" textAnchor="end" fontFamily="Geist Mono" fontSize="9" fill="oklch(0.72 0.14 155)">400 ppm</text>
+
+                  <path d={sparkArea} fill="url(#sparkfill)"/>
+                  <path d={sparkD} stroke="oklch(0.65 0.14 230)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx={points[points.length-1][0]} cy={points[points.length-1][1]} r="4" fill="oklch(0.65 0.14 230)"/>
+                  <circle cx={points[points.length-1][0]} cy={points[points.length-1][1]} r="8" fill="oklch(0.65 0.14 230)" opacity="0.3"
+                    style={{ animation: 'pulse 1.4s ease-in-out infinite', transformOrigin: `${points[points.length-1][0]}px ${points[points.length-1][1]}px` }}/>
+                </svg>
+              </div>
+            </div>
+
+            <div className="dash-side">
+              <div className="dash-heatmap">
+                <div style={{ fontFamily: 'Geist Mono', fontSize: 9, letterSpacing: 1.5, color: 'var(--text-dim)' }}>VENUE HEATMAP · BY ZONE</div>
+                <div style={{ fontSize: 14, fontWeight: 600, marginTop: 2, marginBottom: 14 }}>Floorplan · ppm intensity</div>
+                <svg viewBox="0 0 360 200" width="100%">
+                  {heatCells.map(({ r, c, intensity }, i) => {
+                    const x = 10 + c * 42;
+                    const y = 10 + r * 36;
+                    const color = intensity < 0.3 ? 'oklch(0.55 0.14 155 / 0.7)'
+                                : intensity < 0.55 ? 'oklch(0.65 0.14 95 / 0.7)'
+                                : intensity < 0.75 ? 'oklch(0.65 0.14 65 / 0.7)'
+                                : 'oklch(0.55 0.18 25 / 0.7)';
+                    return (
+                      <rect key={i} x={x} y={y} width="38" height="32" rx="6"
+                        fill={color} stroke="rgba(255,255,255,0.04)" strokeWidth="0.5"
+                      />
+                    );
+                  })}
+                </svg>
+                <div style={{ display: 'flex', justifyContent: 'space-between',
+                  fontFamily: 'Geist Mono', fontSize: 9, color: 'var(--text-dim)', marginTop: 8 }}>
+                  <span>400 ppm</span>
+                  <span style={{ flex: 1, margin: '0 8px', height: 2, background: 'linear-gradient(90deg, oklch(0.55 0.14 155), oklch(0.65 0.14 95), oklch(0.65 0.14 65), oklch(0.55 0.18 25))', alignSelf: 'center', borderRadius: 1 }}/>
+                  <span>2,200 ppm</span>
+                </div>
+              </div>
+
+              <div className="dash-top-zones">
+                <div style={{ fontFamily: 'Geist Mono', fontSize: 9, letterSpacing: 1.5, color: 'var(--text-dim)' }}>TOP ZONES · NOW</div>
+                <div style={{ fontSize: 14, fontWeight: 600, marginTop: 2, marginBottom: 8 }}>Live readings</div>
+                {ZONES.map((z, i) => {
+                  const t = Math.min(1, (z.ppm - 400) / 1600);
+                  const color = t < 0.25 ? 'oklch(0.72 0.14 155)'
+                              : t < 0.5  ? 'oklch(0.78 0.14 95)'
+                              : t < 0.75 ? 'oklch(0.78 0.14 65)'
+                              : 'oklch(0.65 0.18 25)';
+                  return (
+                    <div className="zone-row" key={i}>
+                      <span className="rank">{String(i+1).padStart(2,'0')}</span>
+                      <span style={{ fontSize: 12 }}>{z.name}</span>
+                      <span className="bar"><i style={{ width: `${t * 100}%`, background: color }}/></span>
+                      <span className="v" style={{ color }}>{z.ppm}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 16 }}>
+          {[
+            { l: 'PUBLIC URL', v: 'sifiratik.dashboard.sunx.live', sub: 'TR + EN · public read-only' },
+            { l: 'RESTORE', v: '< 15 min', sub: 'Dual-server failover · 99.9%' },
+            { l: 'DATA OWNER', v: 'Sıfır Atık Vakfı', sub: 'KVKK · open-data after event' },
+          ].map((k, i) => (
+            <div className="card" key={i} style={{ padding: 16 }}>
+              <div className="eyebrow" style={{ color: 'var(--text-dim)' }}>{k.l}</div>
+              <div style={{ fontSize: 18, fontWeight: 600, marginTop: 4, letterSpacing: -0.4 }}>{k.v}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-mute)', marginTop: 4 }}>{k.sub}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── roadmap ───────────────────────────────────────────────
+const PHASES = [
+  {
+    week: 'WEEK 1', dates: '8–14 MAY', title: 'Contract & Design Lock', current: false,
+    items: [
+      'Contract signed, 50% upfront received',
+      'Kick-off with foundation, written Q&A protocol',
+      'Brand kit, logo files, voice ownership clauses',
+      'BoM lock, production order',
+      'Carbon Experience 3D mock-up for approval',
+    ],
+  },
+  {
+    week: 'WEEK 2', dates: '15–21 MAY', title: 'Production & Build Sprint', current: true, label: 'NOW',
+    items: [
+      '500 units 60% produced, calibration begins',
+      '50-unit shadow buffer manufactured',
+      'White-label dashboard theme applied',
+      'App Store & Play submissions',
+      'Foundation tech-coordination meeting (power, net)',
+    ],
+  },
+  {
+    week: 'WEEK 3', dates: '22–28 MAY', title: 'Test & Quality Gate', current: false,
+    items: [
+      'All 500 calibrated & burn-in complete',
+      '50-unit pilot deployment on real network',
+      'Stress test: 500 simultaneous streams',
+      'Foundation UAT signed off',
+      'Foundation staff training delivered',
+    ],
+  },
+  {
+    week: 'WEEK 4', dates: '29 MAY–4 JUN', title: 'Stage & Setup', current: false,
+    items: [
+      'Devices shipped to Istanbul (insured)',
+      'Carbon Experience Area built on site',
+      'Software freeze · 48h before doors',
+      'On-site team accredited, run-of-show locked',
+      '500 units charged & dispatched on tables',
+    ],
+  },
+  {
+    week: 'EVENT', dates: '5–7 JUN', title: 'Forum Live', current: false,
+    items: [
+      'Day 1: doors open · dashboard public',
+      '24/7 on-call: <15 min intervention SLA',
+      'Daily debrief with foundation leadership',
+      'Foto / video / press coverage',
+      'Day 3: tear-down begins, device inventory',
+    ],
+  },
+  {
+    week: 'POST', dates: 'JUNE → COP31', title: 'Case Study & Bridge', current: false,
+    items: [
+      'Final 50% payment received',
+      'Public case study (with foundation co-sign)',
+      'Academic paper draft on event MRV',
+      'COP31 partnership framework signed',
+      'November: deploy at Antalya pavilion',
+    ],
+  },
+];
+
+function RoadmapSection() {
+  return (
+    <section id="roadmap">
+      <div className="wrap sec-head reveal">
+        <div className="eyebrow">05 · 4-WEEK OPERATIONAL ROADMAP</div>
+        <h2>Twenty-eight days of execution. Six phases. One critical path.</h2>
+        <p>Each cell is a contract milestone; slippage compounds. We are
+        currently in <span style={{ color: 'var(--primary)' }}>Week 2</span>
+        — the production sprint. Any contract delay before now risks the
+        calibration window most.</p>
+      </div>
+      <div className="wrap reveal">
+        <div className="roadmap">
+          {PHASES.map((p, i) => (
+            <div key={i} className={`phase ${p.current ? 'current' : ''}`}>
+              {p.label && <span className="badge">{p.label}</span>}
+              <div className="week">{p.week}</div>
+              <div className="title">{p.title}</div>
+              <div className="dates">{p.dates}</div>
+              <ul>
+                {p.items.map((it, j) => <li key={j}>{it}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── risks ─────────────────────────────────────────────────
+const RISKS = [
+  { name: 'Contract signing slips',     prob: 'med',  imp: 'high',  sev: 3, contingency: 'Pre-issue LOI to start critical parts ordering. Calibration window most exposed.', icon: '📋' },
+  { name: 'Sensor supply delay',         prob: 'med',  imp: 'high',  sev: 3, contingency: 'Second-source supplier on standby; 50-unit buffer; hybrid stock from existing inventory.', icon: '🔌' },
+  { name: 'Dashboard outage at event',   prob: 'low',  imp: 'vhi',   sev: 4, contingency: 'Dual-server failover, 48h pre-event software freeze, 15-min restore SLA, on-site engineer 24/7.', icon: '⚠️' },
+  { name: 'App Store approval slow',     prob: 'med',  imp: 'med',   sev: 2, contingency: 'PWA fallback ready, submission no later than Week 3 day 1.', icon: '📱' },
+  { name: 'On-site internet weak',       prob: 'med',  imp: 'high',  sev: 3, contingency: '4G/5G modem pool deployed, offline-first device buffering with sync resume.', icon: '📡' },
+  { name: 'Device handout confusion',    prob: 'high', imp: 'med',   sev: 3, contingency: 'Written distribution playbook with foundation, trained staff, registration form, single hand-out point.', icon: '🎒' },
+  { name: 'Brand-usage dispute',          prob: 'med',  imp: 'high',  sev: 3, contingency: 'Written brand-use protocol, signed-off mockups, 2 design approval cycles before production.', icon: '🎨' },
+  { name: 'ONO PR blocked by foundation', prob: 'high', imp: 'med',   sev: 3, contingency: 'Pre-event written permission. If denied, renegotiate post-event case-study release timeline.', icon: '📣' },
+  { name: 'Event cancelled / postponed',  prob: 'low',  imp: 'vhi',   sev: 4, contingency: 'Force-majeure clause in contract; clarify produced-device disposition and partial-fee schedule.', icon: '🛑' },
+  { name: 'Device loss / theft on site',  prob: 'med',  imp: 'med',   sev: 2, contingency: 'Insurance policy, overnight security, device serial registry, written loss protocol.', icon: '🔒' },
+  { name: 'Foundation slow comms',        prob: 'high', imp: 'high',  sev: 4, contingency: 'Demand single point of contact, weekly standing meeting, WhatsApp group for urgent escalation.', icon: '🗓️' },
+  { name: 'Uniform / dress code refused', prob: 'low',  imp: 'low',   sev: 1, contingency: 'Neutral backup outfits in inventory; foundation jersey takes priority where required.', icon: '👕' },
+];
+
+function RiskMatrix() {
+  const [selected, setSelected] = useState(RISKS[2]); // dashboard outage
+
+  // 3x3 grid: rows = impact (high→low top→bottom we'll reverse so high is top), cols = prob (low→high)
+  const impactOrder = ['vhi', 'high', 'med', 'low'];
+  const probOrder = ['low', 'med', 'high'];
+  const cells = {};
+  probOrder.forEach(p => impactOrder.forEach(i => { cells[`${i}-${p}`] = []; }));
+  RISKS.forEach(r => {
+    const key = `${r.imp}-${r.prob}`;
+    if (cells[key]) cells[key].push(r);
+  });
+
+  const sevOfCell = (imp, prob) => {
+    const ip = { low: 1, med: 2, high: 3, vhi: 4 }[imp];
+    const pp = { low: 1, med: 2, high: 3 }[prob];
+    const score = ip + pp;
+    if (score <= 3) return 1;
+    if (score <= 4) return 2;
+    if (score <= 5) return 3;
+    return 4;
+  };
+  const sevName = (sev) => ['', 'LOW', 'MOD', 'HIGH', 'CRITICAL'][sev];
+  const sevColor = (sev) => ['', 'oklch(0.72 0.14 155)', 'oklch(0.78 0.14 95)', 'oklch(0.78 0.14 65)', 'oklch(0.65 0.18 25)'][sev];
+
+  return (
+    <section id="risks">
+      <div className="wrap sec-head reveal">
+        <div className="eyebrow">06 · RISK MATRIX</div>
+        <h2>Twelve risks. Twelve plays. No surprises.</h2>
+        <p>Each risk is mapped by probability and impact. Click any pill to see the
+        contingency we've pre-staged. The cells the orange-and-red corner are the
+        critical-path risks we revisit every Monday.</p>
+      </div>
+      <div className="wrap risk-wrap reveal">
+        <div>
+          <div className="risk-grid">
+            {/* corner */}
+            <div></div>
+            {/* prob labels (top row) */}
+            <div className="axis-label-x">PROB · LOW</div>
+            <div className="axis-label-x">PROB · MED</div>
+            <div className="axis-label-x">PROB · HIGH</div>
+
+            {impactOrder.map((imp) => (
+              <React.Fragment key={imp}>
+                <div className="axis-label-y">IMPACT · {imp === 'vhi' ? 'CRITICAL' : imp.toUpperCase()}</div>
+                {probOrder.map((prob) => {
+                  const sev = sevOfCell(imp, prob);
+                  return (
+                    <div key={prob} className={`risk-cell sev-${sev}`}>
+                      <span className="corner-label">{sevName(sev)}</span>
+                      {cells[`${imp}-${prob}`].map((r, i) => (
+                        <div key={i} className="risk-pill"
+                          onClick={() => setSelected(r)}
+                          style={{ color: selected === r ? '#fff' : 'inherit',
+                            background: selected === r ? sevColor(sev) : undefined,
+                            borderColor: selected === r ? sevColor(sev) : undefined }}>
+                          <span style={{ marginRight: 6 }}>{r.icon}</span>{r.name}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+
+        <div className="risk-detail">
+          <div className="head">
+            <div>
+              <div className="eyebrow" style={{ color: sevColor(selected.sev) }}>RISK · CONTINGENCY</div>
+              <h3 style={{ marginTop: 6 }}>{selected.icon}  {selected.name}</h3>
+            </div>
+            <div className="sev-badge" style={{
+              color: sevColor(selected.sev),
+              background: `${sevColor(selected.sev).replace(')', ' / 0.15)')}`,
+              border: `1px solid ${sevColor(selected.sev).replace(')', ' / 0.4)')}`
+            }}>{sevName(selected.sev)}</div>
+          </div>
+          <div className="meta">
+            <div className="item">
+              <div className="l">PROBABILITY</div>
+              <div className="v" style={{ textTransform: 'uppercase' }}>{selected.prob === 'med' ? 'Medium' : selected.prob}</div>
+            </div>
+            <div className="item">
+              <div className="l">IMPACT</div>
+              <div className="v" style={{ textTransform: 'uppercase' }}>{selected.imp === 'vhi' ? 'Critical' : selected.imp}</div>
+            </div>
+          </div>
+          <div className="contingency">{selected.contingency}</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── COP31 bridge ──────────────────────────────────────────
+const BRIDGE = [
+  { when: 'JUN 5–7 · ISTANBUL', what: 'Seed', desc: 'Tactical introductions with ministers, mayors, UN officials. English brief card on every Carbostar.', color: 'oklch(0.65 0.14 230)' },
+  { when: 'JUN 8 → JUL 8', what: '+30 days', desc: 'Co-signed case study, public release, foundation-led briefing memo to Türkiye delegation.', color: 'oklch(0.62 0.16 200)' },
+  { when: 'JUL → OCT', what: '+90 days', desc: 'COP31 prep meetings with UN-Habitat and UNEP as observer / tech partner. MRV framework draft.', color: 'oklch(0.62 0.18 295)' },
+  { when: 'NOV 2026 · ANTALYA', what: 'COP31', desc: 'Carbostar PX active in the Sıfır Atık pavilion. Türkiye positioned as MRV-capable host nation.', color: 'oklch(0.80 0.13 80)' },
+];
+
+function COP31Bridge() {
+  return (
+    <section id="cop31">
+      <div className="wrap sec-head reveal">
+        <div className="eyebrow">07 · COP31 BRIDGE · STRATEGIC OUTCOME</div>
+        <h2>Istanbul is not the destination. It's the runway.</h2>
+        <p>The real prize of these 21 days is not the event itself — it is the
+        position we occupy six months later in Antalya, when Türkiye chairs COP31
+        and needs a domestic MRV partner with a delivered, audited record.</p>
+      </div>
+      <div className="wrap reveal">
+        <div className="bridge">
+          <div className="eyebrow" style={{ color: 'var(--accent)' }}>FROM FORUM TO COP31 · 5 MONTHS</div>
+          <h3 style={{ fontSize: 30, letterSpacing: -1, marginTop: 12, maxWidth: 720 }}>
+            Four moments that turn a deployment into a national-scale partnership.
+          </h3>
+
+          <div className="bridge-timeline">
+            {BRIDGE.map((b, i) => (
+              <div className="bridge-node" key={i} style={{ color: b.color }}>
+                <div className="dot-marker"/>
+                <div className="when" style={{ color: 'var(--text-mute)' }}>{b.when}</div>
+                <div className="what" style={{ color: b.color }}>{b.what}</div>
+                <div className="desc">{b.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="bridge-quote">
+            <div className="eyebrow">STRATEGIC THESIS</div>
+            <p className="q" style={{ marginTop: 12 }}>
+              The Sıfır Atık Forumu 2026 is not a delivery for ONO — it is an
+              <span className="accent"> infrastructure investment</span> in Türkiye's
+              climate diplomacy narrative. If we execute well, we will be the
+              technology spine of the country's COP31 host story.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── footer ────────────────────────────────────────────────
+function Footer() {
+  return (
+    <footer>
+      <div className="wrap">
+        <div className="row">
+          <div className="group">
+            <span>ONO YAZILIM A.Ş.</span>
+            <span>·</span>
+            <span>TKF-2026-0427</span>
+            <span>·</span>
+            <span>v 1.0</span>
+          </div>
+          <div className="group">
+            <span style={{ color: 'var(--amber)' }}>INTERNAL · STRATEJİK HAZIRLIK</span>
+            <span>·</span>
+            <span>Updated 15 MAY 2026</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── app ───────────────────────────────────────────────────
+function App() {
+  useReveal();
+  return (
+    <>
+      <NavBar/>
+      <Hero/>
+      <TheStage/>
+      <CarbonExperience/>
+      <DeviceFleet/>
+      <LiveDashboard/>
+      <RoadmapSection/>
+      <RiskMatrix/>
+      <COP31Bridge/>
+      <Footer/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

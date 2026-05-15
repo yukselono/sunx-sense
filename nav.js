@@ -8,6 +8,7 @@
     { href: 'SUNX Sense Consent.html',          label: 'Consent · EK J', ix: '04' },
     { href: 'SUNX Sense Odor.html',             label: 'Odor',         ix: '05' },
     { href: 'SUNX Sense Signup.html',           label: 'Sign up',      ix: '06' },
+    { href: 'Carbostar PX Mission Brief.html',  label: 'PX Brief',     ix: '07' },
   ];
   const here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
 
