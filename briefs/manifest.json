@@ -1,0 +1,20 @@
+{
+  "$comment": "Auto-managed by briefs/render.mjs. Each entry = one rendered customer brief. The home page renders this as a gallery.",
+  "briefs": [
+    {
+      "slug": "carbostar-px-zwf2026",
+      "client": "Sıfır Atık Vakfı",
+      "project": "Carbostar PX",
+      "event": "Zero Waste Forum 2026",
+      "venue": "Atatürk Havalimanı · Istanbul",
+      "dates": "5–7 JUN 2026",
+      "eventDate": "2026-06-05T09:00:00+03:00",
+      "documentId": "TKF-2026-0427",
+      "updatedAt": "15 MAY 2026",
+      "status": "ACTIVE",
+      "url": "Carbostar PX Mission Brief.html",
+      "accentHue": 230,
+      "headline": "Twenty-one days. Five hundred devices. One global stage."
+    }
+  ]
+}

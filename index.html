@@ -15,13 +15,13 @@
     background: #0a0f16; color: #e8edf2;
   }
   .page {
-    min-height: 100vh; padding: 60px 32px;
+    min-height: 100vh; padding: 60px 32px 100px;
     background:
       radial-gradient(ellipse at 12% 0%, oklch(0.30 0.06 230 / 0.35) 0%, transparent 50%),
       radial-gradient(ellipse at 90% 30%, oklch(0.30 0.06 155 / 0.25) 0%, transparent 55%),
       #0a0f16;
   }
-  .wrap { max-width: 880px; margin: 0 auto; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
   .brand {
     font-family: 'Geist Mono', ui-monospace, monospace;
     font-size: 11px; letter-spacing: 3px; color: oklch(0.65 0.14 230);
@@ -41,7 +41,24 @@
     background: linear-gradient(110deg, oklch(0.65 0.14 230), oklch(0.72 0.14 155));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  p.lede { font-size: 16px; line-height: 1.55; color: rgba(255,255,255,0.62); margin: 0 0 40px; max-width: 580px; }
+  p.lede { font-size: 16px; line-height: 1.55; color: rgba(255,255,255,0.62); margin: 0 0 56px; max-width: 580px; }
+
+  /* ============ Section ============ */
+  .section { margin-top: 60px; }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+  }
+  .section-head h2 {
+    font-family: 'Geist'; font-weight: 600; font-size: 22px; letter-spacing: -0.5px; margin: 0;
+  }
+  .section-head .tag {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.6px; color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+  }
+
+  /* ============ Cards ============ */
   .grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
   }
@@ -52,6 +69,7 @@
     background: rgba(255,255,255,0.03);
     color: inherit; text-decoration: none;
     transition: transform 0.15s, border-color 0.2s, background 0.2s;
+    position: relative;
   }
   a.card:hover {
     transform: translateY(-2px); border-color: oklch(0.65 0.14 230 / 0.5);
@@ -62,11 +80,100 @@
     font-size: 10px; letter-spacing: 1.8px; color: oklch(0.65 0.14 230);
     text-transform: uppercase; font-weight: 600;
   }
-  .card h2 { margin: 6px 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .card h3 { margin: 6px 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
   .card p { margin: 0; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.45; }
   .arrow { float: right; color: rgba(255,255,255,0.4); }
+
+  /* ============ Brief cards (richer) ============ */
+  a.brief-card {
+    display: block; padding: 22px;
+    border-radius: 18px;
+    background:
+      linear-gradient(135deg, oklch(0.30 0.10 230 / 0.18) 0%, transparent 50%),
+      rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: inherit; text-decoration: none;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s;
+    position: relative; overflow: hidden;
+  }
+  a.brief-card:hover {
+    transform: translateY(-2px); border-color: oklch(0.65 0.14 230 / 0.6);
+  }
+  .brief-card .status {
+    position: absolute; top: 22px; right: 22px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.4px;
+    padding: 3px 8px; border-radius: 999px; font-weight: 700;
+  }
+  .brief-card .status.active {
+    background: oklch(0.72 0.14 155); color: #0a1420;
+  }
+  .brief-card .status.past {
+    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+  }
+  .brief-card .client {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 1.8px;
+    color: oklch(0.78 0.14 230); text-transform: uppercase; font-weight: 600;
+  }
+  .brief-card .project {
+    font-family: 'Geist'; font-weight: 600; font-size: 20px; letter-spacing: -0.4px;
+    margin: 6px 0 12px;
+  }
+  .brief-card .headline {
+    font-family: 'Geist'; font-size: 15px; line-height: 1.4;
+    color: rgba(255,255,255,0.78); letter-spacing: -0.3px;
+    text-wrap: balance; margin-bottom: 16px;
+    text-wrap: balance;
+  }
+  .brief-card .row {
+    display: flex; justify-content: space-between; padding: 8px 0;
+    font-size: 11.5px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .brief-card .row .l {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.4px;
+    color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 600;
+  }
+  .brief-card .row .v {
+    color: rgba(255,255,255,0.85); font-weight: 500;
+  }
+  .brief-card .countdown {
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+    display: flex; gap: 14px; align-items: baseline;
+  }
+  .brief-card .countdown .n {
+    font-family: 'Geist'; font-size: 26px; font-weight: 700; letter-spacing: -1px;
+    background: linear-gradient(135deg, oklch(0.65 0.14 230), oklch(0.72 0.14 155));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .brief-card .countdown .l {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.4px;
+    color: rgba(255,255,255,0.4); text-transform: uppercase;
+  }
+  .brief-card .doc {
+    margin-top: 10px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 1.2px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .empty {
+    padding: 32px; border-radius: 18px;
+    border: 1px dashed rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.55); font-size: 13px; line-height: 1.5;
+    text-align: center;
+  }
+  .empty code {
+    font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px;
+    background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;
+  }
+
   footer {
-    margin-top: 56px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 72px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);
     font-size: 11px; color: rgba(255,255,255,0.4);
     font-family: 'Geist Mono', ui-monospace, monospace; letter-spacing: 1px;
   }
@@ -77,52 +184,112 @@
 <div class="page"><div class="wrap">
   <div class="brand"><span class="dot"></span>SUNX · SENSE · PROTOTYPES</div>
   <h1>A free that <span class="a">feels alive</span>.<br>A pro that <span class="a">sees everything</span>.</h1>
-  <p class="lede">Click-through prototypes for the Sense onboarding, gamification, tier system, KVKK + GDPR beta consent flow, and signup / pricing page.</p>
-  <div class="grid">
-    <a class="card" href="SUNX Sense Signup.html">
-      <span class="arrow">→</span>
-      <div class="ix">06 · SIGNUP &amp; PRICING</div>
-      <h2>Sign up / Free vs Pro</h2>
-      <p>Full landing page: signup form, jurisdiction-aware consent (TR/EU/US), 34-feature comparison, competitor matrix, SP economy, pricing tiers.</p>
-    </a>
-    <a class="card" href="SUNX Sense Odor.html">
-      <span class="arrow">→</span>
-      <div class="ix">05 · ODOR OBSERVATION</div>
-      <h2>Odor / smell report</h2>
-      <p>8 phone screens for a calm, scientific environmental observation flow — map entry, intensity, type, discomfort, duration, optional media, submission, nearby intel.</p>
-    </a>
-    <a class="card" href="SUNX Sense Consent.html">
-      <span class="arrow">→</span>
-      <div class="ix">04 · CONSENT FLOW · EK J</div>
-      <h2>Beta consent flow</h2>
-      <p>8 phone screens implementing Annex J of the user agreement — KVKK + GDPR compliant Beta consent.</p>
-    </a>
-    <a class="card" href="SUNX Sense Onboarding.html">
-      <span class="arrow">→</span>
-      <div class="ix">01 · ONBOARDING</div>
-      <h2>Onboarding</h2>
-      <p>5-slide marketing tutorial with hero illustrations, iOS/Android device frames, TR/EN copy.</p>
-    </a>
-    <a class="card" href="SUNX Sense Gamification.html">
-      <span class="arrow">→</span>
-      <div class="ix">02 · GAMIFICATION</div>
-      <h2>Gamification</h2>
-      <p>8 screens turning measurement into a habit — streak, rank, leaderboard, place explorer, badges, referral, trust, identity.</p>
-    </a>
-    <a class="card" href="SUNX Sense Tiers.html">
-      <span class="arrow">→</span>
-      <div class="ix">03 · TIER SYSTEM</div>
-      <h2>Tier system</h2>
-      <p>8 screens: tiers, heatmap access, SP wallet, unlock, envlab.ai, exposure, replay, hardware = Pro.</p>
-    </a>
-    <a class="card" href="Carbostar PX Mission Brief.html">
-      <span class="arrow">→</span>
-      <div class="ix">07 · CUSTOMER BRIEF</div>
-      <h2>Carbostar PX · Mission Brief</h2>
-      <p>Customer-facing mission brief for the Zero Waste Forum 2026 deployment. Sample artifact for auto-generated proposal companion pages.</p>
-    </a>
+  <p class="lede">Click-through prototypes for the Sense product, plus customer-facing mission briefs auto-generated from sales proposals.</p>
+
+  <!-- ====== Prototypes ====== -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Product prototypes</h2>
+      <span class="tag">6 flows</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="SUNX Sense Onboarding.html">
+        <span class="arrow">→</span>
+        <div class="ix">01 · ONBOARDING</div>
+        <h3>Onboarding</h3>
+        <p>5-slide marketing tutorial with hero illustrations, iOS/Android device frames, TR/EN copy.</p>
+      </a>
+      <a class="card" href="SUNX Sense Gamification.html">
+        <span class="arrow">→</span>
+        <div class="ix">02 · GAMIFICATION</div>
+        <h3>Gamification</h3>
+        <p>8 screens turning measurement into a habit — streak, rank, leaderboard, place explorer, badges, referral, trust, identity.</p>
+      </a>
+      <a class="card" href="SUNX Sense Tiers.html">
+        <span class="arrow">→</span>
+        <div class="ix">03 · TIER SYSTEM</div>
+        <h3>Tier system</h3>
+        <p>8 screens: tiers, heatmap access, SP wallet, unlock, envlab.ai, exposure, replay, hardware = Pro.</p>
+      </a>
+      <a class="card" href="SUNX Sense Consent.html">
+        <span class="arrow">→</span>
+        <div class="ix">04 · CONSENT · EK J</div>
+        <h3>Beta consent flow</h3>
+        <p>8 phone screens implementing Annex J of the user agreement — KVKK + GDPR compliant Beta consent.</p>
+      </a>
+      <a class="card" href="SUNX Sense Odor.html">
+        <span class="arrow">→</span>
+        <div class="ix">05 · ODOR OBSERVATION</div>
+        <h3>Odor / smell report</h3>
+        <p>10 screens for a calm, scientific environmental observation flow — map entry, long-press menu, intensity, type, discomfort, duration, media, submit, nearby intel, contributor view.</p>
+      </a>
+      <a class="card" href="SUNX Sense Signup.html">
+        <span class="arrow">→</span>
+        <div class="ix">06 · SIGNUP &amp; PRICING</div>
+        <h3>Sign up / Free vs Pro</h3>
+        <p>Full landing: signup form, jurisdiction-aware consent (TR/EU/US), 34-feature comparison, competitor matrix, SP economy, pricing tiers.</p>
+      </a>
+    </div>
   </div>
-  <footer>SUNX SENSE BETA · © 2026</footer>
+
+  <!-- ====== Customer briefs (live from manifest) ====== -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Customer mission briefs</h2>
+      <span class="tag" id="brief-count">loading…</span>
+    </div>
+    <div class="grid" id="briefs"></div>
+  </div>
+
+  <footer>SUNX SENSE BETA · © 2026 · Generated from briefs/manifest.json</footer>
 </div></div>
+
+<script>
+// Fetch the manifest and render the customer-briefs gallery.
+(function() {
+  const grid = document.getElementById('briefs');
+  const counter = document.getElementById('brief-count');
+
+  fetch('briefs/manifest.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(({ briefs }) => {
+      counter.textContent = briefs.length + (briefs.length === 1 ? ' brief' : ' briefs');
+      if (!briefs.length) {
+        grid.innerHTML = `<div class="empty">No customer briefs yet. Run <code>node briefs/render.mjs &lt;data.json&gt; &lt;output.html&gt;</code> to add one.</div>`;
+        return;
+      }
+      grid.innerHTML = briefs.map(b => {
+        const eventTs = Date.parse(b.eventDate);
+        const ms = eventTs - Date.now();
+        let countdown = '';
+        if (ms > 0) {
+          const d = Math.floor(ms / 86400000);
+          const h = Math.floor((ms / 3600000) % 24);
+          countdown = `<div class="countdown"><span class="n">${d}</span><span class="l">days</span><span class="n">${h}</span><span class="l">hours · to go-live</span></div>`;
+        } else {
+          const d = Math.floor(-ms / 86400000);
+          countdown = `<div class="countdown"><span class="n">${d}</span><span class="l">days ago</span></div>`;
+        }
+        const statusCls = (b.status || '').toLowerCase();
+        return `
+        <a class="brief-card" href="${encodeURI(b.url)}">
+          <span class="status ${statusCls}">${b.status || 'ACTIVE'}</span>
+          <div class="client">${b.client}</div>
+          <div class="project">${b.project}</div>
+          <div class="headline">${b.headline || ''}</div>
+          <div class="row"><span class="l">EVENT</span><span class="v">${b.event}</span></div>
+          <div class="row"><span class="l">VENUE</span><span class="v">${b.venue}</span></div>
+          <div class="row"><span class="l">DATES</span><span class="v">${b.dates}</span></div>
+          ${countdown}
+          <div class="doc">${b.documentId} · UPDATED ${b.updatedAt}</div>
+        </a>`;
+      }).join('');
+    })
+    .catch(err => {
+      counter.textContent = 'unavailable';
+      grid.innerHTML = `<div class="empty">Could not load <code>briefs/manifest.json</code> (${err}). Briefs need to be served via HTTP.</div>`;
+    });
+})();
+</script>
 </body>
 </html>

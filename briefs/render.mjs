@@ -140,3 +140,33 @@ if (leftover) {
 
 fs.writeFileSync(outPath, out);
 console.log(`✓ wrote ${outPath} (${out.length} bytes)`);
+
+// ---- Update manifest so the home-page gallery auto-picks up this brief ----
+const manifestPath = path.join(import.meta.dirname, 'manifest.json');
+const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+const slug = path.basename(outPath, path.extname(outPath))
+  .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const entry = {
+  slug,
+  client:     data.meta.client,
+  project:    data.meta.project,
+  event:      data.hero.eyebrow.split('·')[0].trim(),
+  venue:      data.stage.venue,
+  dates:      data.stage.dates,
+  eventDate:  data.meta.eventDate,
+  documentId: data.meta.documentId,
+  updatedAt:  data.meta.updatedAt,
+  status:     Date.parse(data.meta.eventDate) > Date.now() ? 'ACTIVE' : 'PAST',
+  // URL is relative to the repo root (where the home page lives).
+  url:        path.relative(path.dirname(manifestPath) + '/..', outPath),
+  accentHue:  230,
+  headline:   [data.hero.headline.lines.join(' '), data.hero.headline.accent].join(' '),
+};
+
+const idx = manifest.briefs.findIndex(b => b.slug === slug);
+if (idx >= 0) manifest.briefs[idx] = entry;
+else manifest.briefs.push(entry);
+
+fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+console.log(`✓ manifest updated (${manifest.briefs.length} brief${manifest.briefs.length === 1 ? '' : 's'})`);
