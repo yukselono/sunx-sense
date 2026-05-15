@@ -9,8 +9,18 @@
     { href: 'SUNX Sense Odor.html',             label: 'Odor',         ix: '05' },
     { href: 'SUNX Sense Signup.html',           label: 'Sign up',      ix: '06' },
     { href: 'Carbostar PX Mission Brief.html',  label: 'PX Brief',     ix: '07' },
+    { href: 'briefs/import.html',                label: 'Import Brief', ix: '08', external: false },
+    { href: 'https://yukselono.github.io/onox-quote-engine/', label: '↗ Quote Engine', ix: '↗', external: true },
   ];
-  const here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html');
+  // Identify the current page (handles nested paths like briefs/import.html)
+  const parts = location.pathname.split('/').filter(Boolean);
+  const here = decodeURIComponent(
+    parts.slice(-2).join('/').includes('briefs/') ? parts.slice(-2).join('/') : (parts.pop() || 'index.html')
+  );
+
+  // Pages inside subfolders (e.g. briefs/import.html) need to walk up to root.
+  const inSubfolder = parts.some(p => p === 'briefs');
+  const root = inSubfolder ? '../' : '';
 
   const css = `
     /* Reserve space at top of every page for the fixed nav */
@@ -124,14 +134,17 @@
 
   const linkHTML = LINKS.map(l => {
     const active = l.href === here ? ' active' : '';
-    return `<a class="sx-link${active}" href="${l.href}"><span class="ix">${l.ix}</span>${l.label}</a>`;
+    const isExternal = l.external || /^https?:\/\//.test(l.href);
+    const target = isExternal ? ' target="_blank" rel="noopener"' : '';
+    const href = isExternal ? l.href : `${root}${l.href}`;
+    return `<a class="sx-link${active}" href="${href}"${target}><span class="ix">${l.ix}</span>${l.label}</a>`;
   }).join('');
 
   const nav = document.createElement('header');
   nav.className = 'sx-nav';
   nav.innerHTML = `
     <div class="sx-nav-pill">
-      <a class="sx-brand" href="index.html">
+      <a class="sx-brand" href="${root}index.html">
         <span class="orb"></span>
         <span class="wm">SUNX<em> · SENSE</em></span>
       </a>
