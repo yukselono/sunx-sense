@@ -1,5 +1,7 @@
 vite/node_modules/
 vite/dist/
+quote-src/node_modules/
+quote-src/dist/
 .DS_Store
 *.log
 /tmp/

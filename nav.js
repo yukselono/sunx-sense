@@ -10,7 +10,7 @@
     { href: 'SUNX Sense Signup.html',           label: 'Sign up',      ix: '06' },
     { href: 'Carbostar PX Mission Brief.html',  label: 'PX Brief',     ix: '07' },
     { href: 'briefs/import.html',                label: 'Import Brief', ix: '08', external: false },
-    { href: 'https://yukselono.github.io/onox-quote-engine/', label: '↗ Quote Engine', ix: '↗', external: true },
+    { href: 'quote/index.html',                  label: 'Quote Engine', ix: '⚡' },
   ];
   // Identify the current page (handles nested paths like briefs/import.html)
   const parts = location.pathname.split('/').filter(Boolean);
